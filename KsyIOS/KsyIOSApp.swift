@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct KsyIOSApp: App {
+    @State private var isLoading = true
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if isLoading {
+                SplashScreen(onLoadingComplete: {
+                    isLoading = false
+                })
+            } else {
+                MainScreen()
+            }
         }
     }
 }

@@ -1,0 +1,57 @@
+//
+//  HomeContentView.swift
+//  KsyIOS
+//
+//  Created by Auto on 25.12.2025.
+//
+
+import SwiftUI
+
+struct HomeContentView: View {
+    @ObservedObject var productViewModel: ProductViewModel
+    @ObservedObject var cartViewModel: CartViewModel
+    let onProductClick: (Product) -> Void
+    
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                // Заголовок
+                HStack {
+                    Text("Главная")
+                        .font(.system(size: 24, weight: .bold))
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                
+                // Сетка продуктов
+                if case .success(let products) = productViewModel.productsState {
+                    ProductGrid(
+                        products: products,
+                        onProductClick: onProductClick,
+                        onToggleFavorite: { productId in
+                            Task {
+                                await productViewModel.toggleFavorite(productId)
+                            }
+                        }
+                    )
+                } else if case .loading = productViewModel.productsState {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, minHeight: 200)
+                } else if case .error(let message, _) = productViewModel.productsState {
+                    Text("Ошибка: \(message ?? "Неизвестная ошибка")")
+                        .foregroundColor(.red)
+                        .padding()
+                } else {
+                    // Idle - загружаем данные
+                    ProgressView()
+                        .frame(maxWidth: .infinity, minHeight: 200)
+                        .task {
+                            productViewModel.loadProducts()
+                        }
+                }
+            }
+        }
+    }
+}
+
