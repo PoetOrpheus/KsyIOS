@@ -136,14 +136,16 @@ struct TestProducts {
                 name: "Цвет",
                 value: "Черный",
                 isAvailable: true,
-                imagesRes: ["adidas_1", "adidas_1_1"]
+                imagesRes: ["adidas_1", "adidas_1_1"],
+                imagesUrl: []
             ),
             ProductVariant(
                 id: "variant_1_2",
                 name: "Цвет",
                 value: "Белый",
                 isAvailable: true,
-                imagesRes: ["adidas_2", "adidas_2_1"]
+                imagesRes: ["adidas_2", "adidas_2_1"],
+                imagesUrl: []
             )
         ],
         quantity: 1
@@ -178,21 +180,24 @@ struct TestProducts {
                 name: "Цвет",
                 value: "Черный",
                 isAvailable: true,
-                imagesRes: ["watch_cvarch_1", "watch_cvarch_1_2"]
+                imagesRes: ["watch_cvarch_1", "watch_cvarch_1_2"],
+                imagesUrl: []
             ),
             ProductVariant(
                 id: "variant_2_2",
                 name: "Цвет",
                 value: "Золотистый",
                 isAvailable: true,
-                imagesRes: ["watch_cvarch_2"]
+                imagesRes: ["watch_cvarch_2"],
+                imagesUrl: []
             ),
             ProductVariant(
                 id: "variant_3",
                 name: "Цвет",
                 value: "Серебристый",
                 isAvailable: false,
-                imagesRes: ["watch_cvarch_3"]
+                imagesRes: ["watch_cvarch_3"],
+                imagesUrl: []
             )
         ],
         quantity: 1
@@ -231,14 +236,16 @@ struct TestProducts {
                 name: "Цвет",
                 value: "Серый",
                 isAvailable: true,
-                imagesRes: ["watch_calvin"]
+                imagesRes: ["watch_calvin"],
+                imagesUrl: []
             ),
             ProductVariant(
                 id: "variant_3_2",
                 name: "Цвет",
                 value: "Чёрный",
                 isAvailable: true,
-                imagesRes: ["watch_calvin_1"]
+                imagesRes: ["watch_calvin_1"],
+                imagesUrl: []
             )
         ],
         quantity: 2
@@ -272,12 +279,12 @@ struct TestProducts {
         ],
         sizes: [],
         variants: [
-            ProductVariant(id: "variant_4_1", name: "Цвет", value: "Титановый синий", isAvailable: true, imagesRes: ["iphone_1"]),
-            ProductVariant(id: "variant_4_2", name: "Цвет", value: "Титановый белый", isAvailable: true, imagesRes: ["iphone_2"]),
-            ProductVariant(id: "variant_4_3", name: "Цвет", value: "Титановый черный", isAvailable: true, imagesRes: ["iphone3"]),
-            ProductVariant(id: "variant_4_5", name: "Память", value: "128GB", isAvailable: true, imagesRes: []),
-            ProductVariant(id: "variant_4_5", name: "Память", value: "256GB", isAvailable: true, imagesRes: []),
-            ProductVariant(id: "variant_4_6", name: "Память", value: "512GB", isAvailable: false, imagesRes: [])
+            ProductVariant(id: "variant_4_1", name: "Цвет", value: "Титановый синий", isAvailable: true, imagesRes: ["iphone_1"], imagesUrl: []),
+            ProductVariant(id: "variant_4_2", name: "Цвет", value: "Титановый белый", isAvailable: true, imagesRes: ["iphone_2"], imagesUrl: []),
+            ProductVariant(id: "variant_4_3", name: "Цвет", value: "Титановый черный", isAvailable: true, imagesRes: ["iphone3"], imagesUrl: []),
+            ProductVariant(id: "variant_4_5", name: "Память", value: "128GB", isAvailable: true, imagesRes: [], imagesUrl: []),
+            ProductVariant(id: "variant_4_5", name: "Память", value: "256GB", isAvailable: true, imagesRes: [], imagesUrl: []),
+            ProductVariant(id: "variant_4_6", name: "Память", value: "512GB", isAvailable: false, imagesRes: [], imagesUrl: [])
         ],
         quantity: 1
     )
@@ -314,8 +321,8 @@ struct TestProducts {
             ProductSize(id: "size_5_5", value: "43", isAvailable: false)
         ],
         variants: [
-            ProductVariant(id: "variant_5_1", name: "Цвет", value: "Черный/Белый", isAvailable: true, imagesRes: []),
-            ProductVariant(id: "variant_5_2", name: "Цвет", value: "Красный/Белый", isAvailable: true, imagesRes: [])
+            ProductVariant(id: "variant_5_1", name: "Цвет", value: "Черный/Белый", isAvailable: true, imagesRes: [], imagesUrl: []),
+            ProductVariant(id: "variant_5_2", name: "Цвет", value: "Красный/Белый", isAvailable: true, imagesRes: [], imagesUrl: [])
         ],
         quantity: 1
     )
