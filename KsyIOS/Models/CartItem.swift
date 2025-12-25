@@ -9,7 +9,7 @@ import Foundation
 
 /// Модель товара в корзине
 /// Содержит информацию о продукте, выбранном варианте, размере и количестве
-struct CartItem: Identifiable, Codable {
+struct CartItem: Identifiable, Codable, Equatable {
     let id: String // Уникальный ID элемента корзины (может быть комбинацией productId + variantId + sizeId)
     var product: Product
     let selectedVariantId: String? // ID выбранного варианта (цвет и т.д.)

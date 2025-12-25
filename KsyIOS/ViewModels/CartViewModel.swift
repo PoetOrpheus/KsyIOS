@@ -24,14 +24,14 @@ class CartViewModel: ObservableObject {
     /// Загрузить корзину
     func loadCart() {
         Task {
-            cartState = .loading
+            cartState = UiState<[CartItem]>.loading
             do {
                 let cartItems = try await productRepository.getCartItems()
-                cartState = .success(cartItems)
+                cartState = UiState<[CartItem]>.success(cartItems)
                 await updateCartTotal(cartItems)
                 hasLoadedCart = true
             } catch {
-                cartState = .error(message: error.localizedDescription, error: error)
+                cartState = UiState<[CartItem]>.error(message: error.localizedDescription, error: error)
             }
         }
     }
@@ -66,7 +66,7 @@ class CartViewModel: ObservableObject {
         Task {
             do {
                 let cartItems = try await productRepository.getCartItems()
-                cartState = .success(cartItems)
+                cartState = UiState<[CartItem]>.success(cartItems)
                 await updateCartTotal(cartItems)
             } catch {
                 // Обработка ошибки
@@ -125,7 +125,7 @@ class CartViewModel: ObservableObject {
             do {
                 let success = try await productRepository.clearCart()
                 if success {
-                    cartState = .success([])
+                    cartState = UiState<[CartItem]>.success([])
                     cartTotal = 0
                     hasLoadedCart = false
                 }
