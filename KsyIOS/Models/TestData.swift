@@ -118,18 +118,6 @@ struct TestProducts {
         seller: TestSellers.sportStyle,
         brand: TestBrands.adidas,
         description: "Спортивные кеды Adidas Sportswear Hoops 3.0. Удобная подошва и современный дизайн.",
-        specifications: [
-            ProductSpecification(name: "Материал верха", value: "Текстиль, синтетика"),
-            ProductSpecification(name: "Материал подошвы", value: "Резина"),
-            ProductSpecification(name: "Страна производства", value: "Китай"),
-            ProductSpecification(name: "Вес", value: "350 г")
-        ],
-        sizes: [
-            ProductSize(id: "size_1_1", value: "40", isAvailable: true),
-            ProductSize(id: "size_1_2", value: "41", isAvailable: true),
-            ProductSize(id: "size_1_3", value: "42", isAvailable: true),
-            ProductSize(id: "size_1_4", value: "43", isAvailable: false)
-        ],
         variants: [
             ProductVariant(
                 id: "variant_1_1",
@@ -147,6 +135,18 @@ struct TestProducts {
                 imagesRes: ["adidas_2", "adidas_2_1"],
                 imagesUrl: []
             )
+        ],
+        sizes: [
+            ProductSize(id: "size_1_1", value: "40", isAvailable: true),
+            ProductSize(id: "size_1_2", value: "41", isAvailable: true),
+            ProductSize(id: "size_1_3", value: "42", isAvailable: true),
+            ProductSize(id: "size_1_4", value: "43", isAvailable: false)
+        ],
+        specifications: [
+            ProductSpecification(name: "Материал верха", value: "Текстиль, синтетика"),
+            ProductSpecification(name: "Материал подошвы", value: "Резина"),
+            ProductSpecification(name: "Страна производства", value: "Китай"),
+            ProductSpecification(name: "Вес", value: "350 г")
         ],
         quantity: 1
     )
@@ -168,12 +168,6 @@ struct TestProducts {
         seller: TestSellers.watchMaster,
         brand: TestBrands.calvinKlein,
         description: "Элегантность и стиль — важные аспекты мужского образа, и часы являются его незаменимым атрибутом.",
-        specifications: [
-            ProductSpecification(name: "Тип механизма", value: "Кварцевый"),
-            ProductSpecification(name: "Материал корпуса", value: "Нержавеющая сталь"),
-            ProductSpecification(name: "Водостойкость", value: "30 м"),
-            ProductSpecification(name: "Диаметр корпуса", value: "40 мм")
-        ],
         variants: [
             ProductVariant(
                 id: "variant_2_1",
@@ -200,6 +194,13 @@ struct TestProducts {
                 imagesUrl: []
             )
         ],
+        sizes: [],
+        specifications: [
+            ProductSpecification(name: "Тип механизма", value: "Кварцевый"),
+            ProductSpecification(name: "Материал корпуса", value: "Нержавеющая сталь"),
+            ProductSpecification(name: "Водостойкость", value: "30 м"),
+            ProductSpecification(name: "Диаметр корпуса", value: "40 мм")
+        ],
         quantity: 1
     )
     
@@ -220,16 +221,6 @@ struct TestProducts {
         seller: TestSellers.operatorZamesov,
         brand: TestBrands.calvinKlein,
         description: "Премиальные мужские наручные часы Calvin Klein. Черный корпус, кожаный ремешок. Водостойкость 50м.",
-        specifications: [
-            ProductSpecification(name: "Бренд", value: "Calvin Klein"),
-            ProductSpecification(name: "Тип механизма", value: "Кварцевый"),
-            ProductSpecification(name: "Материал корпуса", value: "Нержавеющая сталь"),
-            ProductSpecification(name: "Материал ремешка", value: "Кожа"),
-            ProductSpecification(name: "Водостойкость", value: "50 м"),
-            ProductSpecification(name: "Диаметр корпуса", value: "42 мм"),
-            ProductSpecification(name: "Толщина корпуса", value: "8 мм"),
-            ProductSpecification(name: "Циферблат", value: "Черный с люминесцентными стрелками")
-        ],
         variants: [
             ProductVariant(
                 id: "variant_3_1",
@@ -247,6 +238,17 @@ struct TestProducts {
                 imagesRes: ["watch_calvin_1"],
                 imagesUrl: []
             )
+        ],
+        sizes: [],
+        specifications: [
+            ProductSpecification(name: "Бренд", value: "Calvin Klein"),
+            ProductSpecification(name: "Тип механизма", value: "Кварцевый"),
+            ProductSpecification(name: "Материал корпуса", value: "Нержавеющая сталь"),
+            ProductSpecification(name: "Материал ремешка", value: "Кожа"),
+            ProductSpecification(name: "Водостойкость", value: "50 м"),
+            ProductSpecification(name: "Диаметр корпуса", value: "42 мм"),
+            ProductSpecification(name: "Толщина корпуса", value: "8 мм"),
+            ProductSpecification(name: "Циферблат", value: "Черный с люминесцентными стрелками")
         ],
         quantity: 2
     )
@@ -268,6 +270,15 @@ struct TestProducts {
         seller: TestSellers.techShop,
         brand: TestBrands.apple,
         description: "Новый iPhone 15 Pro с чипом A17 Pro, камерой Pro и дисплеем ProMotion.",
+        variants: [
+            ProductVariant(id: "variant_4_1", name: "Цвет", value: "Титановый синий", isAvailable: true, imagesRes: ["iphone_1"], imagesUrl: []),
+            ProductVariant(id: "variant_4_2", name: "Цвет", value: "Титановый белый", isAvailable: true, imagesRes: ["iphone_2"], imagesUrl: []),
+            ProductVariant(id: "variant_4_3", name: "Цвет", value: "Титановый черный", isAvailable: true, imagesRes: ["iphone3"], imagesUrl: []),
+            ProductVariant(id: "variant_4_5", name: "Память", value: "128GB", isAvailable: true, imagesRes: [], imagesUrl: []),
+            ProductVariant(id: "variant_4_5", name: "Память", value: "256GB", isAvailable: true, imagesRes: [], imagesUrl: []),
+            ProductVariant(id: "variant_4_6", name: "Память", value: "512GB", isAvailable: false, imagesRes: [], imagesUrl: [])
+        ],
+        sizes: [],
         specifications: [
             ProductSpecification(name: "Диагональ экрана", value: "6.1 дюйма"),
             ProductSpecification(name: "Процессор", value: "Apple A17 Pro"),
@@ -276,15 +287,6 @@ struct TestProducts {
             ProductSpecification(name: "Батарея", value: "До 23 часов видео"),
             ProductSpecification(name: "ОС", value: "iOS 17"),
             ProductSpecification(name: "Вес", value: "187 г")
-        ],
-        sizes: [],
-        variants: [
-            ProductVariant(id: "variant_4_1", name: "Цвет", value: "Титановый синий", isAvailable: true, imagesRes: ["iphone_1"], imagesUrl: []),
-            ProductVariant(id: "variant_4_2", name: "Цвет", value: "Титановый белый", isAvailable: true, imagesRes: ["iphone_2"], imagesUrl: []),
-            ProductVariant(id: "variant_4_3", name: "Цвет", value: "Титановый черный", isAvailable: true, imagesRes: ["iphone3"], imagesUrl: []),
-            ProductVariant(id: "variant_4_5", name: "Память", value: "128GB", isAvailable: true, imagesRes: [], imagesUrl: []),
-            ProductVariant(id: "variant_4_5", name: "Память", value: "256GB", isAvailable: true, imagesRes: [], imagesUrl: []),
-            ProductVariant(id: "variant_4_6", name: "Память", value: "512GB", isAvailable: false, imagesRes: [], imagesUrl: [])
         ],
         quantity: 1
     )
@@ -306,12 +308,9 @@ struct TestProducts {
         seller: TestSellers.fashionStore,
         brand: TestBrands.nike,
         description: "Кроссовки Nike Air Max 270 с технологией Air для максимального комфорта при беге и ходьбе.",
-        specifications: [
-            ProductSpecification(name: "Материал верха", value: "Синтетическая кожа, текстиль"),
-            ProductSpecification(name: "Технология подошвы", value: "Air Max"),
-            ProductSpecification(name: "Страна производства", value: "Вьетнам"),
-            ProductSpecification(name: "Вес", value: "320 г"),
-            ProductSpecification(name: "Тип застежки", value: "Шнуровка")
+        variants: [
+            ProductVariant(id: "variant_5_1", name: "Цвет", value: "Черный/Белый", isAvailable: true, imagesRes: [], imagesUrl: []),
+            ProductVariant(id: "variant_5_2", name: "Цвет", value: "Красный/Белый", isAvailable: true, imagesRes: [], imagesUrl: [])
         ],
         sizes: [
             ProductSize(id: "size_5_1", value: "39", isAvailable: true),
@@ -320,9 +319,12 @@ struct TestProducts {
             ProductSize(id: "size_5_4", value: "42", isAvailable: true),
             ProductSize(id: "size_5_5", value: "43", isAvailable: false)
         ],
-        variants: [
-            ProductVariant(id: "variant_5_1", name: "Цвет", value: "Черный/Белый", isAvailable: true, imagesRes: [], imagesUrl: []),
-            ProductVariant(id: "variant_5_2", name: "Цвет", value: "Красный/Белый", isAvailable: true, imagesRes: [], imagesUrl: [])
+        specifications: [
+            ProductSpecification(name: "Материал верха", value: "Синтетическая кожа, текстиль"),
+            ProductSpecification(name: "Технология подошвы", value: "Air Max"),
+            ProductSpecification(name: "Страна производства", value: "Вьетнам"),
+            ProductSpecification(name: "Вес", value: "320 г"),
+            ProductSpecification(name: "Тип застежки", value: "Шнуровка")
         ],
         quantity: 1
     )
