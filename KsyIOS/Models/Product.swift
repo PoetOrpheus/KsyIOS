@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 /// Модель продукта
-struct Product: Identifiable, Codable {
+struct Product: Identifiable, Codable, Equatable {
     let id: String
     let name: String
     let price: Int // Цена в копейках (для точности) или в рублях
@@ -50,7 +50,7 @@ struct Product: Identifiable, Codable {
 }
 
 /// Модель продавца
-struct Seller: Identifiable, Codable {
+struct Seller: Identifiable, Codable, Equatable {
     let id: String
     let name: String
     let avatarUrl: String? // URL аватара продавца
@@ -60,27 +60,27 @@ struct Seller: Identifiable, Codable {
 }
 
 /// Модель бренда
-struct Brand: Identifiable, Codable {
+struct Brand: Identifiable, Codable, Equatable {
     let id: String
     let name: String
     let logoUrl: String? // URL логотипа бренда
 }
 
 /// Модель характеристики продукта (пара ключ-значение)
-struct ProductSpecification: Codable {
+struct ProductSpecification: Codable, Equatable {
     let name: String // Название характеристики (например, "Материал", "Размер")
     let value: String // Значение характеристики (например, "Кожа", "42x30x10 см")
 }
 
 /// Модель размера продукта
-struct ProductSize: Identifiable, Codable {
+struct ProductSize: Identifiable, Codable, Equatable {
     let id: String
     let value: String // Значение размера (например, "40", "M", "XL")
     let isAvailable: Bool // Доступен ли размер
 }
 
 /// Модель варианта продукта (размер, цвет и т.д.)
-struct ProductVariant: Identifiable, Codable {
+struct ProductVariant: Identifiable, Codable, Equatable {
     let id: String
     let name: String // Название варианта (например, "Размер: L" или "Цвет: Красный")
     let value: String // Значение варианта
