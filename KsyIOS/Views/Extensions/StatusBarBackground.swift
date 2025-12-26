@@ -15,7 +15,6 @@ struct StatusBarBackgroundModifier: ViewModifier {
     func body(content: Content) -> some View {
         content.onAppear {
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                windowScene.statusBarManager?.isStatusBarHidden = false
                 // Устанавливаем цвет фона статус-бара
                 let statusBarFrame = windowScene.statusBarManager?.statusBarFrame ?? .zero
                 let statusBarView = UIView(frame: statusBarFrame)
