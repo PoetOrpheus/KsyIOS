@@ -59,13 +59,14 @@ struct SellerBlock: View {
                     Text(seller.name)
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.black)
-                        .frame(height: FigmaDimens.fh(35), alignment: .leading)
+                        .frame(height: FigmaDimens.fh(35))
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     
                     Text("Перейти")
                         .font(.system(size: 10, weight: .regular))
                         .foregroundColor(.black)
                 }
-                .frame(width: FigmaDimens.fw(230), alignment: .leading)
+                .frame(width: FigmaDimens.fw(230))
                 
                 Spacer()
                     .frame(width: FigmaDimens.fw(10))
