@@ -6,18 +6,21 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct TopHeaderSection: View {
     let onSearchClick: () -> Void
     
     var body: some View {
         ZStack {
-            // Градиентный фон
+            // Градиентный фон (как в Kotlin: linearGradient от topLeading к bottomTrailing)
+            // Фон также покрывает статус-бар
             LinearGradient(
                 gradient: Gradient(colors: [AppTheme.headerGradientStart, AppTheme.headerGradientEnd]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
+            .ignoresSafeArea(edges: .top)
             
             // Контент
             VStack(spacing: 0) {
@@ -29,14 +32,27 @@ struct TopHeaderSection: View {
                     
                     Spacer()
                     
-                    // Иконка сообщений (заглушка, в реальном приложении будет изображение)
-                    Image(systemName: "message.fill")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                        .frame(
-                            width: FigmaDimens.fw(40),
-                            height: FigmaDimens.fh(30)
-                        )
+                    // Иконка сообщений (используем оригинальную или fallback)
+                    Group {
+                        if let uiImage = UIImage(named: "message_without_notification") {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .renderingMode(.template)
+                                .foregroundColor(.white)
+                                .frame(
+                                    width: FigmaDimens.fw(40),
+                                    height: FigmaDimens.fh(30)
+                                )
+                        } else {
+                            Image(systemName: "message.fill")
+                                .font(.system(size: 20))
+                                .foregroundColor(.white)
+                                .frame(
+                                    width: FigmaDimens.fw(40),
+                                    height: FigmaDimens.fh(30)
+                                )
+                        }
+                    }
                 }
                 .padding(.horizontal, FigmaDimens.fw(15))
                 .padding(.top, FigmaDimens.fh(10))

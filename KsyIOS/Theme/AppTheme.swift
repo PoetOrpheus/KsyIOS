@@ -51,6 +51,21 @@ enum BottomNavItem: String, CaseIterable {
     case profile = "Профиль"
     
     var icon: String {
+        // Используем оригинальные иконки из Assets (fallback на системные)
+        switch self {
+        case .home:
+            return "home_menu_icon"
+        case .shopCart:
+            return "shop_menu_icon"
+        case .favorites:
+            return "lover_menu_icon"
+        case .profile:
+            return "profile_menu_icon"
+        }
+    }
+    
+    var fallbackIcon: String {
+        // Системные иконки как fallback
         switch self {
         case .home:
             return "house.fill"

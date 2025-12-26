@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct BottomNavigationBar: View {
     let selectedItem: BottomNavItem
@@ -17,13 +18,24 @@ struct BottomNavigationBar: View {
                 Button(action: {
                     onItemSelected(item)
                 }) {
-                    Image(systemName: item.icon)
-                        .font(.system(size: 20))
-                        .foregroundColor(selectedItem == item ? AppTheme.brandPurple : .black)
-                        .frame(
-                            width: FigmaDimens.fh(40),
-                            height: FigmaDimens.fh(40)
-                        )
+                    // Используем оригинальные иконки из Assets (если есть) или fallback на системные
+                    Group {
+                        if let uiImage = UIImage(named: item.icon) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .renderingMode(.template)
+                                .foregroundColor(selectedItem == item ? AppTheme.brandPurple : .black)
+                                .frame(width: FigmaDimens.fh(30), height: FigmaDimens.fh(30))
+                        } else {
+                            Image(systemName: item.fallbackIcon)
+                                .font(.system(size: 20))
+                                .foregroundColor(selectedItem == item ? AppTheme.brandPurple : .black)
+                        }
+                    }
+                    .frame(
+                        width: FigmaDimens.fh(40),
+                        height: FigmaDimens.fh(40)
+                    )
                 }
                 .buttonStyle(PlainButtonStyle())
                 .frame(maxWidth: .infinity)

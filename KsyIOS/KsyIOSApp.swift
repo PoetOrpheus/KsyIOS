@@ -13,13 +13,16 @@ struct KsyIOSApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if isLoading {
-                SplashScreen(onLoadingComplete: {
-                    isLoading = false
-                })
-            } else {
-                MainScreen()
+            ZStack {
+                if isLoading {
+                    SplashScreen(onLoadingComplete: {
+                        isLoading = false
+                    })
+                } else {
+                    MainScreen()
+                }
             }
+            .statusBarStyle(.lightContent)
         }
     }
 }
