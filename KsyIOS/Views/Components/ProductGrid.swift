@@ -7,6 +7,26 @@
 
 import SwiftUI
 
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCornerShape(radius: radius, corners: corners))
+    }
+}
+
+struct RoundedCornerShape: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+}
+
 struct ProductGrid: View {
     let products: [Product]
     let onProductClick: (Product) -> Void
@@ -84,12 +104,7 @@ struct ProductCard: View {
                         Rectangle()
                             .fill(Color(hex: "E5E5E5") ?? Color.gray.opacity(0.2))
                             .frame(height: FigmaDimens.fh(280, geometry: geometry))
-                            .clipShape(
-                                .rect(
-                                    topLeadingRadius: 15,
-                                    topTrailingRadius: 15
-                                )
-                            )
+                            .cornerRadius(15, corners: [.topLeft, .topRight])
                         
                         // Заглушка для изображения (в реальном приложении здесь будет карусель изображений)
                         Image(systemName: "photo")

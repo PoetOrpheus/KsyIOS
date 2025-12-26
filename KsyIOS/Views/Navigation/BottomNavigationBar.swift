@@ -32,12 +32,7 @@ struct BottomNavigationBar: View {
             }
             .frame(height: FigmaDimens.fh(60, geometry: geometry))
             .background(AppTheme.bgGray)
-            .clipShape(
-                .rect(
-                    topLeadingRadius: 30,
-                    topTrailingRadius: 30
-                )
-            )
+            .cornerRadius(30, corners: [.topLeft, .topRight])
         }
         .frame(height: 60) // Базовое значение
     }
