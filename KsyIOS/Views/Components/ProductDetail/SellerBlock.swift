@@ -100,7 +100,7 @@ struct SellerBlock: View {
                 )
                 .background(Color.white)
                 .cornerRadius(10)
-                .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
+                .shadow(color: Color.black.opacity(0.3), radius: 5)
                 
                 Spacer()
                     .frame(width: FigmaDimens.fw(15))
@@ -131,13 +131,13 @@ struct SellerBlock: View {
                 )
                 .background(Color.white)
                 .cornerRadius(10)
-                .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
+                .shadow(color: Color.black.opacity(0.3), radius: 5)
             }
             .padding(.horizontal, FigmaDimens.fw(15))
             .frame(height: FigmaDimens.fh(60))
             .background(Color.white)
             .cornerRadius(10)
-            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
+            .shadow(color: Color.black.opacity(0.3), radius: 5)
             
             Spacer()
                 .frame(height: FigmaDimens.fh(10))
@@ -146,64 +146,70 @@ struct SellerBlock: View {
             HStack {
                 Spacer(minLength: 0)
                 
+                // Группа 1: Заказов
                 Group {
-                    if let uiImage = UIImage(named: "delivery") {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .frame(
-                                width: FigmaDimens.fw(16),
-                                height: FigmaDimens.fh(16)
-                            )
-                    } else {
-                        Image(systemName: "box")
-                            .font(.system(size: 12))
+                    Group {
+                        if let uiImage = UIImage(named: "delivery") {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .frame(
+                                    width: FigmaDimens.fw(16),
+                                    height: FigmaDimens.fh(16)
+                                )
+                        } else {
+                            Image(systemName: "box")
+                                .font(.system(size: 12))
+                        }
                     }
+                    
+                    Spacer()
+                        .frame(width: FigmaDimens.fw(10))
+                    
+                    Text("Заказов")
+                        .font(.system(size: 10))
+                        .foregroundColor(Color(hex: "727272") ?? .gray)
+                    
+                    Spacer()
+                        .frame(width: FigmaDimens.fw(10))
+                    
+                    Text(formatOrdersCount(seller.ordersCount))
+                        .font(.system(size: 10))
+                        .foregroundColor(Color(hex: "727272") ?? .gray)
                 }
-                
-                Spacer()
-                    .frame(width: FigmaDimens.fw(10))
-                
-                Text("Заказов")
-                    .font(.system(size: 10))
-                    .foregroundColor(Color(hex: "727272") ?? .gray)
-                
-                Spacer()
-                    .frame(width: FigmaDimens.fw(10))
-                
-                Text(formatOrdersCount(seller.ordersCount))
-                    .font(.system(size: 10))
-                    .foregroundColor(Color(hex: "727272") ?? .gray)
                 
                 Spacer()
                     .frame(width: FigmaDimens.fw(30))
                 
+                // Группа 2: Отзывов
                 Group {
-                    if let uiImage = UIImage(named: "like_and_dislike") {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .frame(
-                                width: FigmaDimens.fw(16),
-                                height: FigmaDimens.fh(16)
-                            )
-                    } else {
-                        Image(systemName: "hand.thumbsup")
-                            .font(.system(size: 12))
+                    Group {
+                        if let uiImage = UIImage(named: "like_and_dislike") {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .frame(
+                                    width: FigmaDimens.fw(16),
+                                    height: FigmaDimens.fh(16)
+                                )
+                        } else {
+                            Image(systemName: "hand.thumbsup")
+                                .font(.system(size: 12))
+                        }
                     }
+                    
+                    Spacer()
+                        .frame(width: FigmaDimens.fw(10))
+                    
+                    Text("Отзывов")
+                        .font(.system(size: 10))
+                        .foregroundColor(Color(hex: "727272") ?? .gray)
+                    
+                    Spacer()
+                        .frame(width: FigmaDimens.fw(10))
+                    
+                    Text("\(seller.reviewsCount)")
+                        .font(.system(size: 10))
+                        .foregroundColor(Color(hex: "727272") ?? .gray)
                 }
-                
-                Spacer()
-                    .frame(width: FigmaDimens.fw(10))
-                
-                Text("Отзывов")
-                    .font(.system(size: 10))
-                    .foregroundColor(Color(hex: "727272") ?? .gray)
-                
-                Spacer()
-                    .frame(width: FigmaDimens.fw(10))
-                
-                Text("\(seller.reviewsCount)")
-                    .font(.system(size: 10))
-                    .foregroundColor(Color(hex: "727272") ?? .gray)
                 
                 Spacer()
                     .frame(width: FigmaDimens.fw(25))
