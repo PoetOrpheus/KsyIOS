@@ -16,7 +16,7 @@ struct ProductGrid: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 // Разбиваем продукты на пары для отображения в ряд
-                ForEach(Array(products.chunked(2).enumerated()), id: \.offset) { rowIndex, rowProducts in
+                ForEach(Array(products.chunked(into: 2).enumerated()), id: \.offset) { rowIndex, rowProducts in
                     HStack(spacing: FigmaDimens.fw(10, geometry: geometry)) {
                         ForEach(Array(rowProducts.enumerated()), id: \.element.id) { itemIndex, product in
                             let cardIndex = rowIndex * 2 + itemIndex
@@ -201,11 +201,8 @@ struct ProductCard: View {
                                     .shadow(color: Color.black.opacity(0.3), radius: 4, x: 0, y: 2)
                             }
                         }
-                        .frame(
-                            maxWidth: .infinity,
-                            height: FigmaDimens.fh(35, geometry: geometry),
-                            alignment: .bottomLeading
-                        )
+                        .frame(height: FigmaDimens.fh(35, geometry: geometry))
+                        .frame(maxWidth: .infinity, alignment: .bottomLeading)
                         .padding(.horizontal, FigmaDimens.fw(15, geometry: geometry))
                         
                         Spacer()
