@@ -144,7 +144,7 @@ struct SellerBlock: View {
             
             // Нижняя панель со статистикой
             HStack {
-                Spacer()
+                Spacer(minLength: 0)
                 
                 Group {
                     if let uiImage = UIImage(named: "delivery") {
