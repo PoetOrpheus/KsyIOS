@@ -76,17 +76,12 @@ struct ProductCard: View {
                 VStack(spacing: 0) {
                     // Область изображения
                     ZStack(alignment: .topTrailing) {
-                        Rectangle()
-                            .fill(Color(hex: "E5E5E5") ?? Color.gray.opacity(0.2))
+                        // Используем изображения из продукта для карусели
+                        let productImages = product.imagesRes.isEmpty ? ["placeholder"] : product.imagesRes
+                        
+                        ProductImageCarousel(images: productImages)
                             .frame(height: FigmaDimens.fh(280))
                             .cornerRadius(15, corners: [.topLeft, .topRight])
-                        
-                        // Заглушка для изображения (в реальном приложении здесь будет карусель изображений)
-                        Image(systemName: "photo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: FigmaDimens.fh(260))
-                            .foregroundColor(.gray.opacity(0.5))
                         
                         // Иконка избранного
                         FavoriteIconButton(
@@ -118,15 +113,15 @@ struct ProductCard: View {
                                 .font(.system(size: 8))
                                 .foregroundColor(.gray)
                                 .lineLimit(1)
-                                .frame(width: FigmaDimens.fw(75), alignment: .leading)
+                                .frame(width: FigmaDimens.fw(75), height: 8, alignment: .leading)
                             
                             Spacer()
                                 .frame(width: FigmaDimens.fw(25))
                             
                             // Рейтинг
                             Text(String(format: "%.1f", product.rating))
-                                .font(.system(size: 10, weight: .bold))
-                                .frame(width: FigmaDimens.fw(50), alignment: .trailing)
+                                .font(.system(size: 10, weight: .black))
+                                .frame(width: FigmaDimens.fw(50), height: 10, alignment: .trailing)
                             
                             Spacer()
                                 .frame(width: FigmaDimens.fw(5))
@@ -147,6 +142,7 @@ struct ProductCard: View {
                         Text(product.name)
                             .font(.system(size: 14, weight: .semibold))
                             .lineLimit(2)
+                            .fixedSize(horizontal: false, vertical: true)
                             .frame(
                                 width: FigmaDimens.fw(180),
                                 height: FigmaDimens.fh(40),
@@ -164,7 +160,7 @@ struct ProductCard: View {
                                     .font(.system(size: 8))
                                     .foregroundColor(.gray)
                                     .strikethrough()
-                                    .frame(height: FigmaDimens.fh(10), alignment: .bottom)
+                                    .frame(height: 9, alignment: .bottom)
                             }
                             
                             Spacer()
@@ -172,7 +168,7 @@ struct ProductCard: View {
                             Text("\(product.price) ₽")
                                 .font(.system(size: 14, weight: .bold))
                                 .foregroundColor(accentColor)
-                                .frame(height: FigmaDimens.fh(20), alignment: .center)
+                                .frame(height: 14, alignment: .center)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, FigmaDimens.fw(15))
