@@ -29,7 +29,7 @@ struct SizeVariants: View {
                         )
                     }
                 }
-                .padding(.horizontal, 10)
+                .padding(.horizontal, FigmaDimens.fw(10))
             }
             .frame(height: FigmaDimens.fh(30))
         }

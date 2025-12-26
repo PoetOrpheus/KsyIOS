@@ -132,9 +132,9 @@ struct ProductMainCard: View {
                 
                 Spacer()
                 
-                // Блок с ценой
-                ZStack(alignment: .bottom) {
-                    // Градиент снизу
+                // Блок с ценой (размеры как в Kotlin: 140x70, используем fw/fh)
+                ZStack {
+                    // Градиент снизу (как в Kotlin: height = 25.dp, align = Alignment.BottomCenter)
                     LinearGradient(
                         gradient: Gradient(colors: [
                             accentColor.opacity(0.0),
@@ -144,26 +144,37 @@ struct ProductMainCard: View {
                         startPoint: .top,
                         endPoint: .bottom
                     )
-                    .frame(height: 25)
-                    .frame(maxWidth: .infinity, alignment: .bottom)
+                    .frame(height: FigmaDimens.fh(25))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                     
-                    // Контент
-                    VStack(alignment: .trailing, spacing: 0) {
+                    // Контент (как в Kotlin: Column с Arrangement.Center, padding horizontal = 10.dp, vertical = 5.dp)
+                    VStack(spacing: 0) {
+                        // Старая цена (мелкая, сверху справа, как в Kotlin: Box с Alignment.TopEnd)
                         if oldPrice > 0 {
-                            Text("\(oldPrice) ₽")
-                                .font(.system(size: 15))
-                                .strikethrough()
-                                .foregroundColor(Color(hex: "999999") ?? .gray)
+                            HStack {
+                                Spacer()
+                                Text("\(oldPrice) ₽")
+                                    .font(.system(size: 15))
+                                    .strikethrough()
+                                    .foregroundColor(Color(hex: "999999") ?? .gray)
+                            }
                         }
                         
-                        Text("\(price) ₽")
-                            .font(.system(size: 30, weight: .bold))
-                            .foregroundColor(accentColor)
+                        Spacer()
+                        
+                        // Новая цена (крупная, выравнивание по правому краю, как в Kotlin: align(Alignment.End))
+                        HStack {
+                            Spacer()
+                            Text("\(price) ₽")
+                                .font(.system(size: 30, weight: .bold))
+                                .foregroundColor(accentColor)
+                        }
                     }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.horizontal, FigmaDimens.fw(10))
+                    .padding(.vertical, FigmaDimens.fh(5))
                 }
-                .frame(width: 140, height: 70)
+                .frame(width: FigmaDimens.fw(140), height: FigmaDimens.fh(70))
                 .background(Color.white)
                 .cornerRadius(10)
                 .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
@@ -172,7 +183,7 @@ struct ProductMainCard: View {
         }
         .background(Color.white)
         .cornerRadius(20)
-        .padding(.bottom, 20)
+        .padding(.bottom, FigmaDimens.fh(20)) // Как в Kotlin: .padding(bottom = 20.dp)
     }
 }
 

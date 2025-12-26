@@ -22,22 +22,21 @@ struct ProductDetailScreen: View {
             AppTheme.backgroundLight
                 .ignoresSafeArea()
             
-            // Контент (ScrollView)
+            // Контент (ScrollView) - как LazyColumn в Kotlin
             ScrollView {
                 VStack(spacing: 0) {
-                    // Отступ сверху чтобы контент не перекрывал header
+                    // Отступ сверху чтобы контент не перекрывал header (как top = fh(60) в Kotlin)
                     Spacer()
                         .frame(height: FigmaDimens.fh(60))
                     
                     Spacer()
                         .frame(height: FigmaDimens.fh(10))
                     
-                    // Карточка товара (Фото + Цена)
+                    // Карточка товара (Фото + Цена) - padding применяется на уровне VStack
                     ProductMainCard(
                         product: product,
                         selectedVariantId: selectedVariantId
                     )
-                    .padding(.horizontal, FigmaDimens.fw(5))
                     
                     Spacer()
                         .frame(height: FigmaDimens.fh(10))
@@ -50,7 +49,6 @@ struct ProductDetailScreen: View {
                             selectedVariantId = variantId
                         }
                     )
-                    .padding(.horizontal, FigmaDimens.fw(5))
                     
                     Spacer()
                         .frame(height: FigmaDimens.fh(10))
@@ -64,7 +62,6 @@ struct ProductDetailScreen: View {
                                 selectedSizeId = sizeId
                             }
                         )
-                        .padding(.horizontal, FigmaDimens.fw(5))
                         
                         Spacer()
                             .frame(height: FigmaDimens.fh(10))
@@ -77,7 +74,6 @@ struct ProductDetailScreen: View {
                             rating: product.rating,
                             reviewsCount: product.reviewsCount
                         )
-                        .padding(.horizontal, FigmaDimens.fw(5))
                         
                         Spacer()
                             .frame(height: FigmaDimens.fh(10))
@@ -87,7 +83,6 @@ struct ProductDetailScreen: View {
                             description: product.description,
                             specifications: product.specifications
                         )
-                        .padding(.horizontal, FigmaDimens.fw(5))
                         
                         Spacer()
                             .frame(height: FigmaDimens.fh(10))
@@ -95,7 +90,6 @@ struct ProductDetailScreen: View {
                         // Продавец
                         if let seller = product.seller {
                             SellerBlock(seller: seller)
-                                .padding(.horizontal, FigmaDimens.fw(5))
                             
                             Spacer()
                                 .frame(height: FigmaDimens.fh(10))
@@ -104,13 +98,13 @@ struct ProductDetailScreen: View {
                         // Бренд
                         if let brand = product.brand {
                             BrandBlock(brand: brand)
-                                .padding(.horizontal, FigmaDimens.fw(5))
                             
                             Spacer()
                                 .frame(height: FigmaDimens.fh(80)) // Отступ для кнопки внизу
                         }
                     }
                 }
+                .padding(.horizontal, FigmaDimens.fw(5)) // Padding как в Kotlin: start = fw(5), end = fw(5)
             }
             
             // Заголовок с кнопкой назад (как overlay сверху, как в Kotlin)
