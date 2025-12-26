@@ -46,8 +46,6 @@ private struct RatingCard: View {
                     if let uiImage = UIImage(named: "star_profile_menu") {
                         Image(uiImage: uiImage)
                             .resizable()
-                            .renderingMode(.template)
-                            .foregroundColor(.yellow)
                             .frame(
                                 width: FigmaDimens.fw(22),
                                 height: FigmaDimens.fh(22)
@@ -65,12 +63,14 @@ private struct RatingCard: View {
                 Text(String(format: "%.1f", rating))
                     .font(.system(size: 16, weight: .black))
                     .frame(width: FigmaDimens.fw(70), alignment: .leading)
+                    .foregroundColor(.black)
             }
             .frame(height: FigmaDimens.fh(35))
             
             Text(formatReviewsCount(reviewsCount))
                 .font(.system(size: 12, weight: .medium))
                 .frame(maxWidth: .infinity)
+                .foregroundColor(.black)
         }
         .frame(width: FigmaDimens.fw(161), height: FigmaDimens.fh(60))
         .background(Color.white)
@@ -129,6 +129,7 @@ private struct QuestionsCard: View {
             Text("вопросов")
                 .font(.system(size: 12, weight: .medium))
                 .frame(maxWidth: .infinity)
+                .foregroundColor(.black)
         }
         .frame(width: FigmaDimens.fw(90), height: FigmaDimens.fh(60))
         .background(Color.white)

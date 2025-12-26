@@ -110,7 +110,7 @@ struct ProductMainCard: View {
                 .frame(height: FigmaDimens.fh(10))
             
             // Скидка и цена
-            HStack(spacing: 10) {
+            HStack(spacing: FigmaDimens.fw(10)) {
                 // Скидка (если есть)
                 if sale > 0 {
                     HStack(spacing: 0) {
@@ -149,7 +149,15 @@ struct ProductMainCard: View {
                     
                     // Контент (как в Kotlin: Column с Arrangement.Center, padding horizontal = 10.dp, vertical = 5.dp)
                     VStack(spacing: 0) {
-                        // Старая цена (мелкая, сверху справа, как в Kotlin: Box с Alignment.TopEnd)
+                        // Новая цена (первая в Column, выравнивание по правому краю - align(Alignment.End))
+                        HStack {
+                            Spacer()
+                            Text("\(price) ₽")
+                                .font(.system(size: 30, weight: .bold))
+                                .foregroundColor(accentColor)
+                        }
+                        
+                        // Старая цена (вторая в Column, как в Kotlin: Box с fillMaxWidth и Alignment.TopEnd)
                         if oldPrice > 0 {
                             HStack {
                                 Spacer()
@@ -159,18 +167,8 @@ struct ProductMainCard: View {
                                     .foregroundColor(Color(hex: "999999") ?? .gray)
                             }
                         }
-                        
-                        Spacer()
-                        
-                        // Новая цена (крупная, выравнивание по правому краю, как в Kotlin: align(Alignment.End))
-                        HStack {
-                            Spacer()
-                            Text("\(price) ₽")
-                                .font(.system(size: 30, weight: .bold))
-                                .foregroundColor(accentColor)
-                        }
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     .padding(.horizontal, FigmaDimens.fw(10))
                     .padding(.vertical, FigmaDimens.fh(5))
                 }
