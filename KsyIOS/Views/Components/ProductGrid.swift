@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ProductGrid: View {
     let products: [Product]
@@ -109,11 +110,21 @@ struct ProductCard: View {
                     VStack(spacing: 0) {
                         // Рейтинг и отзывы
                         HStack(spacing: 0) {
-                            // Иконка отзывов
-                            Image(systemName: "bubble.left.fill")
-                                .font(.system(size: 10))
-                                .foregroundColor(.gray)
-                                .frame(width: FigmaDimens.fw(10))
+                            // Иконка отзывов (используем оригинальную otz_icon или fallback)
+                            Group {
+                                if let uiImage = UIImage(named: "otz_icon") {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .renderingMode(.template)
+                                        .foregroundColor(.gray)
+                                        .frame(width: FigmaDimens.fw(10), height: FigmaDimens.fh(10))
+                                } else {
+                                    Image(systemName: "bubble.left.fill")
+                                        .font(.system(size: 10))
+                                        .foregroundColor(.gray)
+                                        .frame(width: FigmaDimens.fw(10))
+                                }
+                            }
                             
                             Spacer()
                                 .frame(width: FigmaDimens.fw(5))
@@ -137,11 +148,21 @@ struct ProductCard: View {
                             Spacer()
                                 .frame(width: FigmaDimens.fw(5))
                             
-                            // Звезда
-                            Image(systemName: "star.fill")
-                                .font(.system(size: 10))
-                                .foregroundColor(.yellow)
-                                .frame(width: FigmaDimens.fw(10))
+                            // Звезда (используем оригинальную star_profile_menu или fallback)
+                            Group {
+                                if let uiImage = UIImage(named: "star_profile_menu") {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .renderingMode(.template)
+                                        .foregroundColor(.yellow)
+                                        .frame(width: FigmaDimens.fw(10), height: FigmaDimens.fh(10))
+                                } else {
+                                    Image(systemName: "star.fill")
+                                        .font(.system(size: 10))
+                                        .foregroundColor(.yellow)
+                                        .frame(width: FigmaDimens.fw(10))
+                                }
+                            }
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, FigmaDimens.fw(15))
@@ -270,9 +291,21 @@ struct FavoriteIconButton: View {
                         height: FigmaDimens.fh(30)
                     )
                 
-                Image(systemName: isFavorite ? "heart.fill" : "heart")
-                    .font(.system(size: 16))
-                    .foregroundColor(isFavorite ? .red : .gray)
+                // Используем оригинальные иконки lover/unlover или fallback
+                Group {
+                    let iconName = isFavorite ? "lover" : "unlover"
+                    if let uiImage = UIImage(named: iconName) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(isFavorite ? .red : .gray)
+                            .frame(width: 16, height: 16)
+                    } else {
+                        Image(systemName: isFavorite ? "heart.fill" : "heart")
+                            .font(.system(size: 16))
+                            .foregroundColor(isFavorite ? .red : .gray)
+                    }
+                }
             }
             .scaleEffect(isPressed ? 0.8 : 1.0)
         }

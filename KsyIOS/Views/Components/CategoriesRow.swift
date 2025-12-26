@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct CategoriesRow: View {
     let onHistoryClick: () -> Void
@@ -19,7 +20,8 @@ struct CategoriesRow: View {
                 text: "Стать\nпродавцом",
                 gradientStart: AppTheme.categoryGradient1Start,
                 gradientEnd: AppTheme.categoryGradient1End,
-                icon: "storefront.fill",
+                icon: "seller_icon",
+                fallbackIcon: "storefront.fill",
                 width: 30,
                 height: 30,
                 appearanceDelay: 0,
@@ -32,7 +34,8 @@ struct CategoriesRow: View {
                 text: "Магазины\nи бренды",
                 gradientStart: AppTheme.categoryGradient1Start,
                 gradientEnd: AppTheme.categoryGradient2End,
-                icon: "tag.fill",
+                icon: "shops_and_brans",
+                fallbackIcon: "tag.fill",
                 width: 30,
                 height: 30,
                 appearanceDelay: 50,
@@ -45,7 +48,8 @@ struct CategoriesRow: View {
                 text: "Финансы",
                 gradientStart: AppTheme.categoryGradient1Start,
                 gradientEnd: AppTheme.categoryGradient3End,
-                icon: "creditcard.fill",
+                icon: "finances_icon_home",
+                fallbackIcon: "creditcard.fill",
                 width: 30,
                 height: 30,
                 appearanceDelay: 100,
@@ -58,7 +62,8 @@ struct CategoriesRow: View {
                 text: "История\nпросмотров",
                 gradientStart: AppTheme.categoryGradient1Start,
                 gradientEnd: AppTheme.categoryGradient4End,
-                icon: "clock.fill",
+                icon: "history_icon",
+                fallbackIcon: "clock.fill",
                 width: 40,
                 height: 40,
                 appearanceDelay: 150,
@@ -71,7 +76,8 @@ struct CategoriesRow: View {
                 text: "Каталог",
                 gradientStart: AppTheme.categoryGradient1Start,
                 gradientEnd: AppTheme.categoryGradient5End,
-                icon: "square.grid.2x2.fill",
+                icon: "category_icon",
+                fallbackIcon: "square.grid.2x2.fill",
                 width: 30,
                 height: 44,
                 appearanceDelay: 200,
@@ -89,7 +95,8 @@ struct CategoryItem: View {
     let text: String
     let gradientStart: Color
     let gradientEnd: Color
-    let icon: String
+    let icon: String // Имя ресурса из Assets.xcassets
+    let fallbackIcon: String // Системная иконка как fallback
     let width: Int
     let height: Int
     let appearanceDelay: Int
@@ -123,9 +130,20 @@ struct CategoryItem: View {
                     height: FigmaDimens.fh(70)
                 )
                 .overlay(
-                    Image(systemName: icon)
-                        .font(.system(size: CGFloat(width)))
-                        .foregroundColor(.white)
+                    // Используем оригинальные иконки из Assets (если есть) или системные как fallback
+                    Group {
+                        if let uiImage = UIImage(named: icon) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .renderingMode(.template)
+                                .foregroundColor(.white)
+                                .frame(width: FigmaDimens.fw(CGFloat(width)), height: FigmaDimens.fh(CGFloat(height)))
+                        } else {
+                            Image(systemName: fallbackIcon)
+                                .font(.system(size: CGFloat(width)))
+                                .foregroundColor(.white)
+                        }
+                    }
                 )
                 .cornerRadius(18)
                 .scaleEffect(isVisible * (isPressed ? 0.85 : 1.0))
@@ -133,9 +151,10 @@ struct CategoryItem: View {
             }
             .buttonStyle(PlainButtonStyle())
             
-            // Текст
+            // Текст (черный цвет как в Kotlin)
             Text(text)
                 .font(.system(size: 9, weight: .medium))
+                .foregroundColor(.black)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
                 .frame(

@@ -1,1 +1,5 @@
 KsyIOS/GUIDE_ADD_IMAGES.md
+add_assets_to_xcode.sh
+copy_assets.ps1
+prepare_assets_for_xcode.ps1
+setup_assets.ps1
