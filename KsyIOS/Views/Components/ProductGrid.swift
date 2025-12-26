@@ -39,6 +39,7 @@ struct ProductGrid: View {
                 }
             }
             .padding(.horizontal, FigmaDimens.fw(10, geometry: geometry))
+            .frame(maxWidth: .infinity)
         }
     }
 }

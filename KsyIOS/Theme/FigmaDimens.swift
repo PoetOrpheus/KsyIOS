@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 // Базовый размер листа в Figma: 450 x 900
 private let FIGMA_WIDTH: CGFloat = 450
@@ -37,6 +38,27 @@ struct FigmaDimens {
     
     static func fh(_ px: Int, geometry: GeometryProxy) -> CGFloat {
         return fh(CGFloat(px), geometry: geometry)
+    }
+    
+    // Версии без geometry для использования с UIScreen
+    static func fw(_ px: CGFloat) -> CGFloat {
+        let screenWidth = UIScreen.main.bounds.width
+        let k = screenWidth / FIGMA_WIDTH
+        return px * k
+    }
+    
+    static func fh(_ px: CGFloat) -> CGFloat {
+        let screenHeight = UIScreen.main.bounds.height
+        let k = screenHeight / FIGMA_HEIGHT
+        return px * k
+    }
+    
+    static func fw(_ px: Int) -> CGFloat {
+        return fw(CGFloat(px))
+    }
+    
+    static func fh(_ px: Int) -> CGFloat {
+        return fh(CGFloat(px))
     }
 }
 
