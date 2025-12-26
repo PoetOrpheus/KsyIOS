@@ -12,27 +12,34 @@ struct BottomNavigationBar: View {
     let onItemSelected: (BottomNavItem) -> Void
     
     var body: some View {
-        HStack(spacing: 0) {
-            ForEach(BottomNavItem.allCases, id: \.self) { item in
-                Button(action: {
-                    onItemSelected(item)
-                }) {
-                    VStack(spacing: 4) {
+        GeometryReader { geometry in
+            HStack(spacing: 0) {
+                ForEach(BottomNavItem.allCases, id: \.self) { item in
+                    Button(action: {
+                        onItemSelected(item)
+                    }) {
                         Image(systemName: item.icon)
-                            .font(.system(size: 24))
+                            .font(.system(size: 20))
                             .foregroundColor(selectedItem == item ? AppTheme.brandPurple : .black)
-                        
-                        Text(item.rawValue)
-                            .font(.system(size: 10))
-                            .foregroundColor(selectedItem == item ? AppTheme.brandPurple : .black)
+                            .frame(
+                                width: FigmaDimens.fh(40, geometry: geometry),
+                                height: FigmaDimens.fh(40, geometry: geometry)
+                            )
                     }
+                    .buttonStyle(PlainButtonStyle())
                     .frame(maxWidth: .infinity)
-                    .frame(height: 60)
                 }
             }
+            .frame(height: FigmaDimens.fh(60, geometry: geometry))
+            .background(AppTheme.bgGray)
+            .clipShape(
+                .rect(
+                    topLeadingRadius: 30,
+                    topTrailingRadius: 30
+                )
+            )
         }
-        .background(AppTheme.backgroundLight)
-        .cornerRadius(30, corners: [.topLeft, .topRight])
+        .frame(height: 60) // Базовое значение
     }
 }
 

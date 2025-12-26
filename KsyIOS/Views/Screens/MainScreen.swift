@@ -37,6 +37,21 @@ struct MainScreen: View {
                             onProductClick: { product in
                                 selectedProduct = product
                                 showProductDetail = true
+                            },
+                            onSearchClick: {
+                                showSearch = true
+                            },
+                            onHistoryClick: {
+                                // TODO: Navigate to history screen
+                            },
+                            onCanBeSeller: {
+                                // TODO: Navigate to seller screen
+                            },
+                            onCategoryClick: {
+                                // TODO: Navigate to catalog screen
+                            },
+                            onBrandsClick: {
+                                // TODO: Navigate to brands screen
                             }
                         )
                     case .shopCart:
