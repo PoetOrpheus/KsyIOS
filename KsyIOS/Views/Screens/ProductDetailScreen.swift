@@ -69,42 +69,45 @@ struct ProductDetailScreen: View {
                                 .frame(height: FigmaDimens.fh(10))
                         }
                         
-                        // Рейтинг и отзывы
-                        StartCardRow(
-                            rating: product.rating,
-                            reviewsCount: product.reviewsCount
-                        )
-                        .padding(.horizontal, FigmaDimens.fw(5))
-                        
-                        Spacer()
-                            .frame(height: FigmaDimens.fh(10))
-                        
-                        // Описание и характеристики
-                        InfoCardsSection(
-                            description: product.description,
-                            specifications: product.specifications
-                        )
-                        .padding(.horizontal, FigmaDimens.fw(5))
-                        
-                        Spacer()
-                            .frame(height: FigmaDimens.fh(10))
-                        
-                        // Продавец
-                        if let seller = product.seller {
-                            SellerBlock(seller: seller)
-                                .padding(.horizontal, FigmaDimens.fw(5))
+                        // Группа: Рейтинг, Описание, Продавец, Бренд
+                        Group {
+                            // Рейтинг и отзывы
+                            StartCardRow(
+                                rating: product.rating,
+                                reviewsCount: product.reviewsCount
+                            )
+                            .padding(.horizontal, FigmaDimens.fw(5))
                             
                             Spacer()
                                 .frame(height: FigmaDimens.fh(10))
-                        }
-                        
-                        // Бренд
-                        if let brand = product.brand {
-                            BrandBlock(brand: brand)
-                                .padding(.horizontal, FigmaDimens.fw(5))
+                            
+                            // Описание и характеристики
+                            InfoCardsSection(
+                                description: product.description,
+                                specifications: product.specifications
+                            )
+                            .padding(.horizontal, FigmaDimens.fw(5))
                             
                             Spacer()
-                                .frame(height: FigmaDimens.fh(80)) // Отступ для кнопки внизу
+                                .frame(height: FigmaDimens.fh(10))
+                            
+                            // Продавец
+                            if let seller = product.seller {
+                                SellerBlock(seller: seller)
+                                    .padding(.horizontal, FigmaDimens.fw(5))
+                                
+                                Spacer()
+                                    .frame(height: FigmaDimens.fh(10))
+                            }
+                            
+                            // Бренд
+                            if let brand = product.brand {
+                                BrandBlock(brand: brand)
+                                    .padding(.horizontal, FigmaDimens.fw(5))
+                                
+                                Spacer()
+                                    .frame(height: FigmaDimens.fh(80)) // Отступ для кнопки внизу
+                            }
                         }
                     }
                 }
