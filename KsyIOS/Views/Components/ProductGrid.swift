@@ -128,9 +128,10 @@ struct ProductCard: View {
                             Spacer()
                                 .frame(width: FigmaDimens.fw(25))
                             
-                            // Рейтинг
+                            // Рейтинг (черный цвет как в Kotlin)
                             Text(String(format: "%.1f", product.rating))
                                 .font(.system(size: 10, weight: .black))
+                                .foregroundColor(.black)
                                 .frame(width: FigmaDimens.fw(50), height: 10, alignment: .trailing)
                             
                             Spacer()
@@ -148,9 +149,10 @@ struct ProductCard: View {
                         Spacer()
                             .frame(height: FigmaDimens.fh(10))
                         
-                        // Название
+                        // Название (черный цвет как в Kotlin)
                         Text(product.name)
                             .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.black)
                             .lineLimit(2)
                             .fixedSize(horizontal: false, vertical: true)
                             .frame(
