@@ -14,7 +14,7 @@ struct CategoriesRow: View {
     let onBrandsClick: () -> Void
     
     var body: some View {
-        HStack(spacing: 0) {
+        HStack {
             CategoryItem(
                 text: "Стать\nпродавцом",
                 gradientStart: AppTheme.categoryGradient1Start,
@@ -25,6 +25,8 @@ struct CategoriesRow: View {
                 appearanceDelay: 0,
                 onClick: onCanBeSeller
             )
+            
+            Spacer()
             
             CategoryItem(
                 text: "Магазины\nи бренды",
@@ -37,6 +39,8 @@ struct CategoriesRow: View {
                 onClick: onBrandsClick
             )
             
+            Spacer()
+            
             CategoryItem(
                 text: "Финансы",
                 gradientStart: AppTheme.categoryGradient1Start,
@@ -48,6 +52,8 @@ struct CategoriesRow: View {
                 onClick: {}
             )
             
+            Spacer()
+            
             CategoryItem(
                 text: "История\nпросмотров",
                 gradientStart: AppTheme.categoryGradient1Start,
@@ -58,6 +64,8 @@ struct CategoriesRow: View {
                 appearanceDelay: 150,
                 onClick: onHistoryClick
             )
+            
+            Spacer()
             
             CategoryItem(
                 text: "Каталог",

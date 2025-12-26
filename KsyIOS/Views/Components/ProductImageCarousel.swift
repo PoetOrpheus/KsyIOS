@@ -35,9 +35,18 @@ struct ProductImageCarousel: View {
                                     .scaledToFit()
                                     .foregroundColor(.gray.opacity(0.5))
                             } else {
-                                Image(imageName)
-                                    .resizable()
-                                    .scaledToFill()
+                                // Пытаемся загрузить изображение из Assets
+                                if let uiImage = UIImage(named: imageName) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                } else {
+                                    // Если изображение не найдено, показываем placeholder
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .foregroundColor(.gray.opacity(0.5))
+                                }
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
