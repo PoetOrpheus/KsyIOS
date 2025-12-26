@@ -74,22 +74,32 @@ struct ProductCard: View {
                 
                 // Контент карточки
                 VStack(spacing: 0) {
-                    // Область изображения
+                    // Область изображения (как в Kotlin - белый фон с rounded corners)
                     ZStack(alignment: .topTrailing) {
+                        // Белый фон с закругленными углами (как в Kotlin)
+                        Rectangle()
+                            .fill(Color.white)
+                            .frame(height: FigmaDimens.fh(280))
+                            .cornerRadius(15, corners: [.topLeft, .topRight])
+                        
                         // Используем изображения из продукта для карусели
                         let productImages = product.imagesRes.isEmpty ? ["placeholder"] : product.imagesRes
                         
                         ProductImageCarousel(images: productImages)
                             .frame(height: FigmaDimens.fh(280))
                             .cornerRadius(15, corners: [.topLeft, .topRight])
+                            .clipped()
                         
-                        // Иконка избранного
+                        // Иконка избранного (модификатор 45x45 как в Kotlin, кнопка 30x30 внутри)
                         FavoriteIconButton(
                             isFavorite: product.isFavorite,
                             onClick: onFavoriteClick
                         )
-                        .padding(.top, FigmaDimens.fh(5))
-                        .padding(.trailing, FigmaDimens.fw(5))
+                        .frame(
+                            width: FigmaDimens.fw(45),
+                            height: FigmaDimens.fh(45),
+                            alignment: .topTrailing
+                        )
                     }
                     
                     Spacer()
@@ -153,14 +163,14 @@ struct ProductCard: View {
                         Spacer()
                             .frame(height: FigmaDimens.fh(5))
                         
-                        // Цены
-                        HStack(spacing: FigmaDimens.fw(5)) {
+                        // Цены (как в Kotlin - выровнены по bottom)
+                        HStack(alignment: .bottom, spacing: FigmaDimens.fw(5)) {
                             if oldPrice > 0 {
                                 Text("\(oldPrice) ₽")
                                     .font(.system(size: 8))
                                     .foregroundColor(.gray)
                                     .strikethrough()
-                                    .frame(height: 9, alignment: .bottom)
+                                    .frame(height: FigmaDimens.fh(10), alignment: .bottom)
                             }
                             
                             Spacer()
@@ -168,7 +178,7 @@ struct ProductCard: View {
                             Text("\(product.price) ₽")
                                 .font(.system(size: 14, weight: .bold))
                                 .foregroundColor(accentColor)
-                                .frame(height: 14, alignment: .center)
+                                .frame(height: FigmaDimens.fh(20), alignment: .leading)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, FigmaDimens.fw(15))
@@ -200,7 +210,10 @@ struct ProductCard: View {
                     }
                 }
             }
-            .frame(height: FigmaDimens.fh(420))
+            .frame(
+                width: FigmaDimens.fw(210),
+                height: FigmaDimens.fh(420)
+            )
             .background(Color.white)
             .cornerRadius(15)
             .shadow(
@@ -262,6 +275,8 @@ struct FavoriteIconButton: View {
             .scaleEffect(isPressed ? 0.8 : 1.0)
         }
         .buttonStyle(PlainButtonStyle())
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+        .padding(4)
         .simultaneousGesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { _ in

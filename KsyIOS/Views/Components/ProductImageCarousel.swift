@@ -47,12 +47,16 @@ struct ProductImageCarousel: View {
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .onChange(of: currentPage) { _ in
+                    // Синхронизация индикаторов при свайпе
+                }
                 
                 // Индикатор страниц (кастомный, как в Kotlin)
                 if images.count > 1 && !images.allSatisfy({ $0 == "placeholder" }) {
                     VStack {
                         Spacer()
                         
+                        // Белый Box с индикаторами (как в Kotlin)
                         HStack(spacing: 6) {
                             ForEach(0..<images.count, id: \.self) { index in
                                 Circle()
@@ -65,12 +69,13 @@ struct ProductImageCarousel: View {
                         }
                         .padding(.horizontal, 2)
                         .padding(.vertical, 4)
+                        .frame(height: FigmaDimens.fh(8))
                         .background(
                             Color.white
                                 .cornerRadius(6, corners: [.topLeft, .topRight])
                                 .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                         )
-                        .padding(.bottom, 4)
+                        .padding(.bottom, 0)
                     }
                 }
             }
