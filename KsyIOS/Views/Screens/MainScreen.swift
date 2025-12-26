@@ -98,7 +98,7 @@ struct MainScreen: View {
                         selectedTab = newTab
                         // При переходе на Profile проверяем авторизацию
                         if newTab == .profile {
-                            isLoggedIn = localDataStore.loggedIn
+                            isLoggedIn = localDataStore.isLoggedIn()
                         }
                     }
                 )
