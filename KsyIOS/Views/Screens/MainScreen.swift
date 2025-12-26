@@ -86,19 +86,24 @@ struct MainScreen: View {
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            
+            // Нижняя навигация (как в Kotlin - внизу экрана с белым фоном под ней)
+            VStack(spacing: 0) {
+                Spacer()
                 
-                // Нижняя навигация
                 BottomNavigationBar(
                     selectedItem: selectedTab,
                     onItemSelected: { newTab in
                         selectedTab = newTab
                         // При переходе на Profile проверяем авторизацию
                         if newTab == .profile {
-                            isLoggedIn = localDataStore.isLoggedIn()
+                            isLoggedIn = localDataStore.loggedIn
                         }
                     }
                 )
             }
+            .ignoresSafeArea(edges: .bottom)
             
             // Экран деталей продукта
             if showProductDetail, let product = selectedProduct {

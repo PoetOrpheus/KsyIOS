@@ -21,7 +21,6 @@ struct HomeContentView: View {
         ScrollView {
             VStack(spacing: 0) {
                 TopHeaderSection(onSearchClick: onSearchClick)
-                    .frame(height: FigmaDimens.fh(220))
                 
                 CategoriesRow(
                     onHistoryClick: onHistoryClick,
@@ -29,7 +28,6 @@ struct HomeContentView: View {
                     onCategoryClick: onCategoryClick,
                     onBrandsClick: onBrandsClick
                 )
-                .frame(height: FigmaDimens.fh(115))
                 
                 Spacer()
                     .frame(height: FigmaDimens.fh(10))

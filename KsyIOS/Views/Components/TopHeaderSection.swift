@@ -20,7 +20,6 @@ struct TopHeaderSection: View {
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-            .ignoresSafeArea(edges: .top)
             
             // Контент
             VStack(spacing: 0) {
@@ -113,6 +112,7 @@ struct TopHeaderSection: View {
         }
         .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
         .frame(height: FigmaDimens.fh(220))
+        .ignoresSafeArea(edges: .top)
     }
 }
 
