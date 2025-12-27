@@ -64,7 +64,7 @@ struct CardProfile: View {
                     // Фон для изображения
                     Rectangle()
                         .fill(Color(hex: "E5E5E5") ?? Color.gray.opacity(0.2))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .frame(width: FigmaDimens.fw(210), height: FigmaDimens.fh(190))
                         .cornerRadius(15, corners: [.topLeft, .topRight])
                     
                     // Карусель изображений (используем тестовые изображения)
@@ -85,8 +85,7 @@ struct CardProfile: View {
                         .font(.system(size: 16))
                         .padding(8)
                 }
-                .frame(width: FigmaDimens.fw(210))
-                .frame(height: FigmaDimens.fh(190))
+                .frame(width: FigmaDimens.fw(210), height: FigmaDimens.fh(190))
                 .clipped()
                 .overlay(alignment: .bottomTrailing) {
                     // Скидка (в правом нижнем углу, накладывается на картинку)
@@ -160,6 +159,7 @@ struct CardProfile: View {
                                 .foregroundColor(.gray)
                                 .strikethrough()
                                 .lineSpacing(9 - 8)
+                                .padding(.bottom, FigmaDimens.fh(15))
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .trailing)

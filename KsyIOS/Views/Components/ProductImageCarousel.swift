@@ -32,7 +32,7 @@ struct ProductImageCarousel: View {
                             if imageName == "placeholder" {
                                 Image(systemName: "photo")
                                     .resizable()
-                                    .scaledToFit()
+                                    .scaledToFill()
                                     .foregroundColor(.gray.opacity(0.5))
                             } else {
                                 // Пытаемся загрузить изображение из Assets
@@ -40,23 +40,24 @@ struct ProductImageCarousel: View {
                                     Image(uiImage: uiImage)
                                         .resizable()
                                         .scaledToFill()
-                                        .aspectRatio(contentMode: .fill)
                                 } else {
                                     // Если изображение не найдено, показываем placeholder
                                     Image(systemName: "photo")
                                         .resizable()
-                                        .scaledToFit()
+                                        .scaledToFill()
                                         .foregroundColor(.gray.opacity(0.5))
                                 }
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .clipped()
+                        .contentShape(Rectangle())
                         .tag(index)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .clipped()
                 .onChange(of: currentPage) { _ in
                     // Синхронизация индикаторов при свайпе
                 }
