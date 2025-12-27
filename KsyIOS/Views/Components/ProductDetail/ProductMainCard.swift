@@ -101,12 +101,11 @@ struct ProductMainCard: View {
             Spacer()
                 .frame(height: FigmaDimens.fh(10))
             
-            // Название - выровнено по левому краю (как в Kotlin: padding horizontal = fw(20), но визуально левый край совпадает с точками)
+            // Название - выровнено по левому краю (как в Kotlin: padding horizontal = fw(20))
             Text(productName)
                 .font(.system(size: 18, weight: .regular))
                 .foregroundColor(.black)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, FigmaDimens.fw(20))
+                .padding(.horizontal, FigmaDimens.fw(20))
             
             Spacer()
                 .frame(height: FigmaDimens.fh(10))

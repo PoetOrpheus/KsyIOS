@@ -108,9 +108,11 @@ struct ProductDetailScreen: View {
             }
             
             // Заголовок с кнопкой назад (как в Kotlin: размещается в Box сверху, должен быть последним в ZStack чтобы быть сверху)
-            TopHeaderWithReturn(onBackClick: onBackClick)
-                .frame(maxWidth: .infinity, alignment: .top)
-                .ignoresSafeArea(edges: .top)
+            VStack {
+                TopHeaderWithReturn(onBackClick: onBackClick)
+                    .ignoresSafeArea(edges: .top)
+                Spacer()
+            }
             
             // Кнопка добавления в корзину (внизу экрана, как overlay)
             VStack {
