@@ -127,8 +127,6 @@ struct SellerCard: View {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFit()
-                        .renderingMode(.template)
-                        .foregroundColor(.yellow)
                         .frame(
                             width: FigmaDimens.fw(12),
                             height: FigmaDimens.fh(12)
@@ -137,6 +135,10 @@ struct SellerCard: View {
                     Image(systemName: "star.fill")
                         .font(.system(size: 12))
                         .foregroundColor(.yellow)
+                        .frame(
+                            width: FigmaDimens.fw(12),
+                            height: FigmaDimens.fh(12)
+                        )
                 }
                 
                 Text("4.9")
