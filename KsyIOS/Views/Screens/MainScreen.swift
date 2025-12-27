@@ -14,6 +14,7 @@ struct MainScreen: View {
     @State private var showSearch = false
     @State private var searchQuery = ""
     @State private var isLoggedIn: Bool?
+    @State private var showCatalog = false
     
     @StateObject private var productViewModel = ProductViewModel(productRepository: ProductRepositoryImpl())
     @StateObject private var cartViewModel = CartViewModel(productRepository: ProductRepositoryImpl())
@@ -48,7 +49,7 @@ struct MainScreen: View {
                                 // TODO: Navigate to seller screen
                             },
                             onCategoryClick: {
-                                // TODO: Navigate to catalog screen
+                                showCatalog = true
                             },
                             onBrandsClick: {
                                 // TODO: Navigate to brands screen
@@ -115,6 +116,21 @@ struct MainScreen: View {
                     onBackClick: {
                         showProductDetail = false
                         selectedProduct = nil
+                    }
+                )
+                .transition(.move(edge: .trailing))
+                .zIndex(1)
+            }
+            
+            // Экран каталога
+            if showCatalog {
+                CatalogScreen(
+                    onBackClick: {
+                        showCatalog = false
+                    },
+                    onCategoryClick: { categoryName in
+                        // TODO: Navigate to category sub-screen
+                        print("Category clicked: \(categoryName)")
                     }
                 )
                 .transition(.move(edge: .trailing))
