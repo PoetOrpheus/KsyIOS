@@ -29,7 +29,7 @@ struct VariantItemRow: View {
                         )
                     }
                 }
-                .padding(.horizontal, FigmaDimens.fw(10))
+                .padding(.horizontal, 10) // Как в Kotlin: padding(horizontal = 10.dp)
             }
         }
     }
