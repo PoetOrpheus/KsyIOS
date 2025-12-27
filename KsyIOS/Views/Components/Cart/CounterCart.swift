@@ -33,7 +33,7 @@ struct CounterCart: View {
                 Text("+")
                     .font(.system(size: 18, weight: .black))
                     .foregroundColor(.black)
-                    .frame(maxWidth: .infinity, height: FigmaDimens.fh(30))
+                    .frame(width: FigmaDimens.fw(30), height: FigmaDimens.fh(30))
             }
         }
         .frame(width: FigmaDimens.fw(100), height: FigmaDimens.fh(30))
