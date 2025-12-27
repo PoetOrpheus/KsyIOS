@@ -76,13 +76,15 @@ struct CardCart: View {
                             if sale > 0 {
                                 ZStack {
                                     Color.white
-                                        .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(30))
+                                        .frame(width: FigmaDimens.fw(75), height: FigmaDimens.fh(30))
                                         .cornerRadius(10)
                                         .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                                     
                                     Text("- \(sale) %")
-                                        .font(.system(size: 16, weight: .black))
+                                        .font(.system(size: sale > 70 ? 14 : 16, weight: .black))
                                         .foregroundColor(accentColor)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.8)
                                 }
                             }
                         }
