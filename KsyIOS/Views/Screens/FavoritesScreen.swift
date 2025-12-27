@@ -2,7 +2,7 @@
 //  FavoritesScreen.swift
 //  KsyIOS
 //
-//  Created by Auto on 25.12.2025.
+//  Created by Auto on 27.12.2025.
 //
 
 import SwiftUI
@@ -12,64 +12,77 @@ struct FavoritesScreen: View {
     let onProductClick: (Product) -> Void
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Заголовок
-            HStack {
-                Text("Избранное")
-                    .font(.system(size: 24, weight: .bold))
-                Spacer()
-            }
-            .padding(.horizontal, 16)
-            .padding(.top, 16)
-            .padding(.bottom, 8)
+        ZStack {
+            AppTheme.backgroundLight
+                .ignoresSafeArea()
             
-            // Содержимое
-            ScrollView {
-                VStack(spacing: 20) {
-                    if case .success(let products) = productViewModel.favoriteProductsState {
-                        if products.isEmpty {
-                            VStack(spacing: 16) {
-                                Image(systemName: "heart")
-                                    .font(.system(size: 64))
-                                    .foregroundColor(.gray)
-                                Text("Нет избранных товаров")
-                                    .font(.system(size: 18, weight: .medium))
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .padding(.top, 100)
-                        } else {
-                            ProductGrid(
-                                products: products,
-                                onProductClick: onProductClick,
-                                onToggleFavorite: { productId in
-                                    Task {
-                                        await productViewModel.toggleFavorite(productId)
-                                    }
+            VStack(spacing: 0) {
+                // Заголовок
+                TopHeaderWithoutSearch()
+                
+                Spacer().frame(height: FigmaDimens.fh(10))
+                
+                // Строка настроек
+                SettingsFavoriteRow()
+                
+                Spacer().frame(height: FigmaDimens.fh(10))
+                
+                // Контент
+                ScrollView {
+                    VStack(spacing: 0) {
+                        if case .success(let products) = productViewModel.favoriteProductsState {
+                            if products.isEmpty {
+                                // Пустое состояние
+                                VStack(spacing: FigmaDimens.fh(10)) {
+                                    Text("Нет избранных товаров")
+                                        .font(.system(size: 18, weight: .semibold))
+                                        .foregroundColor(.gray)
+                                    
+                                    Text("Добавьте товары в избранное")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.gray)
                                 }
-                            )
-                        }
-                    } else if case .loading = productViewModel.favoriteProductsState {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, minHeight: 200)
-                            .padding(.top, 100)
-                    } else if case .error(let message, _) = productViewModel.favoriteProductsState {
-                        Text("Ошибка: \(message ?? "Неизвестная ошибка")")
-                            .foregroundColor(.red)
-                            .padding()
-                    } else {
-                        // Idle - загружаем данные
-                        ProgressView()
-                            .frame(maxWidth: .infinity, minHeight: 200)
-                            .padding(.top, 100)
-                            .task {
-                                productViewModel.loadFavoriteProducts()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .padding(.top, 100)
+                            } else {
+                                // Отображаем избранные продукты
+                                ProductGrid(
+                                    products: products,
+                                    onProductClick: onProductClick,
+                                    onToggleFavorite: { productId in
+                                        Task {
+                                            await productViewModel.toggleFavorite(productId)
+                                        }
+                                    }
+                                )
                             }
+                        } else if case .loading = productViewModel.favoriteProductsState {
+                            ProgressView()
+                                .frame(maxWidth: .infinity, minHeight: 200)
+                                .padding(.top, 100)
+                        } else if case .error(let message, _) = productViewModel.favoriteProductsState {
+                            Text("Ошибка загрузки: \(message ?? "Неизвестная ошибка")")
+                                .font(.system(size: 18))
+                                .foregroundColor(.red)
+                                .frame(maxWidth: .infinity, minHeight: 200)
+                                .padding(.top, 100)
+                        } else {
+                            // Idle - загружаем данные
+                            ProgressView()
+                                .frame(maxWidth: .infinity, minHeight: 200)
+                                .padding(.top, 100)
+                                .task {
+                                    productViewModel.loadFavoriteProducts()
+                                }
+                        }
                     }
                 }
-                .padding(.horizontal, 16)
+            }
+        }
+        .task {
+            if case .idle = productViewModel.favoriteProductsState {
+                productViewModel.loadFavoriteProducts()
             }
         }
     }
 }
-
