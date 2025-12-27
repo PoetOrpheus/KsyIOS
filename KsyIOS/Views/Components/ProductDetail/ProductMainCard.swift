@@ -37,14 +37,14 @@ struct ProductMainCard: View {
         }()
         
         VStack(spacing: 0) {
-            // Карусель изображений
+            // Карусель изображений (как в Kotlin: HorizontalPager с clip, фон белый из Column)
             ZStack {
-                Color(hex: "E5E5E5") ?? Color.gray.opacity(0.2)
+                Color.white // Белый фон как в Kotlin (Column имеет background Color.White)
                 
                 if images.isEmpty || (images.count == 1 && images.first == "placeholder") {
                     Image(systemName: "photo")
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFit() // ContentScale.Fit в Kotlin
                         .foregroundColor(.gray.opacity(0.5))
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
@@ -55,16 +55,16 @@ struct ProductMainCard: View {
                                 if imageName == "placeholder" {
                                     Image(systemName: "photo")
                                         .resizable()
-                                        .scaledToFit()
+                                        .scaledToFit() // ContentScale.Fit в Kotlin
                                         .foregroundColor(.gray.opacity(0.5))
                                 } else if let uiImage = UIImage(named: imageName) {
                                     Image(uiImage: uiImage)
                                         .resizable()
-                                        .scaledToFit()
+                                        .scaledToFit() // ContentScale.Fit в Kotlin - сохраняет пропорции, вписывает в контейнер
                                 } else {
                                     Image(systemName: "photo")
                                         .resizable()
-                                        .scaledToFit()
+                                        .scaledToFit() // ContentScale.Fit в Kotlin
                                         .foregroundColor(.gray.opacity(0.5))
                                 }
                             }
@@ -78,8 +78,8 @@ struct ProductMainCard: View {
                     }
                 }
             }
-            .frame(height: FigmaDimens.fh(440))
-            .cornerRadius(20)
+            .frame(height: FigmaDimens.fh(440)) // Как в Kotlin: height = fh(440)
+            .clipShape(RoundedRectangle(cornerRadius: 20)) // Как в Kotlin: clip(RoundedCornerShape(20.dp))
             
             Spacer()
                 .frame(height: FigmaDimens.fh(10))

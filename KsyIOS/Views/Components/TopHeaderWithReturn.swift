@@ -13,7 +13,7 @@ struct TopHeaderWithReturn: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
-            // Кнопка назад
+            // Кнопка назад (как в Kotlin: Box с width/height и clickable)
             Button(action: onBackClick) {
                 Group {
                     if let uiImage = UIImage(named: "return_icon") {
@@ -36,10 +36,11 @@ struct TopHeaderWithReturn: View {
                     }
                 }
             }
+            .frame(width: FigmaDimens.fw(30), height: FigmaDimens.fh(30))
             
             Spacer()
             
-            // Иконки справа
+            // Иконки справа (как в Kotlin: Row с padding horizontal = fw(15), vertical = fh(10))
             HStack(spacing: FigmaDimens.fw(15)) {
                 IconHeader(iconName: "question_header_section")
                 IconHeader(iconName: "share")
@@ -48,8 +49,9 @@ struct TopHeaderWithReturn: View {
             .padding(.horizontal, FigmaDimens.fw(15))
             .padding(.vertical, FigmaDimens.fh(10))
         }
-        .padding(.horizontal, FigmaDimens.fw(10))
+        .frame(maxWidth: .infinity)
         .frame(height: FigmaDimens.fh(60))
+        .padding(.horizontal, FigmaDimens.fw(10))
         .background(
             LinearGradient(
                 gradient: Gradient(colors: [
@@ -61,7 +63,6 @@ struct TopHeaderWithReturn: View {
             )
         )
         .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
-        .ignoresSafeArea(edges: .top)
     }
 }
 
