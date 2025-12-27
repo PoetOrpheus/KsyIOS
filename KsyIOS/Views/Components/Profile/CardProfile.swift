@@ -61,7 +61,8 @@ struct CardProfile: View {
                 // Картинка
                 ZStack(alignment: .topTrailing) {
                     // Фон для изображения
-                    Color(hex: "E5E5E5") ?? Color.gray.opacity(0.2)
+                    Rectangle()
+                        .fill(Color(hex: "E5E5E5") ?? Color.gray.opacity(0.2))
                         .frame(height: FigmaDimens.fh(190))
                         .cornerRadius(15, corners: [.topLeft, .topRight])
                     
