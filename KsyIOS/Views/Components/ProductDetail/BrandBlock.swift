@@ -16,7 +16,7 @@ struct BrandBlock: View {
             Spacer()
                 .frame(height: FigmaDimens.fh(5))
             
-            // Заголовок "Бренд"
+            // Заголовок "Бренд" — выровняли слева с большим padding для совпадения с Kotlin
             HStack {
                 Text("Бренд")
                     .font(.system(size: 16, weight: .medium))
@@ -24,17 +24,14 @@ struct BrandBlock: View {
                 
                 Spacer()
             }
-            .padding(.horizontal, FigmaDimens.fw(25))
+            .padding(.horizontal, FigmaDimens.fw(20)) // Уменьшили до 20 для идентичности
             .frame(height: FigmaDimens.fh(30))
             
             Spacer()
                 .frame(height: FigmaDimens.fh(5))
             
-            // Информация о бренде
-            HStack(spacing: FigmaDimens.fw(10)) {
-                Spacer()
-                    .frame(width: FigmaDimens.fw(10))
-                
+            // Информация о бренде — убрали лишние spacers, ширину адаптировали
+            HStack(spacing: FigmaDimens.fw(8)) { // spacing 8 для ближе к Kotlin
                 // Логотип
                 Group {
                     if let logoUrl = brand.logoUrl, let uiImage = UIImage(named: logoUrl) {
@@ -56,32 +53,28 @@ struct BrandBlock: View {
                     height: FigmaDimens.fh(40)
                 )
                 
-                Spacer()
-                    .frame(width: FigmaDimens.fw(10))
-                
                 // Название и ссылка
                 VStack(alignment: .leading, spacing: 0) {
                     Text(brand.name)
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.black)
-                        .frame(height: FigmaDimens.fh(35), alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(height: FigmaDimens.fh(35))
                     
                     Text("Перейти")
                         .font(.system(size: 10, weight: .regular))
                         .foregroundColor(.black)
                 }
-                .frame(width: FigmaDimens.fw(230), alignment: .leading)
             }
             .padding(.horizontal, FigmaDimens.fw(15))
             .frame(height: FigmaDimens.fh(60))
             .background(Color.white)
             .cornerRadius(10)
-            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
+            .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2) // Мягче shadow для Kotlin-style
         }
-        .frame(maxWidth: .infinity) // Как в Kotlin: fillMaxWidth()
+        .frame(maxWidth: .infinity)
         .frame(height: FigmaDimens.fh(110))
         .background(Color.white)
         .cornerRadius(10)
     }
 }
-

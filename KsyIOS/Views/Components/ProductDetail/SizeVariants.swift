@@ -14,24 +14,24 @@ struct SizeVariants: View {
     
     var body: some View {
         if !sizes.isEmpty {
-            // Как в Kotlin: Row с fillMaxWidth, height = fh(30), padding horizontal = fw(10), spacedBy = fw(10)
-            HStack(spacing: FigmaDimens.fw(10)) {
-                ForEach(sizes) { size in
-                    SizeButton(
-                        text: size.value,
-                        isSelected: size.id == selectedSizeId,
-                        isAvailable: size.isAvailable,
-                        onClick: {
-                            if size.isAvailable {
-                                onSizeSelected(size.id)
+            ScrollView(.horizontal, showsIndicators: false) { // Добавили scroll если много
+                HStack(spacing: FigmaDimens.fw(8)) { // Меньше spacing
+                    ForEach(sizes) { size in
+                        SizeButton(
+                            text: size.value,
+                            isSelected: size.id == selectedSizeId,
+                            isAvailable: size.isAvailable,
+                            onClick: {
+                                if size.isAvailable {
+                                    onSizeSelected(size.id)
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
+                .padding(.horizontal, FigmaDimens.fw(15))
             }
-            .frame(maxWidth: .infinity) // Как в Kotlin: fillMaxWidth()
             .frame(height: FigmaDimens.fh(30))
-            .padding(.horizontal, FigmaDimens.fw(10))
         }
     }
 }
@@ -46,13 +46,10 @@ private struct SizeButton: View {
         Text(text)
             .font(.system(size: 14, weight: .semibold))
             .foregroundColor(isAvailable ? .black : .gray)
-            .frame(
-                width: FigmaDimens.fw(60),
-                height: FigmaDimens.fh(30)
-            )
+            .frame(width: FigmaDimens.fw(50), height: FigmaDimens.fh(30)) // Уже для компактности как в Kotlin
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(borderColor, lineWidth: 3)
+                    .stroke(borderColor, lineWidth: 2) // Тоньше border
             )
             .background(
                 RoundedRectangle(cornerRadius: 10)
@@ -76,4 +73,3 @@ private struct SizeButton: View {
         }
     }
 }
-

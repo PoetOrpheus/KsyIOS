@@ -16,7 +16,7 @@ struct VariantItemRow: View {
     var body: some View {
         if !variants.isEmpty {
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: FigmaDimens.fw(10)) {
+                HStack(spacing: FigmaDimens.fw(8)) { // Меньше spacing
                     ForEach(variants) { variant in
                         VariantItem(
                             variant: variant,
@@ -29,7 +29,7 @@ struct VariantItemRow: View {
                         )
                     }
                 }
-                .padding(.horizontal, 10) // Как в Kotlin: padding(horizontal = 10.dp)
+                .padding(.horizontal, 15)
             }
         }
     }
@@ -42,9 +42,7 @@ private struct VariantItem: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Изображение варианта
             ZStack {
-                // Фон (как в Kotlin: Color.Transparent для доступных, Color.Gray для недоступных)
                 RoundedRectangle(cornerRadius: 6)
                     .fill(variant.isAvailable ? Color.clear : Color.gray.opacity(0.3))
                 
@@ -52,40 +50,25 @@ private struct VariantItem: View {
                    let uiImage = UIImage(named: firstImageName) {
                     Image(uiImage: uiImage)
                         .resizable()
-                        .scaledToFit() // Как в Kotlin: ContentScale.Fit - сохраняет пропорции, вписывает в контейнер
+                        .scaledToFit()
                 } else {
-                    // Если изображений нет, показываем текстовое значение
                     Text(variant.value)
-                        .font(.system(size: 10))
+                        .font(.system(size: 12)) // Больше шрифт
                         .foregroundColor(variant.isAvailable ? .black : .gray)
                 }
             }
-            .frame(
-                width: FigmaDimens.fw(70),
-                height: FigmaDimens.fh(93)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 6)) // Как в Kotlin: clip(RoundedCornerShape(6.dp))
+            .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(80)) // Меньше высота для компактности
+            .clipShape(RoundedRectangle(cornerRadius: 6))
             .overlay(
-                RoundedRectangle(cornerRadius: 8) // Как в Kotlin: border с shape = RoundedCornerShape(8.dp)
-                    .stroke(
-                        borderColor,
-                        lineWidth: 3
-                    )
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(borderColor, lineWidth: 2) // Тоньше
             )
             
-            // Текст под изображением
             Text(variant.value)
-                .font(.system(size: 8))
+                .font(.system(size: 10)) // Больше 10pt
                 .foregroundColor(variant.isAvailable ? .black : .gray)
-                .frame(
-                    width: FigmaDimens.fw(70),
-                    height: FigmaDimens.fh(20)
-                )
+                .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(20))
         }
-        .frame(
-            width: FigmaDimens.fw(70),
-            height: FigmaDimens.fh(113)
-        )
         .contentShape(Rectangle())
         .onTapGesture {
             if variant.isAvailable {
@@ -95,14 +78,12 @@ private struct VariantItem: View {
     }
     
     private var borderColor: Color {
-        // Как в Kotlin: if (isSelected) BlueButton else if (variant.isAvailable) Color.LightGray else Color.Gray.copy(alpha = 0.5f)
         if isSelected {
             return AppTheme.blueButton
         } else if variant.isAvailable {
-            return Color(white: 0.85) // Color.LightGray в Kotlin
+            return Color(white: 0.85)
         } else {
             return Color.gray.opacity(0.5)
         }
     }
 }
-
