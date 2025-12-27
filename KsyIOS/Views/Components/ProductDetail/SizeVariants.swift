@@ -14,24 +14,24 @@ struct SizeVariants: View {
     
     var body: some View {
         if !sizes.isEmpty {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: FigmaDimens.fw(10)) {
-                    ForEach(sizes) { size in
-                        SizeButton(
-                            text: size.value,
-                            isSelected: size.id == selectedSizeId,
-                            isAvailable: size.isAvailable,
-                            onClick: {
-                                if size.isAvailable {
-                                    onSizeSelected(size.id)
-                                }
+            // Как в Kotlin: Row с fillMaxWidth, height = fh(30), padding horizontal = fw(10), spacedBy = fw(10)
+            HStack(spacing: FigmaDimens.fw(10)) {
+                ForEach(sizes) { size in
+                    SizeButton(
+                        text: size.value,
+                        isSelected: size.id == selectedSizeId,
+                        isAvailable: size.isAvailable,
+                        onClick: {
+                            if size.isAvailable {
+                                onSizeSelected(size.id)
                             }
-                        )
-                    }
+                        }
+                    )
                 }
-                .padding(.horizontal, FigmaDimens.fw(10))
             }
+            .frame(maxWidth: .infinity) // Как в Kotlin: fillMaxWidth()
             .frame(height: FigmaDimens.fh(30))
+            .padding(.horizontal, FigmaDimens.fw(10))
         }
     }
 }

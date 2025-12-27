@@ -30,8 +30,12 @@ struct SellerBlock: View {
             Spacer()
                 .frame(height: FigmaDimens.fh(5))
             
-            // Информация о продавце
-            HStack(spacing: FigmaDimens.fw(10)) {
+            // Информация о продавце (как в Kotlin: Row с fillMaxWidth, height = fh(60), padding horizontal = fw(15))
+            HStack(spacing: 0) {
+                // Как в Kotlin: Spacer(Modifier.width(fw(10))) в начале
+                Spacer()
+                    .frame(width: FigmaDimens.fw(10))
+                
                 // Аватар
                 Group {
                     if let avatarUrl = seller.avatarUrl, let uiImage = UIImage(named: avatarUrl) {
@@ -54,24 +58,28 @@ struct SellerBlock: View {
                 )
                 .clipShape(Circle())
                 
-                // Имя и ссылка
+                Spacer()
+                    .frame(width: FigmaDimens.fw(10))
+                
+                // Имя и ссылка (как в Kotlin: Column с width = fw(230), fillMaxHeight)
                 VStack(alignment: .leading, spacing: 0) {
+                    // Как в Kotlin: Box с fillMaxWidth, height = fh(35), contentAlignment = CenterStart
                     Text(seller.name)
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.black)
-                        .frame(height: FigmaDimens.fh(35))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(maxWidth: .infinity, height: FigmaDimens.fh(35), alignment: .leading)
                     
                     Text("Перейти")
                         .font(.system(size: 10, weight: .regular))
                         .foregroundColor(.black)
                 }
                 .frame(width: FigmaDimens.fw(230))
+                .frame(maxHeight: .infinity)
                 
                 Spacer()
                     .frame(width: FigmaDimens.fw(10))
                 
-                // Рейтинг
+                // Рейтинг (как в Kotlin: Column с width = fw(40), height = fh(40), shadow, background = White)
                 VStack(spacing: 0) {
                     Group {
                         if let uiImage = UIImage(named: "star_profile_menu") {
@@ -89,9 +97,11 @@ struct SellerBlock: View {
                         }
                     }
                     
+                    // Как в Kotlin: Box с fillMaxWidth, height = fh(18), contentAlignment = Center
                     Text(String(format: "%.1f", seller.rating))
                         .font(.system(size: 10, weight: .bold))
                         .foregroundColor(.black)
+                        .frame(maxWidth: .infinity, height: FigmaDimens.fh(18))
                 }
                 .frame(
                     width: FigmaDimens.fw(40),
@@ -104,7 +114,7 @@ struct SellerBlock: View {
                 Spacer()
                     .frame(width: FigmaDimens.fw(15))
                 
-                // Чат
+                // Чат (как в Kotlin: Column с width = fw(40), height = fh(40), shadow, background = White)
                 VStack(spacing: 0) {
                     Group {
                         if let uiImage = UIImage(named: "chat_blue") {
@@ -120,9 +130,11 @@ struct SellerBlock: View {
                         }
                     }
                     
+                    // Как в Kotlin: Box с fillMaxWidth, height = fh(18), contentAlignment = Center
                     Text("Чат")
                         .font(.system(size: 10, weight: .bold))
                         .foregroundColor(.black)
+                        .frame(maxWidth: .infinity, height: FigmaDimens.fh(18))
                 }
                 .frame(
                     width: FigmaDimens.fw(40),

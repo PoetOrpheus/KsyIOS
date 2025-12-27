@@ -60,9 +60,10 @@ private struct RatingCard: View {
                 Spacer()
                     .frame(width: FigmaDimens.fw(10))
                 
+                // Как в Kotlin: Box с width = fw(70), height = fh(35), contentAlignment = CenterStart
                 Text(String(format: "%.1f", rating))
                     .font(.system(size: 16, weight: .black))
-                    .frame(width: FigmaDimens.fw(70), alignment: .leading)
+                    .frame(width: FigmaDimens.fw(70), height: FigmaDimens.fh(35), alignment: .leading)
                     .foregroundColor(.black)
             }
             .frame(height: FigmaDimens.fh(35))

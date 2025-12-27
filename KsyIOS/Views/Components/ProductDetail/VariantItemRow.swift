@@ -44,9 +44,9 @@ private struct VariantItem: View {
         VStack(spacing: 0) {
             // Изображение варианта
             ZStack {
-                // Белый фон для Box (чтобы соответствовать белому фону изображения)
+                // Фон (как в Kotlin: Color.Transparent для доступных, Color.Gray для недоступных)
                 RoundedRectangle(cornerRadius: 6)
-                    .fill(variant.isAvailable ? Color.white : Color.gray.opacity(0.3))
+                    .fill(variant.isAvailable ? Color.clear : Color.gray.opacity(0.3))
                 
                 if let firstImageName = variant.getFirstImageRes(),
                    let uiImage = UIImage(named: firstImageName) {
@@ -54,7 +54,7 @@ private struct VariantItem: View {
                         .resizable()
                         .scaledToFit() // Как в Kotlin: ContentScale.Fit - сохраняет пропорции, вписывает в контейнер
                 } else {
-                    // Если изображения нет, показываем текстовое значение
+                    // Если изображений нет, показываем текстовое значение
                     Text(variant.value)
                         .font(.system(size: 10))
                         .foregroundColor(variant.isAvailable ? .black : .gray)
@@ -64,9 +64,9 @@ private struct VariantItem: View {
                 width: FigmaDimens.fw(70),
                 height: FigmaDimens.fh(93)
             )
-            .clipShape(RoundedRectangle(cornerRadius: 6)) // Обрезаем по углам
+            .clipShape(RoundedRectangle(cornerRadius: 6)) // Как в Kotlin: clip(RoundedCornerShape(6.dp))
             .overlay(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 8) // Как в Kotlin: border с shape = RoundedCornerShape(8.dp)
                     .stroke(
                         borderColor,
                         lineWidth: 3
@@ -95,10 +95,11 @@ private struct VariantItem: View {
     }
     
     private var borderColor: Color {
+        // Как в Kotlin: if (isSelected) BlueButton else if (variant.isAvailable) Color.LightGray else Color.Gray.copy(alpha = 0.5f)
         if isSelected {
             return AppTheme.blueButton
         } else if variant.isAvailable {
-            return Color(white: 0.85)
+            return Color(white: 0.85) // Color.LightGray в Kotlin
         } else {
             return Color.gray.opacity(0.5)
         }
