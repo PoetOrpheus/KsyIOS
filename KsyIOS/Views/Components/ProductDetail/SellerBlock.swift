@@ -67,7 +67,8 @@ struct SellerBlock: View {
                     Text(seller.name)
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.black)
-                        .frame(maxWidth: .infinity, height: FigmaDimens.fh(35), alignment: .leading)
+                        .frame(height: FigmaDimens.fh(35))
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     
                     Text("Перейти")
                         .font(.system(size: 10, weight: .regular))
@@ -101,7 +102,8 @@ struct SellerBlock: View {
                     Text(String(format: "%.1f", seller.rating))
                         .font(.system(size: 10, weight: .bold))
                         .foregroundColor(.black)
-                        .frame(maxWidth: .infinity, height: FigmaDimens.fh(18))
+                        .frame(height: FigmaDimens.fh(18))
+                        .frame(maxWidth: .infinity)
                 }
                 .frame(
                     width: FigmaDimens.fw(40),
@@ -134,7 +136,8 @@ struct SellerBlock: View {
                     Text("Чат")
                         .font(.system(size: 10, weight: .bold))
                         .foregroundColor(.black)
-                        .frame(maxWidth: .infinity, height: FigmaDimens.fh(18))
+                        .frame(height: FigmaDimens.fh(18))
+                        .frame(maxWidth: .infinity)
                 }
                 .frame(
                     width: FigmaDimens.fw(40),
