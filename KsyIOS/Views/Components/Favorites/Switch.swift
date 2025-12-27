@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomSwitch: View {
+struct FavoriteSwitch: View {
     @Binding var isOn: Bool
     
     var body: some View {
