@@ -66,6 +66,8 @@ struct MainScreen: View {
                     showProductDetail = true
                 }
             )
+        case .finances:
+            FinancesScreen()
         case .favorites:
             FavoritesScreen(
                 productViewModel: productViewModel,

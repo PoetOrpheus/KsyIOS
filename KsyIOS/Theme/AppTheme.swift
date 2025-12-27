@@ -47,6 +47,7 @@ struct AppTheme {
 enum BottomNavItem: String, CaseIterable {
     case home = "Главная"
     case shopCart = "Корзина"
+    case finances = "Финансы"
     case favorites = "Избранное"
     case profile = "Профиль"
     
@@ -57,6 +58,8 @@ enum BottomNavItem: String, CaseIterable {
             return "home_menu_icon"
         case .shopCart:
             return "shop_menu_icon"
+        case .finances:
+            return "finances_icon_home"
         case .favorites:
             return "lover_menu_icon"
         case .profile:
@@ -71,6 +74,8 @@ enum BottomNavItem: String, CaseIterable {
             return "house.fill"
         case .shopCart:
             return "cart.fill"
+        case .finances:
+            return "dollarsign.circle.fill"
         case .favorites:
             return "heart.fill"
         case .profile:
