@@ -107,12 +107,10 @@ struct ProductDetailScreen: View {
                 .padding(.horizontal, FigmaDimens.fw(5)) // Padding как в Kotlin: start = fw(5), end = fw(5)
             }
             
-            // Заголовок с кнопкой назад (как в Kotlin: размещается в Box/ZStack сверху)
-            VStack(spacing: 0) {
-                TopHeaderWithReturn(onBackClick: onBackClick)
-                    .ignoresSafeArea(edges: .top)
-                Spacer()
-            }
+            // Заголовок с кнопкой назад (как в Kotlin: размещается в Box сверху, должен быть последним в ZStack чтобы быть сверху)
+            TopHeaderWithReturn(onBackClick: onBackClick)
+                .frame(maxWidth: .infinity, alignment: .top)
+                .ignoresSafeArea(edges: .top)
             
             // Кнопка добавления в корзину (внизу экрана, как overlay)
             VStack {
