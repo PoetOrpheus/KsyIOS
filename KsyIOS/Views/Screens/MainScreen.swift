@@ -102,15 +102,17 @@ struct MainScreen: View {
             }
             
             // Overlay views
-            bottomNavigationBar
-            productDetailOverlay
-            historyOverlay
-            canBeSellerOverlay
-            catalogOverlay
-            catalogSubScreenOverlay
-            categoryProductsOverlay
-            brandsOverlay
-            searchOverlay
+            Group {
+                bottomNavigationBar
+                productDetailOverlay
+                historyOverlay
+                canBeSellerOverlay
+                catalogOverlay
+                catalogSubScreenOverlay
+                categoryProductsOverlay
+                brandsOverlay
+                searchOverlay
+            }
         }
         .task {
             // Проверяем состояние авторизации при первом запуске
