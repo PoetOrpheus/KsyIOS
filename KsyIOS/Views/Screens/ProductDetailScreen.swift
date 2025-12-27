@@ -106,7 +106,7 @@ struct ProductDetailScreen: View {
                 }
                 .padding(.horizontal, FigmaDimens.fw(5)) // Padding как в Kotlin: start = fw(5), end = fw(5)
             }
-            .padding(.top, FigmaDimens.fh(60)) // Padding сверху как в Kotlin: top = fh(60) - чтобы не перекрывать header
+            .padding(.top, FigmaDimens.fh(60)) // Padding сверху как в Kotlin: top = fh(60) - чтобы не перекрывать header (нужно будет добавить status bar height если нужно)
             
             // Заголовок с кнопкой назад - поверх всего контента (как в Kotlin: первый в Box, прижат к верху)
             VStack(spacing: 0) {
