@@ -12,7 +12,9 @@ struct TopHeaderWithReturn: View {
     let onBackClick: () -> Void
     
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
+        let _ = print("🟡 TopHeaderWithReturn: body rendered, height will be: \(FigmaDimens.fh(60))")
+        
+        return HStack(alignment: .center, spacing: 0) {
             // Кнопка назад (как в Kotlin: Box с width/height и clickable)
             Button(action: onBackClick) {
                 Group {
@@ -63,6 +65,10 @@ struct TopHeaderWithReturn: View {
             )
         )
         .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
+        .onAppear {
+            print("✅ TopHeaderWithReturn: appeared on screen")
+        }
+        .background(Color.green.opacity(0.2)) // Временный фон для отладки
     }
 }
 

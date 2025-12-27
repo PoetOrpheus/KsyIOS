@@ -18,7 +18,9 @@ struct ProductDetailScreen: View {
     @State private var selectedSizeId: String?
     
     var body: some View {
-        ZStack {
+        let _ = print("🔵 ProductDetailScreen: body rendered")
+        
+        return ZStack {
             AppTheme.backgroundLight
                 .ignoresSafeArea()
             
@@ -108,12 +110,15 @@ struct ProductDetailScreen: View {
             
             // Заголовок с кнопкой назад - поверх всего контента
             VStack {
+                let _ = print("🟢 ProductDetailScreen: Creating TopHeaderWithReturn")
                 TopHeaderWithReturn(onBackClick: onBackClick)
                     .ignoresSafeArea(edges: .top)
+                    .background(Color.red.opacity(0.3)) // Временный фон для отладки
                 Spacer()
             }
             .allowsHitTesting(true) // Разрешаем взаимодействие с header
             .zIndex(999) // Очень высокий zIndex чтобы быть поверх всего
+            .background(Color.yellow.opacity(0.2)) // Временный фон для отладки - должен быть виден
             
             // Кнопка добавления в корзину (внизу экрана, как overlay)
             VStack {
