@@ -20,6 +20,7 @@ struct MainScreen: View {
     @State private var selectedCategoryName: String? = nil
     @State private var selectedSubcategoryName: String? = nil
     @State private var showCanBeSeller = false
+    @State private var showBrands = false
     
     @StateObject private var productViewModel = ProductViewModel(productRepository: ProductRepositoryImpl())
     @StateObject private var cartViewModel = CartViewModel(productRepository: ProductRepositoryImpl())
@@ -57,7 +58,7 @@ struct MainScreen: View {
                                 showCatalog = true
                             },
                             onBrandsClick: {
-                                // TODO: Navigate to brands screen
+                                showBrands = true
                             }
                         )
                     case .shopCart:
@@ -97,7 +98,7 @@ struct MainScreen: View {
             
             // Нижняя навигация (как в Kotlin - внизу экрана с белым фоном под ней)
             // Скрываем навигацию на экранах деталей, истории, каталога и других подэкранах
-            if !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts {
+            if !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showBrands {
                 VStack(spacing: 0) {
                     Spacer()
                     
@@ -142,7 +143,7 @@ struct MainScreen: View {
             }
             
             // Экран каталога
-            if showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showCanBeSeller {
+            if showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showCanBeSeller && !showBrands {
                 CatalogScreen(
                     onBackClick: {
                         showCatalog = false
@@ -158,7 +159,7 @@ struct MainScreen: View {
             }
             
             // Экран подкатегорий каталога
-            if showCatalogSubScreen && !showCatalog && !showCategoryProducts && !showCanBeSeller {
+            if showCatalogSubScreen && !showCatalog && !showCategoryProducts && !showCanBeSeller && !showBrands {
                 CatalogSubScreen(
                     onBackClick: {
                         showCatalogSubScreen = false
@@ -176,7 +177,7 @@ struct MainScreen: View {
             }
             
             // Экран продуктов категории
-            if showCategoryProducts && !showCatalog && !showCatalogSubScreen && !showCanBeSeller {
+            if showCategoryProducts && !showCatalog && !showCatalogSubScreen && !showCanBeSeller && !showBrands {
                 CategoryProductsScreen(
                     categoryName: selectedCategoryName ?? "",
                     subcategoryName: selectedSubcategoryName ?? "",
@@ -195,6 +196,17 @@ struct MainScreen: View {
                 )
                 .transition(.move(edge: .trailing))
                 .zIndex(3)
+            }
+            
+            // Экран "Магазины и бренды"
+            if showBrands && !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts {
+                BrandsScreen(
+                    onBackClick: {
+                        showBrands = false
+                    }
+                )
+                .transition(.move(edge: .trailing))
+                .zIndex(4)
             }
         }
         .task {
