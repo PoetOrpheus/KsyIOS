@@ -105,7 +105,9 @@ struct ProductMainCard: View {
             Text(productName)
                 .font(.system(size: 18, weight: .regular))
                 .foregroundColor(.black)
-                .padding(.horizontal, FigmaDimens.fw(20))
+                .frame(maxWidth: .infinity, alignment: .leading) // Прижимаем к левому краю
+                .padding(.leading, FigmaDimens.fw(20)) // Padding только слева, чтобы было на одном уровне с точками
+                .padding(.trailing, FigmaDimens.fw(20)) // И справа для симметрии
             
             Spacer()
                 .frame(height: FigmaDimens.fh(10))

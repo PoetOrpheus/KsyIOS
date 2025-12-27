@@ -44,11 +44,15 @@ private struct VariantItem: View {
         VStack(spacing: 0) {
             // Изображение варианта
             ZStack {
+                // Белый фон для Box (чтобы соответствовать белому фону изображения)
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(variant.isAvailable ? Color.white : Color.gray.opacity(0.3))
+                
                 if let firstImageName = variant.getFirstImageRes(),
                    let uiImage = UIImage(named: firstImageName) {
                     Image(uiImage: uiImage)
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFit() // Как в Kotlin: ContentScale.Fit - сохраняет пропорции, вписывает в контейнер
                 } else {
                     // Если изображения нет, показываем текстовое значение
                     Text(variant.value)
@@ -60,6 +64,7 @@ private struct VariantItem: View {
                 width: FigmaDimens.fw(70),
                 height: FigmaDimens.fh(93)
             )
+            .clipShape(RoundedRectangle(cornerRadius: 6)) // Обрезаем по углам
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(
@@ -67,11 +72,6 @@ private struct VariantItem: View {
                         lineWidth: 3
                     )
             )
-            .background(
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(variant.isAvailable ? Color.clear : Color.gray.opacity(0.3))
-            )
-            .cornerRadius(6)
             
             // Текст под изображением
             Text(variant.value)
