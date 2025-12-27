@@ -2,11 +2,10 @@
 //  InfoCardsSection.swift
 //  KsyIOS
 //
-//  Created by Auto on 25.12.2025.
+//  Created by Auto on 27.12.2025.
 //
 
 import SwiftUI
-import UIKit
 
 struct InfoCardsSection: View {
     let description: String?
@@ -20,34 +19,23 @@ struct InfoCardsSection: View {
             Spacer()
                 .frame(height: FigmaDimens.fh(10))
             
-            // Табы — сделали равными ширинами для идентичности (по ~150 fw каждый)
+            // Табы — равные по ширине (по maxWidth: .infinity)
             HStack(spacing: FigmaDimens.fw(10)) {
-                Button(action: {
+                TabButton(
+                    title: "Описание",
+                    isSelected: selectedTab
+                ) {
                     selectedTab = true
-                }) {
-                    Text("Описание")
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(selectedTab ? .white : .black)
-                        .frame(maxWidth: .infinity, height: FigmaDimens.fh(30))
-                        .background(selectedTab ? AppTheme.blueButton : Color.white)
-                        .cornerRadius(10)
-                        .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
                 }
                 
-                Button(action: {
+                TabButton(
+                    title: "Характеристики",
+                    isSelected: !selectedTab
+                ) {
                     selectedTab = false
-                }) {
-                    Text("Характеристики")
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(!selectedTab ? .white : .black)
-                        .frame(maxWidth: .infinity, height: FigmaDimens.fh(30))
-                        .background(!selectedTab ? AppTheme.blueButton : Color.white)
-                        .cornerRadius(10)
-                        .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
                 }
             }
             .padding(.horizontal, FigmaDimens.fw(10))
-            .frame(height: FigmaDimens.fh(30))
             
             Spacer()
                 .frame(height: FigmaDimens.fh(10))
@@ -68,6 +56,26 @@ struct InfoCardsSection: View {
     }
 }
 
+// Отдельный View для табов, чтобы избежать ошибки с frame внутри Button
+private struct TabButton: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 12, weight: .regular))
+                .foregroundColor(isSelected ? .white : .black)
+                .frame(maxWidth: .infinity)
+                .frame(height: FigmaDimens.fh(30))
+                .background(isSelected ? AppTheme.blueButton : Color.white)
+                .cornerRadius(10)
+                .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
+        }
+    }
+}
+
 private struct DescriptionView: View {
     let description: String?
     @Binding var showFullText: Bool
@@ -79,36 +87,35 @@ private struct DescriptionView: View {
             Text(text)
                 .font(.system(size: 12))
                 .foregroundColor(.black)
-                .lineLimit(showFullText ? nil : 4) // Ограничили 4 строки для обрезки как в Kotlin
+                .lineLimit(showFullText ? nil : 4)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, FigmaDimens.fw(15)) // Больше padding для текста
+                .padding(.horizontal, FigmaDimens.fw(15))
                 .padding(.bottom, showFullText ? FigmaDimens.fh(10) : 0)
             
-            if !showFullText {
+            if !showFullText && (description?.count ?? 0) > 150 { // показываем кнопку только если текст длинный
                 Button(action: {
-                    showFullText = true
+                    withAnimation {
+                        showFullText = true
+                    }
                 }) {
                     HStack {
                         Spacer()
-                        
                         Text("Развернуть")
                             .font(.system(size: 18))
                             .foregroundColor(.white)
                         
-                        Group {
-                            if let uiImage = UIImage(named: "down") {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .frame(width: FigmaDimens.fw(20), height: FigmaDimens.fh(20))
-                            } else {
-                                Image(systemName: "chevron.down")
-                                    .font(.system(size: 14))
-                            }
+                        if let uiImage = UIImage(named: "down") {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .frame(width: FigmaDimens.fw(20), height: FigmaDimens.fh(20))
+                        } else {
+                            Image(systemName: "chevron.down")
+                                .foregroundColor(.white)
                         }
-                        .foregroundColor(.white)
+                        Spacer(minLength: 0)
                     }
                     .padding(.horizontal, FigmaDimens.fw(15))
-                    .frame(maxWidth: .infinity, height: FigmaDimens.fh(30))
+                    .frame(height: FigmaDimens.fh(40))
                     .background(
                         LinearGradient(
                             gradient: Gradient(colors: [Color.white.opacity(0.0), AppTheme.blueButton]),
@@ -135,11 +142,11 @@ private struct CharacteristicsView: View {
                     .padding(.vertical, FigmaDimens.fh(20))
             } else {
                 ForEach(Array(specifications.enumerated()), id: \.element.name) { index, spec in
-                    HStack(spacing: FigmaDimens.fw(15)) { // Увеличили spacing
+                    HStack(spacing: FigmaDimens.fw(15)) {
                         Text(spec.name)
                             .font(.system(size: 12))
                             .foregroundColor(.black)
-                            .frame(width: FigmaDimens.fw(140), alignment: .leading) // Шире для Kotlin
+                            .frame(width: FigmaDimens.fw(140), alignment: .leading)
                         
                         Text(spec.value)
                             .font(.system(size: 12))
@@ -148,12 +155,11 @@ private struct CharacteristicsView: View {
                     }
                     .frame(height: FigmaDimens.fh(30))
                     .padding(.horizontal, FigmaDimens.fw(15))
-                    .background(Color.white)
                     
                     if index < specifications.count - 1 {
                         Rectangle()
                             .fill(Color(hex: "D9D9D9") ?? .gray)
-                            .frame(height: 1) // Тоньше divider
+                            .frame(height: 1)
                             .padding(.horizontal, FigmaDimens.fw(15))
                     }
                 }
