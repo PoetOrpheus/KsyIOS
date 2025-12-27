@@ -114,31 +114,25 @@ private struct IconHeader: View {
     let iconName: String
     
     var body: some View {
-        Group {
-            if let uiImage = UIImage(named: iconName) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    // Без renderingMode - используем оригинальные иконки как в Kotlin
-                    .frame(
-                        width: FigmaDimens.fw(35),
-                        height: FigmaDimens.fh(35)
-                    )
-            } else {
-                Image(systemName: "circle.fill")
-                    .font(.system(size: 20))
-                    .foregroundColor(.black)
-                    .frame(
-                        width: FigmaDimens.fw(35),
-                        height: FigmaDimens.fh(35)
-                    )
+        ZStack {
+            Color.white
+                .frame(width: FigmaDimens.fw(35), height: FigmaDimens.fh(35))
+                .cornerRadius(10)
+            
+            Group {
+                if let uiImage = UIImage(named: iconName) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: FigmaDimens.fw(25), height: FigmaDimens.fh(25)) // Меньше размер для аккуратности
+                } else {
+                    Image(systemName: "circle.fill")
+                        .font(.system(size: 18))
+                        .foregroundColor(.black)
+                }
             }
         }
-        .frame(
-            width: FigmaDimens.fw(35),
-            height: FigmaDimens.fh(35)
-        )
-        .background(Color.white)
-        .cornerRadius(10)
+        .frame(width: FigmaDimens.fw(35), height: FigmaDimens.fh(35))
     }
 }
 

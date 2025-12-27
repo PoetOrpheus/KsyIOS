@@ -13,7 +13,7 @@ struct StartCardRow: View {
     let reviewsCount: Int
     
     var body: some View {
-        HStack(spacing: FigmaDimens.fw(8)) { // Меньше spacing
+        HStack(spacing: FigmaDimens.fw(10)) { // Как в Kotlin: fw(10)
             RatingCard(
                 rating: rating,
                 reviewsCount: reviewsCount
@@ -23,7 +23,7 @@ struct StartCardRow: View {
             
             PicturesBlock()
         }
-        .frame(height: FigmaDimens.fh(60)) // Уменьшили высоту
+        .frame(height: FigmaDimens.fh(80)) // Как в Kotlin: fh(80)
         .frame(maxWidth: .infinity)
         .background(Color.white)
         .cornerRadius(10)
@@ -36,7 +36,7 @@ private struct RatingCard: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: FigmaDimens.fw(8)) {
+            HStack(spacing: FigmaDimens.fw(10)) {
                 Group {
                     if let uiImage = UIImage(named: "star_profile_menu") {
                         Image(uiImage: uiImage)
@@ -52,20 +52,20 @@ private struct RatingCard: View {
                 Text(String(format: "%.1f", rating))
                     .font(.system(size: 16, weight: .black))
                     .foregroundColor(.black)
+                    .frame(width: FigmaDimens.fw(70), height: FigmaDimens.fh(35), alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, alignment: .trailing)
             .frame(height: FigmaDimens.fh(35))
             
             Text(formatReviewsCount(reviewsCount))
                 .font(.system(size: 12, weight: .medium))
                 .foregroundColor(.black)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity)
         }
-        .padding(.horizontal, 10)
-        .frame(width: FigmaDimens.fw(140), height: FigmaDimens.fh(60)) // Уже
+        .frame(width: FigmaDimens.fw(161), height: FigmaDimens.fh(60)) // Как в Kotlin: fw(161) x fh(60)
         .background(Color.white)
         .cornerRadius(10)
-        .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
+        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
     }
     
     private func formatReviewsCount(_ count: Int) -> String {
@@ -90,7 +90,7 @@ private struct RatingCard: View {
 private struct QuestionsCard: View {
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: FigmaDimens.fw(8)) {
+            HStack(spacing: FigmaDimens.fw(10)) {
                 Group {
                     if let uiImage = UIImage(named: "question") {
                         Image(uiImage: uiImage)
@@ -104,20 +104,20 @@ private struct QuestionsCard: View {
                 
                 Text("19")
                     .font(.system(size: 16, weight: .black))
+                    .frame(width: FigmaDimens.fw(40), height: FigmaDimens.fh(35), alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, alignment: .trailing)
             .frame(height: FigmaDimens.fh(35))
             
             Text("вопросов")
                 .font(.system(size: 12, weight: .medium))
                 .foregroundColor(.black)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity)
         }
-        .padding(.horizontal, 10)
-        .frame(width: FigmaDimens.fw(100), height: FigmaDimens.fh(60)) // Шире
+        .frame(width: FigmaDimens.fw(90), height: FigmaDimens.fh(60)) // Как в Kotlin: fw(90) x fh(60)
         .background(Color.white)
         .cornerRadius(10)
-        .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
+        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
     }
 }
 
@@ -125,19 +125,19 @@ private struct PicturesBlock: View {
     let count: Int = 6
     
     var body: some View {
-        ZStack {
-            if count <= 1 {
+        Group {
+            if count == 1 {
                 if let uiImage = UIImage(named: "watch_1") {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()
                         .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(60))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
+                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                 }
-            } else {
-                HStack(spacing: 0) {
-                    ForEach(0..<min(count, 4), id: \.self) { index in
+            } else if count == 2 {
+                HStack(spacing: FigmaDimens.fw(5)) {
+                    ForEach(0..<2, id: \.self) { _ in
                         Group {
                             if let uiImage = UIImage(named: "watch_1") {
                                 Image(uiImage: uiImage)
@@ -152,12 +152,77 @@ private struct PicturesBlock: View {
                         }
                         .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(60))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .offset(x: -CGFloat(index) * FigmaDimens.fw(30)) // Увеличили overlap до 30 для компактности как в Kotlin
+                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                     }
                 }
-                .frame(width: FigmaDimens.fw(120), height: FigmaDimens.fh(60)) // Уже общая ширина
-                
-                if count > 4 {
+                .frame(width: FigmaDimens.fw(125), height: FigmaDimens.fh(60)) // Как в Kotlin: fw(125)
+            } else if count == 3 {
+                ZStack {
+                    ForEach(0..<3, id: \.self) { index in
+                        Group {
+                            if let uiImage = UIImage(named: "watch_1") {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                            } else {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(60))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                        .offset(x: CGFloat(index) * FigmaDimens.fw(39))
+                    }
+                }
+                .frame(width: FigmaDimens.fw(138), height: FigmaDimens.fh(60)) // Как в Kotlin: fw(138)
+            } else if count == 4 {
+                ZStack {
+                    ForEach(0..<4, id: \.self) { index in
+                        Group {
+                            if let uiImage = UIImage(named: "watch_1") {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                            } else {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(60))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                        .offset(x: CGFloat(index) * FigmaDimens.fw(26))
+                    }
+                }
+                .frame(width: FigmaDimens.fw(138), height: FigmaDimens.fh(60)) // Как в Kotlin: fw(138)
+            } else {
+                // count > 4
+                ZStack {
+                    ForEach(0..<3, id: \.self) { index in
+                        Group {
+                            if let uiImage = UIImage(named: "watch_1") {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                            } else {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(60))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                        .offset(x: CGFloat(index) * FigmaDimens.fw(26))
+                    }
+                    
+                    // Последнее изображение с затемнением и текстом "+N"
                     ZStack {
                         Group {
                             if let uiImage = UIImage(named: "watch_1") {
@@ -174,17 +239,17 @@ private struct PicturesBlock: View {
                         }
                         .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(60))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .offset(x: -CGFloat(3) * FigmaDimens.fw(30))
+                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                         
                         Text("+\(count - 3)")
                             .font(.system(size: 14, weight: .bold))
                             .foregroundColor(.white)
-                            .offset(x: -CGFloat(3) * FigmaDimens.fw(30))
                     }
+                    .offset(x: CGFloat(3) * FigmaDimens.fw(26))
                 }
+                .frame(width: FigmaDimens.fw(138), height: FigmaDimens.fh(60)) // Как в Kotlin: fw(138)
             }
         }
         .frame(height: FigmaDimens.fh(60))
-        .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
     }
 }
