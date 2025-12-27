@@ -50,7 +50,6 @@ struct TopHeaderWithReturn: View {
             .padding(.vertical, FigmaDimens.fh(10))
         }
         .frame(maxWidth: .infinity)
-        .frame(height: FigmaDimens.fh(60))
         .padding(.horizontal, FigmaDimens.fw(10))
         .background(
             LinearGradient(

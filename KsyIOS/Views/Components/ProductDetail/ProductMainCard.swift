@@ -84,7 +84,7 @@ struct ProductMainCard: View {
             Spacer()
                 .frame(height: FigmaDimens.fh(10))
             
-            // Индикаторы (точки)
+            // Индикаторы (точки) - выровнены по левому краю (как в Kotlin: padding start = fw(20))
             HStack(spacing: 4) {
                 ForEach(0..<images.count, id: \.self) { index in
                     Circle()
@@ -95,16 +95,18 @@ struct ProductMainCard: View {
                         )
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, FigmaDimens.fw(20))
             
             Spacer()
                 .frame(height: FigmaDimens.fh(10))
             
-            // Название
+            // Название - выровнено по левому краю (как в Kotlin: padding horizontal = fw(20), но визуально левый край совпадает с точками)
             Text(productName)
                 .font(.system(size: 18, weight: .regular))
                 .foregroundColor(.black)
-                .padding(.horizontal, FigmaDimens.fw(20))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, FigmaDimens.fw(20))
             
             Spacer()
                 .frame(height: FigmaDimens.fh(10))
@@ -178,10 +180,11 @@ struct ProductMainCard: View {
                 .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
             }
             .padding(.horizontal, FigmaDimens.fw(20))
+            // НЕТ Spacer после блока с ценой - padding применяется на уровне VStack (как в Kotlin)
         }
         .background(Color.white)
         .cornerRadius(20)
-        .padding(.bottom, FigmaDimens.fh(20)) // Как в Kotlin: .padding(bottom = 20.dp)
+        .padding(.bottom, FigmaDimens.fh(20)) // Как в Kotlin: .padding(bottom = 20.dp) на Column
     }
 }
 
