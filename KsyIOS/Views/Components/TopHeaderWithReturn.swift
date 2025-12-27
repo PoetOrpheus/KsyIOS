@@ -50,6 +50,7 @@ struct TopHeaderWithReturn: View {
             .padding(.vertical, FigmaDimens.fh(10))
         }
         .frame(maxWidth: .infinity)
+        .frame(height: FigmaDimens.fh(60)) // Фиксированная высота как в Kotlin (используется padding top = fh(60) в ProductDetailScreen)
         .padding(.horizontal, FigmaDimens.fw(10))
         .background(
             LinearGradient(

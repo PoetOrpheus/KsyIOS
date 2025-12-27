@@ -184,7 +184,7 @@ struct ProductMainCard: View {
         }
         .background(Color.white)
         .cornerRadius(20)
-        .padding(.bottom, FigmaDimens.fh(20)) // Как в Kotlin: .padding(bottom = 20.dp) на Column
+        .padding(.bottom, 20) // Как в Kotlin: .padding(bottom = 20.dp) - используется просто 20.dp, не fh(20)
     }
 }
 
