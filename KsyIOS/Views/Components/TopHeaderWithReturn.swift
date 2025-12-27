@@ -16,7 +16,10 @@ struct TopHeaderWithReturn: View {
         
         return HStack(alignment: .center, spacing: 0) {
             // Кнопка назад (как в Kotlin: Box с width/height и clickable)
-            Button(action: onBackClick) {
+            Button(action: {
+                print("🔴 TopHeaderWithReturn: Back button tapped")
+                onBackClick()
+            }) {
                 Group {
                     if let uiImage = UIImage(named: "return_icon") {
                         Image(uiImage: uiImage)
@@ -65,10 +68,13 @@ struct TopHeaderWithReturn: View {
             )
         )
         .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
+        .clipped() // Обрезаем содержимое по углам
         .onAppear {
-            print("✅ TopHeaderWithReturn: appeared on screen")
+            print("✅ TopHeaderWithReturn: appeared on screen, frame should be visible")
         }
-        .background(Color.green.opacity(0.2)) // Временный фон для отладки
+        .onDisappear {
+            print("❌ TopHeaderWithReturn: disappeared from screen")
+        }
     }
 }
 

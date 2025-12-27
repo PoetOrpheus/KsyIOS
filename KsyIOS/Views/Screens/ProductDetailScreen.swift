@@ -108,17 +108,11 @@ struct ProductDetailScreen: View {
             }
             .padding(.top, FigmaDimens.fh(60)) // Padding сверху как в Kotlin: top = fh(60) - чтобы не перекрывать header
             
-            // Заголовок с кнопкой назад - поверх всего контента
-            VStack {
-                let _ = print("🟢 ProductDetailScreen: Creating TopHeaderWithReturn")
-                TopHeaderWithReturn(onBackClick: onBackClick)
-                    .ignoresSafeArea(edges: .top)
-                    .background(Color.red.opacity(0.3)) // Временный фон для отладки
-                Spacer()
-            }
-            .allowsHitTesting(true) // Разрешаем взаимодействие с header
-            .zIndex(999) // Очень высокий zIndex чтобы быть поверх всего
-            .background(Color.yellow.opacity(0.2)) // Временный фон для отладки - должен быть виден
+            // Заголовок с кнопкой назад - поверх всего контента (как в Kotlin: первый в Box)
+            TopHeaderWithReturn(onBackClick: onBackClick)
+                .frame(maxWidth: .infinity, alignment: .top)
+                .ignoresSafeArea(edges: .top)
+                .zIndex(999) // Очень высокий zIndex чтобы быть поверх всего
             
             // Кнопка добавления в корзину (внизу экрана, как overlay)
             VStack {
