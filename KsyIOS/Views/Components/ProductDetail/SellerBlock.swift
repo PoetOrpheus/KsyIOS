@@ -158,69 +158,13 @@ struct SellerBlock: View {
                 Spacer(minLength: 0)
                 
                 // Группа 1: Заказов
-                Group {
-                    Group {
-                        if let uiImage = UIImage(named: "delivery") {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .frame(
-                                    width: FigmaDimens.fw(16),
-                                    height: FigmaDimens.fh(16)
-                                )
-                        } else {
-                            Image(systemName: "box")
-                                .font(.system(size: 12))
-                        }
-                    }
-                    
-                    Spacer()
-                        .frame(width: FigmaDimens.fw(10))
-                    
-                    Text("Заказов")
-                        .font(.system(size: 10))
-                        .foregroundColor(Color(hex: "727272") ?? .gray)
-                    
-                    Spacer()
-                        .frame(width: FigmaDimens.fw(10))
-                    
-                    Text(formatOrdersCount(seller.ordersCount))
-                        .font(.system(size: 10))
-                        .foregroundColor(Color(hex: "727272") ?? .gray)
-                }
+                OrdersStatGroup(ordersCount: seller.ordersCount)
                 
                 Spacer()
                     .frame(width: FigmaDimens.fw(30))
                 
                 // Группа 2: Отзывов
-                Group {
-                    Group {
-                        if let uiImage = UIImage(named: "like_and_dislike") {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .frame(
-                                    width: FigmaDimens.fw(16),
-                                    height: FigmaDimens.fh(16)
-                                )
-                        } else {
-                            Image(systemName: "hand.thumbsup")
-                                .font(.system(size: 12))
-                        }
-                    }
-                    
-                    Spacer()
-                        .frame(width: FigmaDimens.fw(10))
-                    
-                    Text("Отзывов")
-                        .font(.system(size: 10))
-                        .foregroundColor(Color(hex: "727272") ?? .gray)
-                    
-                    Spacer()
-                        .frame(width: FigmaDimens.fw(10))
-                    
-                    Text("\(seller.reviewsCount)")
-                        .font(.system(size: 10))
-                        .foregroundColor(Color(hex: "727272") ?? .gray)
-                }
+                ReviewsStatGroup(reviewsCount: seller.reviewsCount)
                 
                 Spacer()
                     .frame(width: FigmaDimens.fw(25))
@@ -232,11 +176,83 @@ struct SellerBlock: View {
         .cornerRadius(10)
     }
     
-    private func formatOrdersCount(_ count: Int) -> String {
+    static func formatOrdersCount(_ count: Int) -> String {
         if count >= 1000 {
             return String(format: "%.1fk", Double(count) / 1000.0)
         } else {
             return "\(count)"
+        }
+    }
+}
+
+private struct OrdersStatGroup: View {
+    let ordersCount: Int
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            Group {
+                if let uiImage = UIImage(named: "delivery") {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .frame(
+                            width: FigmaDimens.fw(16),
+                            height: FigmaDimens.fh(16)
+                        )
+                } else {
+                    Image(systemName: "box")
+                        .font(.system(size: 12))
+                }
+            }
+            
+            Spacer()
+                .frame(width: FigmaDimens.fw(10))
+            
+            Text("Заказов")
+                .font(.system(size: 10))
+                .foregroundColor(Color(hex: "727272") ?? .gray)
+            
+            Spacer()
+                .frame(width: FigmaDimens.fw(10))
+            
+            Text(SellerBlock.formatOrdersCount(ordersCount))
+                .font(.system(size: 10))
+                .foregroundColor(Color(hex: "727272") ?? .gray)
+        }
+    }
+}
+
+private struct ReviewsStatGroup: View {
+    let reviewsCount: Int
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            Group {
+                if let uiImage = UIImage(named: "like_and_dislike") {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .frame(
+                            width: FigmaDimens.fw(16),
+                            height: FigmaDimens.fh(16)
+                        )
+                } else {
+                    Image(systemName: "hand.thumbsup")
+                        .font(.system(size: 12))
+                }
+            }
+            
+            Spacer()
+                .frame(width: FigmaDimens.fw(10))
+            
+            Text("Отзывов")
+                .font(.system(size: 10))
+                .foregroundColor(Color(hex: "727272") ?? .gray)
+            
+            Spacer()
+                .frame(width: FigmaDimens.fw(10))
+            
+            Text("\(reviewsCount)")
+                .font(.system(size: 10))
+                .foregroundColor(Color(hex: "727272") ?? .gray)
         }
     }
 }
