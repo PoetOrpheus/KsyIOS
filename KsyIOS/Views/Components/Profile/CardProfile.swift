@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct CardProfile: View {
     let title: String
@@ -63,7 +64,7 @@ struct CardProfile: View {
                     // Фон для изображения
                     Rectangle()
                         .fill(Color(hex: "E5E5E5") ?? Color.gray.opacity(0.2))
-                        .frame(height: FigmaDimens.fh(190))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .cornerRadius(15, corners: [.topLeft, .topRight])
                     
                     // Карусель изображений (используем тестовые изображения)
@@ -74,6 +75,7 @@ struct CardProfile: View {
                             "image_for_product_1"
                         ]
                     )
+                    .frame(maxWidth: .infinity)
                     .frame(height: FigmaDimens.fh(190))
                     .cornerRadius(15, corners: [.topLeft, .topRight])
                     
@@ -83,6 +85,8 @@ struct CardProfile: View {
                         .font(.system(size: 16))
                         .padding(8)
                 }
+                .frame(maxWidth: .infinity)
+                .frame(height: FigmaDimens.fh(190))
                 .overlay(alignment: .bottomTrailing) {
                     // Скидка (в правом нижнем углу, накладывается на картинку)
                     if discount > 0 {
@@ -145,25 +149,35 @@ struct CardProfile: View {
                     // Цены
                     HStack(alignment: .bottom, spacing: FigmaDimens.fw(5)) {
                         if oldPrice != 0 {
-                            Text("\(oldPrice) ₽")
-                                .font(.system(size: 8))
-                                .foregroundColor(.gray)
-                                .strikethrough()
+                            VStack(alignment: .trailing, spacing: 0) {
+                                Spacer()
+                                Text("\(oldPrice) ₽")
+                                    .font(.system(size: 8))
+                                    .foregroundColor(.gray)
+                                    .strikethrough()
+                                    .lineSpacing(9 - 8)
+                            }
+                            .frame(height: FigmaDimens.fh(10), alignment: .bottom)
                         }
                         
                         Spacer()
                         
-                        Text("\(price) ₽")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(colorText)
-                            .lineSpacing(16 - 14)
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("\(price) ₽")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(colorText)
+                                .lineSpacing(16 - 14)
+                            Spacer()
+                        }
+                        .frame(height: FigmaDimens.fh(20), alignment: .leading)
                     }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 .padding(.horizontal, FigmaDimens.fw(15))
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-        .frame(width: FigmaDimens.fw(210), height: FigmaDimens.fh(350))
+        .frame(width: FigmaDimens.fw(210), height: FigmaDimens.fh(360))
         .background(Color.white)
         .cornerRadius(16)
     }
