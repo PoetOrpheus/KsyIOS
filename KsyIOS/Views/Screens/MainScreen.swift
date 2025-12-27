@@ -57,6 +57,7 @@ struct MainScreen: View {
                     case .shopCart:
                         CartScreen(
                             cartViewModel: cartViewModel,
+                            productViewModel: productViewModel,
                             onProductClick: { product in
                                 selectedProduct = product
                                 showProductDetail = true

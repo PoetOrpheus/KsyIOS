@@ -2,102 +2,134 @@
 //  CartScreen.swift
 //  KsyIOS
 //
-//  Created by Auto on 25.12.2025.
+//  Created by Auto on 27.12.2025.
 //
 
 import SwiftUI
 
 struct CartScreen: View {
     @ObservedObject var cartViewModel: CartViewModel
+    @ObservedObject var productViewModel: ProductViewModel
     let onProductClick: (Product) -> Void
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Заголовок
-            HStack {
-                Text("Корзина")
-                    .font(.system(size: 24, weight: .bold))
-                Spacer()
-            }
-            .padding(.horizontal, 16)
-            .padding(.top, 16)
-            .padding(.bottom, 8)
+        ZStack {
+            AppTheme.backgroundLight
+                .ignoresSafeArea()
             
-            // Содержимое корзины
-            ScrollView {
-                VStack(spacing: 12) {
-                    if case .success(let items) = cartViewModel.cartState {
-                        if items.isEmpty {
-                            VStack(spacing: 16) {
-                                Image(systemName: "cart")
-                                    .font(.system(size: 64))
-                                    .foregroundColor(.gray)
-                                Text("Корзина пуста")
-                                    .font(.system(size: 18, weight: .medium))
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .padding(.top, 100)
-                        } else {
-                            ForEach(items) { item in
-                                CartItemCard(
-                                    item: item,
-                                    onQuantityChange: { newQuantity in
-                                        cartViewModel.updateCartItemQuantity(item.id, quantity: newQuantity)
-                                    },
-                                    onToggleSelection: {
-                                        cartViewModel.toggleCartItemSelection(item.id)
-                                    },
-                                    onRemove: {
-                                        cartViewModel.removeFromCart(item.id)
-                                    },
-                                    onProductClick: {
-                                        onProductClick(item.product)
+            VStack(spacing: 0) {
+                // Заголовок
+                TopHeaderWithoutSearch()
+                
+                // Контент
+                ScrollView {
+                    VStack(spacing: 0) {
+                        Spacer().frame(height: FigmaDimens.fh(15))
+                        
+                        // Секция корзины
+                        VStack(spacing: 0) {
+                            if case .success(let cartItems) = cartViewModel.cartState {
+                                if cartItems.isEmpty {
+                                    // Пустая корзина
+                                    VStack {
+                                        Text("Корзина пуста")
+                                            .font(.system(size: 18))
+                                            .foregroundColor(.gray)
                                     }
-                                )
-                            }
-                            
-                            // Итого
-                            VStack(spacing: 12) {
-                                Divider()
-                                
-                                HStack {
-                                    Text("Итого:")
-                                        .font(.system(size: 18, weight: .semibold))
-                                    Spacer()
-                                    Text("\(cartViewModel.cartTotal) ₽")
-                                        .font(.system(size: 20, weight: .bold))
-                                        .foregroundColor(AppTheme.brandPurple)
+                                    .frame(height: FigmaDimens.fh(400))
+                                    .frame(maxWidth: .infinity)
+                                } else {
+                                    // Товары корзины
+                                    ForEach(Array(cartItems.enumerated()), id: \.element.id) { index, cartItem in
+                                        if index > 0 {
+                                            Rectangle()
+                                                .fill(AppTheme.backgroundLight)
+                                                .frame(height: FigmaDimens.fh(2))
+                                                .frame(maxWidth: .infinity)
+                                        }
+                                        
+                                        CardCart(
+                                            cartItem: cartItem,
+                                            onQuantityChange: { newQuantity in
+                                                cartViewModel.updateCartItemQuantity(cartItem.id, quantity: newQuantity)
+                                            },
+                                            onRemove: {
+                                                cartViewModel.removeFromCart(cartItem.id)
+                                            },
+                                            onToggleSelection: {
+                                                cartViewModel.toggleCartItemSelection(cartItem.id)
+                                            },
+                                            onToggleFavorite: {
+                                                Task {
+                                                    await productViewModel.toggleFavorite(cartItem.product.id)
+                                                    cartViewModel.refreshCartState()
+                                                }
+                                            }
+                                        )
+                                    }
+                                    
+                                    Spacer().frame(height: FigmaDimens.fh(20))
+                                    
+                                    // Кнопка "Оформить заказ"
+                                    Button(action: {
+                                        // Оформить заказ
+                                    }) {
+                                        Text("Оформить заказ")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(.white)
+                                            .frame(width: FigmaDimens.fw(340), height: FigmaDimens.fh(40))
+                                            .background(Color(hex: "50C878") ?? .green)
+                                            .cornerRadius(15)
+                                    }
+                                    
+                                    Spacer().frame(height: FigmaDimens.fh(10))
+                                    
+                                    // Текст под кнопкой
+                                    Text("Далее можно выбрать место доставки и способ оплаты")
+                                        .font(.system(size: 12, weight: .regular))
+                                        .foregroundColor(.black)
+                                        .multilineTextAlignment(.center)
+                                        .frame(width: FigmaDimens.fw(340), height: FigmaDimens.fh(40))
+                                    
+                                    // Итоговая сумма
+                                    let selectedItems = cartItems.filter { $0.isSelected }
+                                    let totalOldPrice = selectedItems.reduce(0) { total, item in
+                                        total + (item.product.oldPrice ?? item.product.price) * item.quantity
+                                    }
+                                    let discount = totalOldPrice - selectedItems.reduce(0) { total, item in
+                                        total + item.product.price * item.quantity
+                                    }
+                                    
+                                    TotalCountCart(
+                                        count: selectedItems.reduce(0) { $0 + $1.quantity },
+                                        countPrice: totalOldPrice,
+                                        salePrice: discount,
+                                        finalPrice: cartViewModel.cartTotal
+                                    )
+                                    
+                                    Spacer().frame(height: FigmaDimens.fh(20))
                                 }
-                                .padding(.horizontal, 16)
-                                
-                                Button(action: {
-                                    // Оформить заказ
-                                }) {
-                                    Text("Оформить заказ")
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .foregroundColor(.white)
-                                        .frame(maxWidth: .infinity)
-                                        .frame(height: 50)
-                                        .background(AppTheme.brandPurple)
-                                        .cornerRadius(12)
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.bottom, 16)
+                            } else if case .loading = cartViewModel.cartState {
+                                ProgressView()
+                                    .frame(maxWidth: .infinity, minHeight: 200)
+                                    .padding(.top, 100)
+                            } else if case .error(let message, _) = cartViewModel.cartState {
+                                Text("Ошибка загрузки корзины")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.red)
+                                    .frame(maxWidth: .infinity, minHeight: 200)
+                                    .padding(.top, 100)
                             }
-                            .padding(.top, 16)
                         }
-                    } else if case .loading = cartViewModel.cartState {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, minHeight: 200)
-                            .padding(.top, 100)
-                    } else if case .error(let message, _) = cartViewModel.cartState {
-                        Text("Ошибка: \(message ?? "Неизвестная ошибка")")
-                            .foregroundColor(.red)
-                            .padding()
+                        .padding(.horizontal, 15)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal, FigmaDimens.fw(10))
+                        
+                        // Секция истории просмотров (можно добавить позже)
+                        Spacer().frame(height: FigmaDimens.fh(20))
                     }
                 }
-                .padding(.horizontal, 16)
             }
         }
         .task {
@@ -105,97 +137,3 @@ struct CartScreen: View {
         }
     }
 }
-
-struct CartItemCard: View {
-    let item: CartItem
-    let onQuantityChange: (Int) -> Void
-    let onToggleSelection: () -> Void
-    let onRemove: () -> Void
-    let onProductClick: () -> Void
-    
-    var body: some View {
-        HStack(spacing: 12) {
-            // Чекбокс выбора
-            Button(action: onToggleSelection) {
-                Image(systemName: item.isSelected ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(item.isSelected ? AppTheme.brandPurple : .gray)
-                    .font(.system(size: 24))
-            }
-            
-            // Изображение
-            Button(action: onProductClick) {
-                Image(systemName: "photo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 80)
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(8)
-            }
-            
-            // Информация
-            VStack(alignment: .leading, spacing: 4) {
-                Button(action: onProductClick) {
-                    Text(item.product.name)
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(.primary)
-                        .lineLimit(2)
-                }
-                
-                if let variantName = item.getSelectedVariantName() {
-                    Text(variantName)
-                        .font(.system(size: 12))
-                        .foregroundColor(.gray)
-                }
-                
-                if let sizeName = item.getSelectedSizeName() {
-                    Text("Размер: \(sizeName)")
-                        .font(.system(size: 12))
-                        .foregroundColor(.gray)
-                }
-                
-                HStack {
-                    Text("\(item.product.price) ₽")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(AppTheme.brandPurple)
-                    
-                    Spacer()
-                    
-                    // Счетчик количества
-                    HStack(spacing: 8) {
-                        Button(action: {
-                            if item.quantity > 1 {
-                                onQuantityChange(item.quantity - 1)
-                            }
-                        }) {
-                            Image(systemName: "minus.circle")
-                                .foregroundColor(.gray)
-                        }
-                        
-                        Text("\(item.quantity)")
-                            .font(.system(size: 16, weight: .medium))
-                            .frame(minWidth: 30)
-                        
-                        Button(action: {
-                            onQuantityChange(item.quantity + 1)
-                        }) {
-                            Image(systemName: "plus.circle")
-                                .foregroundColor(AppTheme.brandPurple)
-                        }
-                    }
-                }
-            }
-            
-            // Кнопка удаления
-            Button(action: onRemove) {
-                Image(systemName: "trash")
-                    .foregroundColor(.red)
-                    .font(.system(size: 18))
-            }
-        }
-        .padding(12)
-        .background(Color.white)
-        .cornerRadius(12)
-        .shadow(radius: 2)
-    }
-}
-
