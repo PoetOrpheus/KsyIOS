@@ -40,6 +40,7 @@ struct ProductImageCarousel: View {
                                     Image(uiImage: uiImage)
                                         .resizable()
                                         .scaledToFill()
+                                        .aspectRatio(contentMode: .fill)
                                 } else {
                                     // Если изображение не найдено, показываем placeholder
                                     Image(systemName: "photo")
