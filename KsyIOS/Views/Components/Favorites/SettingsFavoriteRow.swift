@@ -28,13 +28,13 @@ struct SettingsFavoriteRow: View {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .scaledToFit()
+                                .frame(width: FigmaDimens.fw(18), height: FigmaDimens.fh(18))
                         } else {
                             Image(systemName: "slider.horizontal.3")
                                 .foregroundColor(.black)
-                                .font(.system(size: 14))
+                                .font(.system(size: 18))
                         }
                     }
-                    .frame(width: FigmaDimens.fw(18), height: FigmaDimens.fh(18))
                 }
             }
             
@@ -54,13 +54,13 @@ struct SettingsFavoriteRow: View {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .scaledToFit()
+                                .frame(width: FigmaDimens.fw(18), height: FigmaDimens.fh(18))
                         } else {
                             Image(systemName: "square.grid.2x2")
                                 .foregroundColor(.black)
-                                .font(.system(size: 14))
+                                .font(.system(size: 18))
                         }
                     }
-                    .frame(width: FigmaDimens.fw(18), height: FigmaDimens.fh(18))
                 }
             }
             
@@ -87,6 +87,7 @@ struct SettingsFavoriteRow: View {
             
             // Переключатель "По скидке"
             FavoriteSwitch(isOn: $isSaleEnabled)
+            Spacer() // Добавляем Spacer в конце для правильного выравнивания
         }
         .frame(height: FigmaDimens.fh(32))
         .padding(.horizontal, FigmaDimens.fw(15))
