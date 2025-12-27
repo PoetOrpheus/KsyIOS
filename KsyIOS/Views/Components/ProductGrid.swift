@@ -60,22 +60,22 @@ struct ProductCard: View {
         let accentColor = product.accentColor
         
         ZStack {
-                // Градиентный фон внизу карточки
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color.white.opacity(0),
-                        Color(hex: "FFECEC") ?? Color.white.opacity(0.1),
-                        accentColor
-                    ]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .frame(height: FigmaDimens.fh(60))
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                
-                // Контент карточки
-                VStack(spacing: 0) {
+            // Градиентный фон внизу карточки
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color.white.opacity(0),
+                    Color(hex: "FFECEC") ?? Color.white.opacity(0.1),
+                    accentColor
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(height: FigmaDimens.fh(60))
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+            .clipShape(RoundedRectangle(cornerRadius: 15))
+            
+            // Контент карточки
+            VStack(spacing: 0) {
                     // Область изображения (как в Kotlin - белый фон с rounded corners)
                     ZStack(alignment: .topTrailing) {
                         // Белый фон с закругленными углами (как в Kotlin)
@@ -234,21 +234,21 @@ struct ProductCard: View {
                     }
                 }
             }
-            .frame(
-                width: FigmaDimens.fw(210),
-                height: FigmaDimens.fh(420)
-            )
-            .background(Color.white)
-            .cornerRadius(15)
-            .shadow(
-                color: isPressed ? Color.black.opacity(0.1) : Color.black.opacity(0.2),
-                radius: isPressed ? 2 : 8,
-                x: 0,
-                y: isPressed ? 2 : 4
-            )
-            .scaleEffect((isVisible * (isPressed ? 0.95 : 1.0)))
-            .opacity(alpha)
         }
+        .frame(
+            width: FigmaDimens.fw(210),
+            height: FigmaDimens.fh(420)
+        )
+        .background(Color.white)
+        .cornerRadius(15)
+        .shadow(
+            color: isPressed ? Color.black.opacity(0.1) : Color.black.opacity(0.2),
+            radius: isPressed ? 2 : 8,
+            x: 0,
+            y: isPressed ? 2 : 4
+        )
+        .scaleEffect((isVisible * (isPressed ? 0.95 : 1.0)))
+        .opacity(alpha)
         .contentShape(Rectangle())
         .simultaneousGesture(
             DragGesture(minimumDistance: 0)
