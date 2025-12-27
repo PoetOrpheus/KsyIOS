@@ -54,7 +54,7 @@ struct FiltersRow: View {
                 onClick: onClick
             )
             
-            Spacer()
+
         }
         .frame(height: FigmaDimens.fh(40))
         .frame(maxWidth: .infinity)
