@@ -120,9 +120,10 @@ private struct QuestionsCard: View {
                 Spacer()
                     .frame(width: FigmaDimens.fw(10))
                 
+                // Количество вопросов (как в Kotlin: Box с width = fw(40), height = fh(35), alignment = CenterStart)
                 Text("19")
                     .font(.system(size: 16, weight: .black))
-                    .frame(width: FigmaDimens.fw(40), alignment: .leading)
+                    .frame(width: FigmaDimens.fw(40), height: FigmaDimens.fh(35), alignment: .leading)
             }
             .frame(height: FigmaDimens.fh(35))
             

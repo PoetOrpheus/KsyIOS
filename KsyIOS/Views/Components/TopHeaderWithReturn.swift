@@ -33,8 +33,7 @@ struct TopHeaderWithReturn: View {
                             if let uiImage = UIImage(named: "return_icon") {
                                 Image(uiImage: uiImage)
                                     .resizable()
-                                    .renderingMode(.template)
-                                    .foregroundColor(.white)
+                                    // Без renderingMode - используем оригинальную иконку как в Kotlin
                                     .frame(
                                         width: FigmaDimens.fw(30),
                                         height: FigmaDimens.fh(30)
@@ -119,8 +118,7 @@ private struct IconHeader: View {
             if let uiImage = UIImage(named: iconName) {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .renderingMode(.template)
-                    .foregroundColor(.black)
+                    // Без renderingMode - используем оригинальные иконки как в Kotlin
                     .frame(
                         width: FigmaDimens.fw(35),
                         height: FigmaDimens.fh(35)
