@@ -19,6 +19,7 @@ struct MainScreen: View {
     @State private var showCategoryProducts = false
     @State private var selectedCategoryName: String? = nil
     @State private var selectedSubcategoryName: String? = nil
+    @State private var showCanBeSeller = false
     
     @StateObject private var productViewModel = ProductViewModel(productRepository: ProductRepositoryImpl())
     @StateObject private var cartViewModel = CartViewModel(productRepository: ProductRepositoryImpl())
@@ -50,7 +51,7 @@ struct MainScreen: View {
                                 // TODO: Navigate to history screen
                             },
                             onCanBeSeller: {
-                                // TODO: Navigate to seller screen
+                                showCanBeSeller = true
                             },
                             onCategoryClick: {
                                 showCatalog = true
@@ -95,21 +96,24 @@ struct MainScreen: View {
             }
             
             // Нижняя навигация (как в Kotlin - внизу экрана с белым фоном под ней)
-            VStack(spacing: 0) {
-                Spacer()
-                
-                BottomNavigationBar(
-                    selectedItem: selectedTab,
-                    onItemSelected: { newTab in
-                        selectedTab = newTab
-                        // При переходе на Profile проверяем авторизацию
-                        if newTab == .profile {
-                            isLoggedIn = localDataStore.isLoggedIn()
+            // Скрываем навигацию на экранах деталей, истории, каталога и других подэкранах
+            if !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts {
+                VStack(spacing: 0) {
+                    Spacer()
+                    
+                    BottomNavigationBar(
+                        selectedItem: selectedTab,
+                        onItemSelected: { newTab in
+                            selectedTab = newTab
+                            // При переходе на Profile проверяем авторизацию
+                            if newTab == .profile {
+                                isLoggedIn = localDataStore.isLoggedIn()
+                            }
                         }
-                    }
-                )
+                    )
+                }
+                .ignoresSafeArea(edges: .bottom)
             }
-            .ignoresSafeArea(edges: .bottom)
             
             // Экран деталей продукта
             if showProductDetail, let product = selectedProduct {
@@ -126,8 +130,19 @@ struct MainScreen: View {
                 .zIndex(10)
             }
             
+            // Экран "Стать продавцом"
+            if showCanBeSeller && !showProductDetail {
+                CanBeSellerScreen(
+                    onBackClick: {
+                        showCanBeSeller = false
+                    }
+                )
+                .transition(.move(edge: .trailing))
+                .zIndex(1)
+            }
+            
             // Экран каталога
-            if showCatalog && !showCatalogSubScreen && !showCategoryProducts {
+            if showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showCanBeSeller {
                 CatalogScreen(
                     onBackClick: {
                         showCatalog = false
@@ -143,7 +158,7 @@ struct MainScreen: View {
             }
             
             // Экран подкатегорий каталога
-            if showCatalogSubScreen && !showCatalog && !showCategoryProducts {
+            if showCatalogSubScreen && !showCatalog && !showCategoryProducts && !showCanBeSeller {
                 CatalogSubScreen(
                     onBackClick: {
                         showCatalogSubScreen = false
@@ -161,7 +176,7 @@ struct MainScreen: View {
             }
             
             // Экран продуктов категории
-            if showCategoryProducts && !showCatalog && !showCatalogSubScreen {
+            if showCategoryProducts && !showCatalog && !showCatalogSubScreen && !showCanBeSeller {
                 CategoryProductsScreen(
                     categoryName: selectedCategoryName ?? "",
                     subcategoryName: selectedSubcategoryName ?? "",
