@@ -16,6 +16,7 @@ struct HomeContentView: View {
     let onCanBeSeller: () -> Void
     let onCategoryClick: () -> Void
     let onBrandsClick: () -> Void
+    let onFinancesClick: () -> Void
     
     var body: some View {
         ScrollView {
@@ -26,7 +27,8 @@ struct HomeContentView: View {
                     onHistoryClick: onHistoryClick,
                     onCanBeSeller: onCanBeSeller,
                     onCategoryClick: onCategoryClick,
-                    onBrandsClick: onBrandsClick
+                    onBrandsClick: onBrandsClick,
+                    onFinancesClick: onFinancesClick
                 )
                 
                 Spacer()

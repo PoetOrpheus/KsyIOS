@@ -55,6 +55,9 @@ struct MainScreen: View {
                 },
                 onBrandsClick: {
                     showBrands = true
+                },
+                onFinancesClick: {
+                    selectedTab = .finances
                 }
             )
         case .shopCart:

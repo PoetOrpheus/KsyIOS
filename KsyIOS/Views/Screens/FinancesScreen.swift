@@ -9,15 +9,62 @@ import SwiftUI
 
 struct FinancesScreen: View {
     @State private var selectedPeriod: Period = .month
-    @State private var balance: Double = 125000.0
-    @State private var income: Double = 45000.0
-    @State private var expenses: Double = 32000.0
+    @State private var totalSpent: Double = 125000.0
     
     enum Period: String, CaseIterable {
         case week = "Неделя"
         case month = "Месяц"
         case year = "Год"
     }
+    
+    // Пример данных о покупках
+    private let purchases: [Purchase] = [
+        Purchase(
+            id: "1",
+            title: "iPhone 15 Pro",
+            orderNumber: "#12345",
+            amount: 89990,
+            date: "Сегодня, 14:30",
+            status: .completed,
+            icon: "iphone"
+        ),
+        Purchase(
+            id: "2",
+            title: "Nike Air Max",
+            orderNumber: "#12344",
+            amount: 12990,
+            date: "Вчера, 18:45",
+            status: .completed,
+            icon: "shoe.fill"
+        ),
+        Purchase(
+            id: "3",
+            title: "Часы Calvin Klein",
+            orderNumber: "#12343",
+            amount: 15990,
+            date: "25 дек, 12:20",
+            status: .completed,
+            icon: "clock.fill"
+        ),
+        Purchase(
+            id: "4",
+            title: "Adidas кроссовки",
+            orderNumber: "#12342",
+            amount: 8990,
+            date: "24 дек, 10:15",
+            status: .completed,
+            icon: "shoe.fill"
+        ),
+        Purchase(
+            id: "5",
+            title: "Футболка",
+            orderNumber: "#12341",
+            amount: 2490,
+            date: "23 дек, 16:30",
+            status: .completed,
+            icon: "tshirt.fill"
+        )
+    ]
     
     var body: some View {
         ZStack {
@@ -31,17 +78,14 @@ struct FinancesScreen: View {
                     
                     // Основной контент
                     VStack(spacing: FigmaDimens.fh(20)) {
-                        // Карточка баланса
-                        balanceCard
+                        // Карточка общей суммы
+                        totalSpentCard
                         
-                        // Статистика
+                        // Статистика по периодам
                         statisticsCard
                         
-                        // Быстрые действия
-                        quickActionsCard
-                        
-                        // Последние транзакции
-                        transactionsCard
+                        // История покупок
+                        purchasesCard
                     }
                     .padding(.horizontal, FigmaDimens.fw(15))
                     .padding(.top, FigmaDimens.fh(20))
@@ -86,12 +130,12 @@ struct FinancesScreen: View {
         .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
     }
     
-    // MARK: - Balance Card
+    // MARK: - Total Spent Card
     
-    private var balanceCard: some View {
+    private var totalSpentCard: some View {
         VStack(spacing: FigmaDimens.fh(15)) {
             HStack {
-                Text("Общий баланс")
+                Text("Всего потрачено")
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.gray)
                 
@@ -99,7 +143,7 @@ struct FinancesScreen: View {
             }
             
             HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("\(Int(balance))")
+                Text("\(Int(totalSpent))")
                     .font(.system(size: 36, weight: .bold))
                     .foregroundColor(.black)
                 
@@ -152,7 +196,7 @@ struct FinancesScreen: View {
     // MARK: - Statistics Card
     
     private var statisticsCard: some View {
-        VStack(spacing: FigmaDimens.fh(20)) {
+        VStack(alignment: .leading, spacing: FigmaDimens.fh(20)) {
             HStack {
                 Text("Статистика")
                     .font(.system(size: 20, weight: .bold))
@@ -161,90 +205,49 @@ struct FinancesScreen: View {
                 Spacer()
             }
             
+            // Информационные карточки
             HStack(spacing: FigmaDimens.fw(15)) {
-                // Доходы
+                // Количество покупок
                 VStack(alignment: .leading, spacing: FigmaDimens.fh(10)) {
                     HStack {
-                        Circle()
-                            .fill(Color.green.opacity(0.2))
-                            .frame(width: 12, height: 12)
+                        Image(systemName: "cart.fill")
+                            .font(.system(size: 16))
+                            .foregroundColor(AppTheme.categoryGradient3End)
                         
-                        Text("Доходы")
+                        Text("Покупок")
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(.gray)
                     }
                     
-                    Text("\(Int(income)) ₽")
+                    Text("\(purchases.count)")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.black)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(FigmaDimens.fw(15))
-                .background(Color.green.opacity(0.1))
+                .background(AppTheme.categoryGradient3End.opacity(0.1))
                 .cornerRadius(15)
                 
-                // Расходы
+                // Средний чек
                 VStack(alignment: .leading, spacing: FigmaDimens.fh(10)) {
                     HStack {
-                        Circle()
-                            .fill(Color.red.opacity(0.2))
-                            .frame(width: 12, height: 12)
+                        Image(systemName: "chart.bar.fill")
+                            .font(.system(size: 16))
+                            .foregroundColor(AppTheme.categoryGradient1Start)
                         
-                        Text("Расходы")
+                        Text("Средний чек")
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(.gray)
                     }
                     
-                    Text("\(Int(expenses)) ₽")
-                        .font(.system(size: 24, weight: .bold))
+                    Text("\(Int(totalSpent / Double(purchases.count))) ₽")
+                        .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.black)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(FigmaDimens.fw(15))
-                .background(Color.red.opacity(0.1))
+                .background(AppTheme.categoryGradient1Start.opacity(0.1))
                 .cornerRadius(15)
-            }
-            
-            // Прогресс-бар
-            VStack(alignment: .leading, spacing: FigmaDimens.fh(8)) {
-                HStack {
-                    Text("Прибыль")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(.gray)
-                    
-                    Spacer()
-                    
-                    Text("\(Int(income - expenses)) ₽")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(.black)
-                }
-                
-                GeometryReader { geometry in
-                    ZStack(alignment: .leading) {
-                        Rectangle()
-                            .fill(Color.gray.opacity(0.2))
-                            .frame(height: 8)
-                            .cornerRadius(4)
-                        
-                        Rectangle()
-                            .fill(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [
-                                        Color.green,
-                                        Color.green.opacity(0.7)
-                                    ]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .frame(
-                                width: geometry.size.width * min(1.0, (income - expenses) / income),
-                                height: 8
-                            )
-                            .cornerRadius(4)
-                    }
-                }
-                .frame(height: 8)
             }
         }
         .padding(FigmaDimens.fw(20))
@@ -253,92 +256,12 @@ struct FinancesScreen: View {
         .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
     }
     
-    // MARK: - Quick Actions
+    // MARK: - Purchases Card
     
-    private var quickActionsCard: some View {
+    private var purchasesCard: some View {
         VStack(alignment: .leading, spacing: FigmaDimens.fh(15)) {
             HStack {
-                Text("Быстрые действия")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(.black)
-                
-                Spacer()
-            }
-            
-            HStack(spacing: FigmaDimens.fw(15)) {
-                quickActionButton(
-                    icon: "arrow.down.circle.fill",
-                    title: "Пополнить",
-                    color: Color.green
-                ) {
-                    // Действие пополнения
-                }
-                
-                quickActionButton(
-                    icon: "arrow.up.circle.fill",
-                    title: "Вывести",
-                    color: Color.blue
-                ) {
-                    // Действие вывода
-                }
-                
-                quickActionButton(
-                    icon: "chart.bar.fill",
-                    title: "Отчет",
-                    color: AppTheme.categoryGradient3End
-                ) {
-                    // Действие отчета
-                }
-                
-                quickActionButton(
-                    icon: "creditcard.fill",
-                    title: "Карты",
-                    color: Color.purple
-                ) {
-                    // Действие карт
-                }
-            }
-        }
-        .padding(FigmaDimens.fw(20))
-        .background(Color.white)
-        .cornerRadius(20)
-        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
-    }
-    
-    private func quickActionButton(icon: String, title: String, color: Color, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            VStack(spacing: FigmaDimens.fh(10)) {
-                Image(systemName: icon)
-                    .font(.system(size: 28))
-                    .foregroundColor(.white)
-                    .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(60))
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                color,
-                                color.opacity(0.7)
-                            ]),
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .cornerRadius(15)
-                
-                Text(title)
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(.black)
-                    .multilineTextAlignment(.center)
-            }
-        }
-        .frame(maxWidth: .infinity)
-    }
-    
-    // MARK: - Transactions
-    
-    private var transactionsCard: some View {
-        VStack(alignment: .leading, spacing: FigmaDimens.fh(15)) {
-            HStack {
-                Text("Последние транзакции")
+                Text("История покупок")
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(.black)
                 
@@ -352,47 +275,13 @@ struct FinancesScreen: View {
             }
             
             VStack(spacing: FigmaDimens.fh(12)) {
-                transactionRow(
-                    icon: "arrow.down.circle.fill",
-                    title: "Пополнение баланса",
-                    subtitle: "Банковская карта",
-                    amount: "+15 000 ₽",
-                    color: .green,
-                    date: "Сегодня, 14:30"
-                )
-                
-                Divider()
-                
-                transactionRow(
-                    icon: "arrow.up.circle.fill",
-                    title: "Вывод средств",
-                    subtitle: "На карту ****1234",
-                    amount: "-5 000 ₽",
-                    color: .red,
-                    date: "Вчера, 18:45"
-                )
-                
-                Divider()
-                
-                transactionRow(
-                    icon: "cart.fill",
-                    title: "Покупка товара",
-                    subtitle: "Заказ #12345",
-                    amount: "-2 500 ₽",
-                    color: .orange,
-                    date: "25 дек, 12:20"
-                )
-                
-                Divider()
-                
-                transactionRow(
-                    icon: "gift.fill",
-                    title: "Бонус за покупку",
-                    subtitle: "Программа лояльности",
-                    amount: "+500 ₽",
-                    color: .blue,
-                    date: "24 дек, 10:15"
-                )
+                ForEach(Array(purchases.enumerated()), id: \.element.id) { index, purchase in
+                    purchaseRow(purchase: purchase)
+                    
+                    if index < purchases.count - 1 {
+                        Divider()
+                    }
+                }
             }
         }
         .padding(FigmaDimens.fw(20))
@@ -401,42 +290,102 @@ struct FinancesScreen: View {
         .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
     }
     
-    private func transactionRow(icon: String, title: String, subtitle: String, amount: String, color: Color, date: String) -> some View {
+    private func purchaseRow(purchase: Purchase) -> some View {
         HStack(spacing: FigmaDimens.fw(15)) {
-            // Иконка
-            Image(systemName: icon)
-                .font(.system(size: 20))
-                .foregroundColor(.white)
-                .frame(width: FigmaDimens.fw(45), height: FigmaDimens.fh(45))
-                .background(color.opacity(0.2))
-                .overlay(
-                    Circle()
-                        .stroke(color, lineWidth: 2)
-                )
-                .clipShape(Circle())
+            // Иконка покупки
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                AppTheme.categoryGradient1Start.opacity(0.2),
+                                AppTheme.categoryGradient3End.opacity(0.2)
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: FigmaDimens.fw(50), height: FigmaDimens.fh(50))
+                
+                Image(systemName: purchase.icon)
+                    .font(.system(size: 22))
+                    .foregroundColor(AppTheme.categoryGradient3End)
+            }
             
-            // Информация
+            // Информация о покупке
             VStack(alignment: .leading, spacing: 4) {
-                Text(title)
+                Text(purchase.title)
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.black)
                 
-                Text(subtitle)
+                Text("Заказ \(purchase.orderNumber)")
                     .font(.system(size: 12))
                     .foregroundColor(.gray)
                 
-                Text(date)
+                Text(purchase.date)
                     .font(.system(size: 11))
                     .foregroundColor(.gray.opacity(0.7))
             }
             
             Spacer()
             
-            // Сумма
-            Text(amount)
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(color)
+            // Сумма и статус
+            VStack(alignment: .trailing, spacing: 4) {
+                Text("-\(Int(purchase.amount)) ₽")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.black)
+                
+                // Статус
+                HStack(spacing: 4) {
+                    Circle()
+                        .fill(purchase.status.color)
+                        .frame(width: 6, height: 6)
+                    
+                    Text(purchase.status.text)
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(purchase.status.color)
+                }
+            }
         }
     }
 }
 
+// MARK: - Purchase Model
+
+struct Purchase: Identifiable {
+    let id: String
+    let title: String
+    let orderNumber: String
+    let amount: Double
+    let date: String
+    let status: PurchaseStatus
+    let icon: String
+}
+
+enum PurchaseStatus {
+    case completed
+    case processing
+    case cancelled
+    
+    var text: String {
+        switch self {
+        case .completed:
+            return "Оплачено"
+        case .processing:
+            return "Обработка"
+        case .cancelled:
+            return "Отменено"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .completed:
+            return .green
+        case .processing:
+            return .orange
+        case .cancelled:
+            return .red
+        }
+    }
+}

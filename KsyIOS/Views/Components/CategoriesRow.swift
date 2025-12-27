@@ -13,6 +13,7 @@ struct CategoriesRow: View {
     let onCanBeSeller: () -> Void
     let onCategoryClick: () -> Void
     let onBrandsClick: () -> Void
+    let onFinancesClick: () -> Void
     
     var body: some View {
         HStack {
@@ -53,7 +54,7 @@ struct CategoriesRow: View {
                 width: 30,
                 height: 30,
                 appearanceDelay: 100,
-                onClick: {}
+                onClick: onFinancesClick
             )
             
             Spacer()
