@@ -10,6 +10,10 @@ import SwiftUI
 struct CustomSwitch: View {
     @Binding var isOn: Bool
     
+    init(isOn: Binding<Bool>) {
+        self._isOn = isOn
+    }
+    
     var body: some View {
         ZStack(alignment: isOn ? .trailing : .leading) {
             // Трек (фон переключателя)
