@@ -6,3 +6,5 @@ setup_assets.ps1
 HOW_TO_VIEW_LOGS.md
 ASSETS_AUDIT.md
 ICONS_TO_CONVERT.md
+convert_webp_to_appicon.py
+setup_app_icon.ps1

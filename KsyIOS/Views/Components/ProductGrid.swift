@@ -14,30 +14,32 @@ struct ProductGrid: View {
     let onToggleFavorite: (String) -> Void
     
     var body: some View {
-        VStack(spacing: 0) {
-            ForEach(Array(products.chunked(into: 2).enumerated()), id: \.offset) { rowIndex, rowProducts in
-                HStack(spacing: FigmaDimens.fw(10)) {
-                    ForEach(Array(rowProducts.enumerated()), id: \.element.id) { itemIndex, product in
-                        let cardIndex = rowIndex * 2 + itemIndex
-                        ProductCard(
-                            product: product,
-                            onClick: { onProductClick(product) },
-                            onFavoriteClick: { onToggleFavorite(product.id) },
-                            appearanceDelay: cardIndex * 50
-                        )
-                        .frame(maxWidth: .infinity)
-                    }
-                    
-                    if rowProducts.count == 1 {
-                        Spacer()
+        ScrollView(.vertical, showsIndicators: false) {  // Добавлен ScrollView для вертикальной прокрутки
+            LazyVStack(spacing: 0) {  // LazyVStack для оптимизации (загружает только видимые элементы)
+                ForEach(Array(products.chunked(into: 2).enumerated()), id: \.offset) { rowIndex, rowProducts in
+                    HStack(spacing: FigmaDimens.fw(10)) {
+                        ForEach(Array(rowProducts.enumerated()), id: \.element.id) { itemIndex, product in
+                            let cardIndex = rowIndex * 2 + itemIndex
+                            ProductCard(
+                                product: product,
+                                onClick: { onProductClick(product) },
+                                onFavoriteClick: { onToggleFavorite(product.id) },
+                                appearanceDelay: cardIndex * 50  // Можно уменьшить до 20-30 для smoother скролла
+                            )
                             .frame(maxWidth: .infinity)
+                        }
+                        
+                        if rowProducts.count == 1 {
+                            Spacer()
+                                .frame(maxWidth: .infinity)
+                        }
                     }
+                    .padding(.bottom, FigmaDimens.fh(10))
                 }
-                .padding(.bottom, FigmaDimens.fh(10))
             }
+            .padding(.horizontal, FigmaDimens.fw(10))
+            .frame(maxWidth: .infinity)
         }
-        .padding(.horizontal, FigmaDimens.fw(10))
-        .frame(maxWidth: .infinity)
     }
 }
 
