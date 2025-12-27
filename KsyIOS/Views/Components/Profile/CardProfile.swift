@@ -77,6 +77,7 @@ struct CardProfile: View {
                     )
                     .frame(maxWidth: .infinity)
                     .frame(height: FigmaDimens.fh(190))
+                    .clipped()
                     .cornerRadius(15, corners: [.topLeft, .topRight])
                     
                     // Иконка лайка
@@ -85,8 +86,9 @@ struct CardProfile: View {
                         .font(.system(size: 16))
                         .padding(8)
                 }
-                .frame(maxWidth: .infinity)
+                .frame(width: FigmaDimens.fw(210))
                 .frame(height: FigmaDimens.fh(190))
+                .clipped()
                 .overlay(alignment: .bottomTrailing) {
                     // Скидка (в правом нижнем углу, накладывается на картинку)
                     if discount > 0 {

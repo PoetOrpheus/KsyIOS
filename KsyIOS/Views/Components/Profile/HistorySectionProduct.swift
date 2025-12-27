@@ -55,7 +55,7 @@ struct HistorySectionProduct: View {
                 .padding(.horizontal, FigmaDimens.fw(15))
             }
         }
-        .frame(height: FigmaDimens.fh(400))
+        .frame(height: FigmaDimens.fh(450))
         .background(Color.white)
         .cornerRadius(10)
         .padding(.horizontal, FigmaDimens.fw(15))
