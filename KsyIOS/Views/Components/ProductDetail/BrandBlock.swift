@@ -78,6 +78,7 @@ struct BrandBlock: View {
             .cornerRadius(10)
             .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
         }
+        .frame(maxWidth: .infinity) // Как в Kotlin: fillMaxWidth()
         .frame(height: FigmaDimens.fh(110))
         .background(Color.white)
         .cornerRadius(10)

@@ -27,7 +27,7 @@ struct StartCardRow: View {
             PicturesBlock()
         }
         .frame(height: FigmaDimens.fh(80))
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity) // Как в Kotlin: fillMaxWidth()
         .background(Color.white)
         .cornerRadius(10)
     }

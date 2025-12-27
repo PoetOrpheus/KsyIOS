@@ -158,6 +158,8 @@ struct ProductMainCard: View {
                             Text("\(price) ₽")
                                 .font(.system(size: 30, weight: .bold))
                                 .foregroundColor(accentColor)
+                                .lineLimit(1) // Ограничиваем одной строкой
+                                .fixedSize(horizontal: true, vertical: false) // Не расширяем Text, только по содержимому
                         }
                         
                         // Старая цена (вторая в Column, как в Kotlin: Box с fillMaxWidth и Alignment.TopEnd)
@@ -168,11 +170,13 @@ struct ProductMainCard: View {
                                     .font(.system(size: 15))
                                     .strikethrough()
                                     .foregroundColor(Color(hex: "999999") ?? .gray)
+                                    .lineLimit(1)
+                                    .fixedSize(horizontal: true, vertical: false)
                             }
                         }
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                    .padding(.horizontal, FigmaDimens.fw(10))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.horizontal, 10) // Как в Kotlin: padding(horizontal = 10.dp)
                     .padding(.vertical, FigmaDimens.fh(5))
                 }
                 .frame(width: FigmaDimens.fw(140), height: FigmaDimens.fh(70))

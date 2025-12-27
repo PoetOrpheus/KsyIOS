@@ -215,6 +215,7 @@ struct SellerBlock: View {
                     .frame(width: FigmaDimens.fw(25))
             }
         }
+        .frame(maxWidth: .infinity) // Как в Kotlin: fillMaxWidth()
         .frame(height: FigmaDimens.fh(134))
         .background(Color.white)
         .cornerRadius(10)

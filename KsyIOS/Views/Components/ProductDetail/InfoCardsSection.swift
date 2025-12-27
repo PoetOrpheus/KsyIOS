@@ -64,6 +64,7 @@ struct InfoCardsSection: View {
                 CharacteristicsView(specifications: specifications)
             }
         }
+        .frame(maxWidth: .infinity) // Как в Kotlin: fillMaxWidth()
         .background(Color.white)
         .cornerRadius(10)
     }
