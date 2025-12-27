@@ -123,22 +123,20 @@ struct SellerCard: View {
             
             // Рейтинг
             VStack(spacing: 0) {
-                Group {
-                    if let uiImage = UIImage(named: "star_profile_menu") {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFit()
-                            .renderingMode(.template)
-                            .foregroundColor(.yellow)
-                            .frame(
-                                width: FigmaDimens.fw(12),
-                                height: FigmaDimens.fh(12)
-                            )
-                    } else {
-                        Image(systemName: "star.fill")
-                            .font(.system(size: 12))
-                            .foregroundColor(.yellow)
-                    }
+                if let uiImage = UIImage(named: "star_profile_menu") {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFit()
+                        .renderingMode(.template)
+                        .foregroundColor(.yellow)
+                        .frame(
+                            width: FigmaDimens.fw(12),
+                            height: FigmaDimens.fh(12)
+                        )
+                } else {
+                    Image(systemName: "star.fill")
+                        .font(.system(size: 12))
+                        .foregroundColor(.yellow)
                 }
                 
                 Text("4.9")
