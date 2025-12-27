@@ -73,8 +73,8 @@ struct CategoryProductsScreen: View {
                                 }
                             }
                         )
-                    case .error(let message):
-                        Text("Ошибка: \(message)")
+                    case .error(let message, _):
+                        Text("Ошибка: \(message ?? "Неизвестная ошибка")")
                             .foregroundColor(.red)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .padding(.top, FigmaDimens.fh(40))
