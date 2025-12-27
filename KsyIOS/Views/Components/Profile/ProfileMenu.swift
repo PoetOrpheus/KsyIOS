@@ -12,7 +12,9 @@ struct ProfileMenu: View {
     let countSell: Int
     let countFavorite: Int
     let countReviews: Int
-    let onReviewClick: () -> Void
+    let onPurchasesClick: () -> Void
+    let onFavoritesClick: () -> Void
+    let onReviewsClick: () -> Void
     
     var body: some View {
         HStack {
@@ -21,7 +23,7 @@ struct ProfileMenu: View {
                 iconName: "profile_menu_sell",
                 title: "Покупки",
                 subtitle: "\(countSell) заказа",
-                onReviewClick: onReviewClick
+                onClick: onPurchasesClick
             )
             
             Spacer()
@@ -32,7 +34,7 @@ struct ProfileMenu: View {
                 iconName: "lover",
                 title: "Избранное",
                 subtitle: "\(countFavorite) товаров",
-                onReviewClick: onReviewClick
+                onClick: onFavoritesClick
             )
             
             Spacer()
@@ -43,7 +45,7 @@ struct ProfileMenu: View {
                 iconName: "star_profile_menu",
                 title: "Ждут отзыва",
                 subtitle: "\(countReviews) товаров",
-                onReviewClick: onReviewClick
+                onClick: onReviewsClick
             )
         }
         .frame(height: FigmaDimens.fh(90))
@@ -56,10 +58,10 @@ struct ProfileMenuItem: View {
     let iconName: String
     let title: String
     let subtitle: String
-    let onReviewClick: () -> Void
+    let onClick: () -> Void
     
     var body: some View {
-        Button(action: onReviewClick) {
+        Button(action: onClick) {
             VStack(alignment: .leading, spacing: FigmaDimens.fh(2)) {
                 // Иконка
                 Group {

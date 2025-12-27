@@ -22,6 +22,7 @@ struct MainScreen: View {
     @State private var showCanBeSeller = false
     @State private var showBrands = false
     @State private var showHistory = false
+    @State private var showPurchases = false
     
     @StateObject private var productViewModel = ProductViewModel(productRepository: ProductRepositoryImpl())
     @StateObject private var cartViewModel = CartViewModel(productRepository: ProductRepositoryImpl())
@@ -90,6 +91,12 @@ struct MainScreen: View {
                 onLogout: {
                     isLoggedIn = false
                     localDataStore.logout()
+                },
+                onPurchasesClick: {
+                    showPurchases = true
+                },
+                onFavoritesClick: {
+                    selectedTab = .favorites
                 }
             )
         }
@@ -117,6 +124,7 @@ struct MainScreen: View {
                 categoryProductsOverlay
                 brandsOverlay
                 searchOverlay
+                purchasesOverlay
             }
         }
         .task {
@@ -131,7 +139,7 @@ struct MainScreen: View {
     
     @ViewBuilder
     private var bottomNavigationBar: some View {
-        if !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showBrands && !showHistory && !showSearch {
+        if !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showBrands && !showHistory && !showSearch && !showPurchases {
             VStack(spacing: 0) {
                 Spacer()
                 BottomNavigationBar(
@@ -279,6 +287,24 @@ struct MainScreen: View {
             )
             .transition(.move(edge: .trailing))
             .zIndex(5)
+        }
+    }
+    
+    @ViewBuilder
+    private var purchasesOverlay: some View {
+        if showPurchases && !showProductDetail {
+            PurchasesScreen(
+                onBackClick: {
+                    showPurchases = false
+                },
+                onProductClick: { product in
+                    selectedProduct = product
+                    showPurchases = false
+                    showProductDetail = true
+                }
+            )
+            .transition(.move(edge: .trailing))
+            .zIndex(6)
         }
     }
 }

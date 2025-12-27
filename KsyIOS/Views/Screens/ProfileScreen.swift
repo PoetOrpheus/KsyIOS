@@ -12,6 +12,8 @@ struct ProfileScreen: View {
     let isLoggedIn: Bool
     let onLogin: () -> Void
     let onLogout: () -> Void
+    let onPurchasesClick: () -> Void
+    let onFavoritesClick: () -> Void
     
     @State private var showLogin = false
     
@@ -39,7 +41,9 @@ struct ProfileScreen: View {
                             countSell: 23,
                             countFavorite: 4,
                             countReviews: 5,
-                            onReviewClick: {
+                            onPurchasesClick: onPurchasesClick,
+                            onFavoritesClick: onFavoritesClick,
+                            onReviewsClick: {
                                 // Переход на отзывы
                             }
                         )
