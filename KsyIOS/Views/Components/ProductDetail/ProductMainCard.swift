@@ -2,7 +2,7 @@
 //  ProductMainCard.swift
 //  KsyIOS
 //
-//  Created by Auto on 25.12.2025.
+//  Created by Auto on 27.12.2025.
 //
 
 import SwiftUI
@@ -71,115 +71,86 @@ struct ProductMainCard: View {
                         }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
-                    .onAppear {
-                        currentPage = 0
-                    }
                 }
             }
-            .frame(height: FigmaDimens.fh(400)) // Уменьшили высоту для ближе к Kotlin (было 440)
+            .frame(height: FigmaDimens.fh(500)) // Увеличили до 500 для большего фото как в кедах Kotlin
             .clipShape(RoundedRectangle(cornerRadius: 20))
             
-            Spacer()
-                .frame(height: FigmaDimens.fh(8)) // Меньше spacer
+            Spacer().frame(height: FigmaDimens.fh(15))
             
-            // Индикаторы — spacing 6, gray BDBDBD
-            HStack(spacing: 6) {
+            // Точки индикатора слева
+            HStack(spacing: 8) {
                 ForEach(0..<images.count, id: \.self) { index in
                     Circle()
                         .fill(currentPage == index ? AppTheme.blueButton : Color(hex: "BDBDBD") ?? .gray)
-                        .frame(width: 6, height: 6)
+                        .frame(width: 8, height: 8)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading, FigmaDimens.fw(15)) // Левее
+            .padding(.leading, FigmaDimens.fw(20))
             
-            Spacer()
-                .frame(height: FigmaDimens.fh(8))
+            Spacer().frame(height: FigmaDimens.fh(15))
             
-            // Название
+            // Название слева
             Text(productName)
-                .font(.system(size: 18, weight: .regular))
+                .font(.system(size: 20, weight: .regular)) // Чуть больше шрифт как в Kotlin
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, FigmaDimens.fw(15)) // Симметрия слева/справа
+                .padding(.horizontal, FigmaDimens.fw(20))
             
-            Spacer()
-                .frame(height: FigmaDimens.fh(8))
+            Spacer().frame(height: FigmaDimens.fh(15))
             
-            // Скидка и цена — адаптировали для случаев без скидки (центр цены)
-            HStack(spacing: FigmaDimens.fw(10)) {
+            // Цена и скидка — центрирование без скидки
+            HStack {
                 if sale > 0 {
-                    HStack(spacing: 0) {
-                        Text("Скидка")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(.black)
-                        
-                        Text("\(sale)%")
-                            .font(.system(size: 20, weight: .black))
+                    // Блок скидки как в часах
+                    HStack {
+                        Text("Скидка \(sale)%")
+                            .font(.system(size: 18, weight: .bold))
                             .foregroundColor(accentColor)
-                            .frame(width: FigmaDimens.fw(70))
                     }
+                    .padding(.horizontal, FigmaDimens.fw(20))
                     .frame(height: FigmaDimens.fh(50))
-                    .frame(width: FigmaDimens.fw(160))
                     .background(Color.white)
                     .cornerRadius(10)
-                    .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
+                    .shadow(radius: 5)
                     
                     Spacer()
                 }
                 
+                // Блок цены — шире и центрировано без скидки
                 ZStack {
                     LinearGradient(
-                        gradient: Gradient(colors: [
-                            accentColor.opacity(0.0),
-                            accentColor.opacity(0.1),
-                            accentColor
-                        ]),
+                        gradient: Gradient(colors: [accentColor.opacity(0), accentColor.opacity(0.3), accentColor]),
                         startPoint: .top,
                         endPoint: .bottom
                     )
-                    .frame(height: FigmaDimens.fh(25))
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    .frame(height: FigmaDimens.fh(30), alignment: .bottom)
                     
-                    VStack(spacing: 0) {
-                        HStack {
-                            Spacer()
-                            Text("\(price) ₽")
-                                .font(.system(size: 30, weight: .bold))
-                                .foregroundColor(accentColor)
-                                .lineLimit(1)
-                                .fixedSize(horizontal: true, vertical: false)
-                        }
+                    VStack(spacing: 4) {
+                        Text("\(price) ₽")
+                            .font(.system(size: 36, weight: .bold)) // Больше шрифт как в кедах
+                            .foregroundColor(accentColor)
                         
                         if oldPrice > 0 {
-                            HStack {
-                                Spacer()
-                                Text("\(oldPrice) ₽")
-                                    .font(.system(size: 15))
-                                    .strikethrough()
-                                    .foregroundColor(Color(hex: "999999") ?? .gray)
-                                    .lineLimit(1)
-                                    .fixedSize(horizontal: true, vertical: false)
-                            }
+                            Text("\(oldPrice) ₽")
+                                .font(.system(size: 18))
+                                .strikethrough()
+                                .foregroundColor(.gray)
                         }
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding(.horizontal, 15) // Увеличили padding
-                    .padding(.vertical, FigmaDimens.fh(5))
+                    .padding(.vertical, FigmaDimens.fh(10))
                 }
-                .frame(width: sale > 0 ? FigmaDimens.fw(140) : FigmaDimens.fw(200), height: FigmaDimens.fh(70)) // Шире без скидки для центра
+                .frame(width: sale > 0 ? FigmaDimens.fw(160) : FigmaDimens.fw(300), height: FigmaDimens.fh(80)) // Шире без скидки для центра
                 .background(Color.white)
-                .cornerRadius(10)
-                .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
-                
-                if sale == 0 {
-                    Spacer() // Для центра без скидки
-                }
+                .cornerRadius(15) // Больше radius как в Kotlin
+                .shadow(radius: 5)
             }
-            .padding(.horizontal, FigmaDimens.fw(15))
+            .padding(.horizontal, FigmaDimens.fw(20))
         }
         .background(Color.white)
         .cornerRadius(20)
-        .padding(.bottom, 15) // Меньше bottom padding
+        .padding(.horizontal, 10)
+        .padding(.bottom, 10)
     }
 }

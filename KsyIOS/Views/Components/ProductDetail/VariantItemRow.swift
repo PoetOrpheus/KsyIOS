@@ -2,11 +2,10 @@
 //  VariantItemRow.swift
 //  KsyIOS
 //
-//  Created by Auto on 25.12.2025.
+//  Created by Auto on 27.12.2025.
 //
 
 import SwiftUI
-import UIKit
 
 struct VariantItemRow: View {
     let variants: [ProductVariant]
@@ -16,7 +15,7 @@ struct VariantItemRow: View {
     var body: some View {
         if !variants.isEmpty {
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: FigmaDimens.fw(8)) { // Меньше spacing
+                HStack(spacing: FigmaDimens.fw(15)) { // Ближе spacing как в кедах
                     ForEach(variants) { variant in
                         VariantItem(
                             variant: variant,
@@ -29,8 +28,9 @@ struct VariantItemRow: View {
                         )
                     }
                 }
-                .padding(.horizontal, 15)
+                .padding(.horizontal, FigmaDimens.fw(20))
             }
+            .frame(height: FigmaDimens.fh(120)) // Меньше общая высота
         }
     }
 }
@@ -41,9 +41,9 @@ private struct VariantItem: View {
     let onClick: () -> Void
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 8) {
             ZStack {
-                RoundedRectangle(cornerRadius: 6)
+                RoundedRectangle(cornerRadius: 10)
                     .fill(variant.isAvailable ? Color.clear : Color.gray.opacity(0.3))
                 
                 if let firstImageName = variant.getFirstImageRes(),
@@ -53,37 +53,17 @@ private struct VariantItem: View {
                         .scaledToFit()
                 } else {
                     Text(variant.value)
-                        .font(.system(size: 12)) // Больше шрифт
-                        .foregroundColor(variant.isAvailable ? .black : .gray)
+                        .font(.system(size: 14))
+                        .foregroundColor(.black)
                 }
             }
-            .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(80)) // Меньше высота для компактности
-            .clipShape(RoundedRectangle(cornerRadius: 6))
-            .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(borderColor, lineWidth: 2) // Тоньше
-            )
+            .frame(width: FigmaDimens.fw(80), height: FigmaDimens.fw(80)) // Квадрат как в Kotlin
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(isSelected ? AppTheme.blueButton : Color.gray.opacity(0.5), lineWidth: 2))
             
             Text(variant.value)
-                .font(.system(size: 10)) // Больше 10pt
+                .font(.system(size: 12)) // Больше шрифт
                 .foregroundColor(variant.isAvailable ? .black : .gray)
-                .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(20))
         }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            if variant.isAvailable {
-                onClick()
-            }
-        }
-    }
-    
-    private var borderColor: Color {
-        if isSelected {
-            return AppTheme.blueButton
-        } else if variant.isAvailable {
-            return Color(white: 0.85)
-        } else {
-            return Color.gray.opacity(0.5)
-        }
+        .onTapGesture(perform: onClick)
     }
 }

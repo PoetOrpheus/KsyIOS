@@ -2,7 +2,7 @@
 //  SizeVariants.swift
 //  KsyIOS
 //
-//  Created by Auto on 25.12.2025.
+//  Created by Auto on 27.12.2025.
 //
 
 import SwiftUI
@@ -14,24 +14,23 @@ struct SizeVariants: View {
     
     var body: some View {
         if !sizes.isEmpty {
-            ScrollView(.horizontal, showsIndicators: false) { // Добавили scroll если много
-                HStack(spacing: FigmaDimens.fw(8)) { // Меньше spacing
-                    ForEach(sizes) { size in
-                        SizeButton(
-                            text: size.value,
-                            isSelected: size.id == selectedSizeId,
-                            isAvailable: size.isAvailable,
-                            onClick: {
-                                if size.isAvailable {
-                                    onSizeSelected(size.id)
-                                }
+            HStack(spacing: FigmaDimens.fw(12)) {
+                ForEach(sizes) { size in
+                    SizeButton(
+                        text: size.value,
+                        isSelected: size.id == selectedSizeId,
+                        isAvailable: size.isAvailable,
+                        onClick: {
+                            if size.isAvailable {
+                                onSizeSelected(size.id)
                             }
-                        )
-                    }
+                        }
+                    )
                 }
-                .padding(.horizontal, FigmaDimens.fw(15))
+                Spacer()
             }
-            .frame(height: FigmaDimens.fh(30))
+            .padding(.horizontal, FigmaDimens.fw(20))
+            .frame(height: FigmaDimens.fh(40))
         }
     }
 }
@@ -44,32 +43,11 @@ private struct SizeButton: View {
     
     var body: some View {
         Text(text)
-            .font(.system(size: 14, weight: .semibold))
+            .font(.system(size: 16, weight: .semibold))
             .foregroundColor(isAvailable ? .black : .gray)
-            .frame(width: FigmaDimens.fw(50), height: FigmaDimens.fh(30)) // Уже для компактности как в Kotlin
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(borderColor, lineWidth: 2) // Тоньше border
-            )
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(isAvailable ? Color.white : Color.gray.opacity(0.2))
-            )
-            .contentShape(Rectangle())
-            .onTapGesture {
-                if isAvailable {
-                    onClick()
-                }
-            }
-    }
-    
-    private var borderColor: Color {
-        if isSelected {
-            return AppTheme.blueButton
-        } else if isAvailable {
-            return Color.gray.opacity(0.5)
-        } else {
-            return Color.gray.opacity(0.3)
-        }
+            .frame(width: FigmaDimens.fw(50), height: FigmaDimens.fh(40))
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(isSelected ? AppTheme.blueButton : Color.gray.opacity(0.5), lineWidth: 2)) // Тоньше и больше radius
+            .background(RoundedRectangle(cornerRadius: 12).fill(isAvailable ? Color.white : Color.gray.opacity(0.2)))
+            .onTapGesture(perform: onClick)
     }
 }
