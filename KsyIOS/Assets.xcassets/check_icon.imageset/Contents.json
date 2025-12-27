@@ -1,10 +1,13 @@
 ﻿{
     "images":  [
                    {
-                       "filename":  "ava_seller.png",
+                       "filename":  "check_icon.svg",
                        "idiom":  "universal"
                    }
                ],
+    "properties":  {
+                       "preserves-vector-representation":  true
+                   },
     "info":  {
                  "author":  "xcode",
                  "version":  1

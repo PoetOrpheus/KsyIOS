@@ -4,3 +4,5 @@ copy_assets.ps1
 prepare_assets_for_xcode.ps1
 setup_assets.ps1
 HOW_TO_VIEW_LOGS.md
+ASSETS_AUDIT.md
+ICONS_TO_CONVERT.md
