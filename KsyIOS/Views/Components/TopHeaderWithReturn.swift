@@ -21,28 +21,34 @@ struct TopHeaderWithReturn: View {
                 print("🔴 TopHeaderWithReturn: Back button tapped")
                 onBackClick()
             }) {
-                Group {
-                    if let uiImage = UIImage(named: "return_icon") {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .renderingMode(.template)
-                            .foregroundColor(.white)
-                            .frame(
-                                width: FigmaDimens.fw(30),
-                                height: FigmaDimens.fh(30)
-                            )
-                    } else {
-                        Image(systemName: "arrow.left")
-                            .font(.system(size: 20))
-                            .foregroundColor(.white)
-                            .frame(
-                                width: FigmaDimens.fw(30),
-                                height: FigmaDimens.fh(30)
-                            )
+                ZStack {
+                    // Временный фон для отладки
+                    Color.white.opacity(0.3)
+                    
+                    Group {
+                        if let uiImage = UIImage(named: "return_icon") {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .renderingMode(.template)
+                                .foregroundColor(.white)
+                                .frame(
+                                    width: FigmaDimens.fw(30),
+                                    height: FigmaDimens.fh(30)
+                                )
+                        } else {
+                            Image(systemName: "arrow.left")
+                                .font(.system(size: 20))
+                                .foregroundColor(.white)
+                                .frame(
+                                    width: FigmaDimens.fw(30),
+                                    height: FigmaDimens.fh(30)
+                                )
+                        }
                     }
                 }
             }
             .frame(width: FigmaDimens.fw(30), height: FigmaDimens.fh(30))
+            .border(Color.red, width: 2) // Временная граница для отладки
             
             Spacer()
             
@@ -55,9 +61,9 @@ struct TopHeaderWithReturn: View {
             .padding(.horizontal, FigmaDimens.fw(15))
             .padding(.vertical, FigmaDimens.fh(10))
         }
-        .padding(.horizontal, FigmaDimens.fw(10)) // Padding как в Kotlin: применяется к Row до background
         .frame(maxWidth: .infinity)
-        .frame(height: FigmaDimens.fh(60)) // Фиксированная высота как в Kotlin (используется padding top = fh(60) в ProductDetailScreen)
+        .frame(height: FigmaDimens.fh(60)) // Фиксированная высота как в Kotlin
+        .padding(.horizontal, FigmaDimens.fw(10)) // Padding как в Kotlin: horizontal = fw(10) - применяется ДО background
         .background(
             LinearGradient(
                 gradient: Gradient(colors: [
