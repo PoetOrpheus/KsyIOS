@@ -15,6 +15,10 @@ struct MainScreen: View {
     @State private var searchQuery = ""
     @State private var isLoggedIn: Bool?
     @State private var showCatalog = false
+    @State private var showCatalogSubScreen = false
+    @State private var showCategoryProducts = false
+    @State private var selectedCategoryName: String? = nil
+    @State private var selectedSubcategoryName: String? = nil
     
     @StateObject private var productViewModel = ProductViewModel(productRepository: ProductRepositoryImpl())
     @StateObject private var cartViewModel = CartViewModel(productRepository: ProductRepositoryImpl())
@@ -119,22 +123,63 @@ struct MainScreen: View {
                     }
                 )
                 .transition(.move(edge: .trailing))
-                .zIndex(1)
+                .zIndex(10)
             }
             
             // Экран каталога
-            if showCatalog {
+            if showCatalog && !showCatalogSubScreen && !showCategoryProducts {
                 CatalogScreen(
                     onBackClick: {
                         showCatalog = false
                     },
                     onCategoryClick: { categoryName in
-                        // TODO: Navigate to category sub-screen
-                        print("Category clicked: \(categoryName)")
+                        selectedCategoryName = categoryName
+                        showCatalog = false
+                        showCatalogSubScreen = true
                     }
                 )
                 .transition(.move(edge: .trailing))
                 .zIndex(1)
+            }
+            
+            // Экран подкатегорий каталога
+            if showCatalogSubScreen && !showCatalog && !showCategoryProducts {
+                CatalogSubScreen(
+                    onBackClick: {
+                        showCatalogSubScreen = false
+                        selectedCategoryName = nil
+                        showCatalog = true
+                    },
+                    onSubcategoryClick: { subcategoryName in
+                        selectedSubcategoryName = subcategoryName
+                        showCatalogSubScreen = false
+                        showCategoryProducts = true
+                    }
+                )
+                .transition(.move(edge: .trailing))
+                .zIndex(2)
+            }
+            
+            // Экран продуктов категории
+            if showCategoryProducts && !showCatalog && !showCatalogSubScreen {
+                CategoryProductsScreen(
+                    categoryName: selectedCategoryName ?? "",
+                    subcategoryName: selectedSubcategoryName ?? "",
+                    onBackClick: {
+                        showCategoryProducts = false
+                        selectedSubcategoryName = nil
+                        if selectedCategoryName != nil {
+                            showCatalogSubScreen = true
+                        }
+                    },
+                    onProductClick: { product in
+                        selectedProduct = product
+                        showProductDetail = true
+                    },
+                    productViewModel: productViewModel
+                )
+                .transition(.move(edge: .trailing))
+                .zIndex(3)
             }
         }
         .task {
