@@ -21,6 +21,7 @@ struct MainScreen: View {
     @State private var selectedSubcategoryName: String? = nil
     @State private var showCanBeSeller = false
     @State private var showBrands = false
+    @State private var showHistory = false
     
     @StateObject private var productViewModel = ProductViewModel(productRepository: ProductRepositoryImpl())
     @StateObject private var cartViewModel = CartViewModel(productRepository: ProductRepositoryImpl())
@@ -49,7 +50,7 @@ struct MainScreen: View {
                                 showSearch = true
                             },
                             onHistoryClick: {
-                                // TODO: Navigate to history screen
+                                showHistory = true
                             },
                             onCanBeSeller: {
                                 showCanBeSeller = true
@@ -98,7 +99,7 @@ struct MainScreen: View {
             
             // Нижняя навигация (как в Kotlin - внизу экрана с белым фоном под ней)
             // Скрываем навигацию на экранах деталей, истории, каталога и других подэкранах
-            if !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showBrands {
+            if !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showBrands && !showHistory {
                 VStack(spacing: 0) {
                     Spacer()
                     
@@ -131,8 +132,25 @@ struct MainScreen: View {
                 .zIndex(10)
             }
             
+            // Экран истории просмотров
+            if showHistory && !showProductDetail {
+                HistoryScreen(
+                    onBackClick: {
+                        showHistory = false
+                    },
+                    onProductClick: { product in
+                        selectedProduct = product
+                        showHistory = false
+                        showProductDetail = true
+                    },
+                    productViewModel: productViewModel
+                )
+                .transition(.move(edge: .trailing))
+                .zIndex(1)
+            }
+            
             // Экран "Стать продавцом"
-            if showCanBeSeller && !showProductDetail {
+            if showCanBeSeller && !showProductDetail && !showHistory {
                 CanBeSellerScreen(
                     onBackClick: {
                         showCanBeSeller = false
@@ -143,7 +161,7 @@ struct MainScreen: View {
             }
             
             // Экран каталога
-            if showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showCanBeSeller && !showBrands {
+            if showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showCanBeSeller && !showBrands && !showHistory {
                 CatalogScreen(
                     onBackClick: {
                         showCatalog = false
@@ -159,7 +177,7 @@ struct MainScreen: View {
             }
             
             // Экран подкатегорий каталога
-            if showCatalogSubScreen && !showCatalog && !showCategoryProducts && !showCanBeSeller && !showBrands {
+            if showCatalogSubScreen && !showCatalog && !showCategoryProducts && !showCanBeSeller && !showBrands && !showHistory {
                 CatalogSubScreen(
                     onBackClick: {
                         showCatalogSubScreen = false
@@ -177,7 +195,7 @@ struct MainScreen: View {
             }
             
             // Экран продуктов категории
-            if showCategoryProducts && !showCatalog && !showCatalogSubScreen && !showCanBeSeller && !showBrands {
+            if showCategoryProducts && !showCatalog && !showCatalogSubScreen && !showCanBeSeller && !showBrands && !showHistory {
                 CategoryProductsScreen(
                     categoryName: selectedCategoryName ?? "",
                     subcategoryName: selectedSubcategoryName ?? "",
@@ -199,7 +217,7 @@ struct MainScreen: View {
             }
             
             // Экран "Магазины и бренды"
-            if showBrands && !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts {
+            if showBrands && !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showHistory {
                 BrandsScreen(
                     onBackClick: {
                         showBrands = false
