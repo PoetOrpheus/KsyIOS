@@ -82,22 +82,17 @@ struct CardProfile: View {
                         .foregroundColor(Color(hex: "CC3333") ?? .red)
                         .font(.system(size: 16))
                         .padding(8)
-                    
+                }
+                .overlay(alignment: .bottomTrailing) {
                     // Скидка (в правом нижнем углу, накладывается на картинку)
                     if discount > 0 {
-                        VStack {
-                            Spacer()
-                            HStack {
-                                Spacer()
-                                Text("-\(discount)%")
-                                    .font(.system(size: 16, weight: .black))
-                                    .foregroundColor(colorText)
-                                    .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(35))
-                                    .background(Color.white)
-                                    .cornerRadius(10, corners: [.topLeft, .bottomLeft])
-                            }
+                        Text("-\(discount)%")
+                            .font(.system(size: 16, weight: .black))
+                            .foregroundColor(colorText)
+                            .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(35))
+                            .background(Color.white)
+                            .cornerRadius(10, corners: [.topLeft, .bottomLeft])
                             .offset(y: -FigmaDimens.fh(20))
-                        }
                     }
                 }
                 

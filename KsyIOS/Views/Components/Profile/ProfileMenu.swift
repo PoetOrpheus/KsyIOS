@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ProfileMenu: View {
     let countSell: Int
@@ -14,7 +15,7 @@ struct ProfileMenu: View {
     let onReviewClick: () -> Void
     
     var body: some View {
-        HStack(spacing: FigmaDimens.fw(8)) {
+        HStack {
             // Покупки
             ProfileMenuItem(
                 iconName: "profile_menu_sell",
@@ -22,6 +23,9 @@ struct ProfileMenu: View {
                 subtitle: "\(countSell) заказа",
                 onReviewClick: onReviewClick
             )
+            
+            Spacer()
+                .frame(minWidth: FigmaDimens.fw(8))
             
             // Избранное
             ProfileMenuItem(
@@ -31,6 +35,9 @@ struct ProfileMenu: View {
                 onReviewClick: onReviewClick
             )
             
+            Spacer()
+                .frame(minWidth: FigmaDimens.fw(8))
+            
             // Ждут отзыва
             ProfileMenuItem(
                 iconName: "star_profile_menu",
@@ -39,7 +46,8 @@ struct ProfileMenu: View {
                 onReviewClick: onReviewClick
             )
         }
-        .frame(height: 90)
+        .frame(height: FigmaDimens.fh(90))
+        .frame(maxWidth: .infinity)
         .padding(.horizontal, FigmaDimens.fw(15))
     }
 }
@@ -52,7 +60,7 @@ struct ProfileMenuItem: View {
     
     var body: some View {
         Button(action: onReviewClick) {
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: FigmaDimens.fh(2)) {
                 // Иконка
                 Group {
                     if let uiImage = UIImage(named: iconName) {
