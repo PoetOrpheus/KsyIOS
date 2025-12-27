@@ -22,47 +22,46 @@ struct CatalogScreen: View {
     let onCategoryClick: (String) -> Void
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             AppTheme.bgGray
                 .ignoresSafeArea()
             
-            VStack(spacing: 0) {
-                TopHeaderWithReturn(onBackClick: onBackClick)
-                
-                ScrollView {
-                    VStack(spacing: 0) {
-                        Spacer()
-                            .frame(height: FigmaDimens.fh(10))
-                        
-                        LazyVGrid(
-                            columns: [
-                                GridItem(.flexible(), spacing: FigmaDimens.fw(25)),
-                                GridItem(.flexible(), spacing: FigmaDimens.fw(25)),
-                                GridItem(.flexible(), spacing: FigmaDimens.fw(25))
-                            ],
-                            spacing: FigmaDimens.fh(20),
-                            content: {
-                                ForEach(0..<20, id: \.self) { index in
-                                    let imageIndex = index + 1
-                                    let imageName = "category_\(imageIndex)"
-                                    let categoryName = index < categoryNames.count ? categoryNames[index] : "Категория \(imageIndex)"
-                                    
-                                    CatalogBox(
-                                        imageName: imageName,
-                                        onClick: {
-                                            onCategoryClick(categoryName)
-                                        }
-                                    )
-                                }
+            TopHeaderWithReturn(onBackClick: onBackClick)
+                .zIndex(1)
+            
+            ScrollView {
+                VStack(spacing: 0) {
+                    Spacer()
+                        .frame(height: FigmaDimens.fh(10))
+                    
+                    LazyVGrid(
+                        columns: [
+                            GridItem(.flexible(), spacing: FigmaDimens.fw(25)),
+                            GridItem(.flexible(), spacing: FigmaDimens.fw(25)),
+                            GridItem(.flexible(), spacing: FigmaDimens.fw(25))
+                        ],
+                        spacing: FigmaDimens.fh(20),
+                        content: {
+                            ForEach(0..<20, id: \.self) { index in
+                                let imageIndex = index + 1
+                                let imageName = "category_\(imageIndex)"
+                                let categoryName = index < categoryNames.count ? categoryNames[index] : "Категория \(imageIndex)"
+                                
+                                CatalogBox(
+                                    imageName: imageName,
+                                    onClick: {
+                                        onCategoryClick(categoryName)
+                                    }
+                                )
                             }
-                        )
-                        .padding(.horizontal, FigmaDimens.fw(20))
-                        .padding(.vertical, FigmaDimens.fh(20))
-                    }
+                        }
+                    )
+                    .padding(.horizontal, FigmaDimens.fw(20))
+                    .padding(.vertical, FigmaDimens.fh(20))
                 }
-                .padding(.top, FigmaDimens.fh(60))
-                .padding(.horizontal, FigmaDimens.fw(5))
             }
+            .padding(.top, FigmaDimens.fh(60))
+            .padding(.horizontal, FigmaDimens.fw(5))
         }
     }
 }
@@ -72,7 +71,9 @@ private struct CatalogBox: View {
     let onClick: () -> Void
     
     var body: some View {
-        Button(action: onClick) {
+        Button(action: {
+            onClick()
+        }) {
             Group {
                 if let uiImage = UIImage(named: imageName) {
                     Image(uiImage: uiImage)
@@ -92,6 +93,7 @@ private struct CatalogBox: View {
             .frame(width: FigmaDimens.fw(120), height: FigmaDimens.fh(120))
         }
         .buttonStyle(PlainButtonStyle())
+        .contentShape(Rectangle())
     }
 }
 
