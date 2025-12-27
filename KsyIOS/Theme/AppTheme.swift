@@ -46,8 +46,8 @@ struct AppTheme {
 /// Навигационные элементы нижней панели
 enum BottomNavItem: String, CaseIterable {
     case home = "Главная"
-    case shopCart = "Корзина"
     case finances = "Финансы"
+    case shopCart = "Корзина"
     case favorites = "Избранное"
     case profile = "Профиль"
     
