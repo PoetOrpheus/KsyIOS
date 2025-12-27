@@ -15,7 +15,6 @@ struct ProductGrid: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Разбиваем продукты на пары для отображения в ряд
             ForEach(Array(products.chunked(into: 2).enumerated()), id: \.offset) { rowIndex, rowProducts in
                 HStack(spacing: FigmaDimens.fw(10)) {
                     ForEach(Array(rowProducts.enumerated()), id: \.element.id) { itemIndex, product in
@@ -28,7 +27,7 @@ struct ProductGrid: View {
                         )
                         .frame(maxWidth: .infinity)
                     }
-                    // Если в ряду только один элемент, добавляем пустое место
+                    
                     if rowProducts.count == 1 {
                         Spacer()
                             .frame(maxWidth: .infinity)
@@ -60,7 +59,7 @@ struct ProductCard: View {
         let accentColor = product.accentColor
         
         ZStack {
-            // Градиентный фон внизу карточки
+            // Градиентный фон внизу
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color.white.opacity(0),
@@ -74,171 +73,136 @@ struct ProductCard: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             .clipShape(RoundedRectangle(cornerRadius: 15))
             
-            // Контент карточки
+            // Основной контент
             VStack(spacing: 0) {
-                    // Область изображения (как в Kotlin - белый фон с rounded corners)
-                    ZStack(alignment: .topTrailing) {
-                        // Белый фон с закругленными углами (как в Kotlin)
-                        Rectangle()
-                            .fill(Color.white)
-                            .frame(height: FigmaDimens.fh(280))
-                            .cornerRadius(15, corners: [.topLeft, .topRight])
-                        
-                        // Используем изображения из продукта для карусели
-                        let productImages = product.imagesRes.isEmpty ? ["placeholder"] : product.imagesRes
-                        
-                        ProductImageCarousel(images: productImages)
-                            .frame(height: FigmaDimens.fh(280))
-                            .cornerRadius(15, corners: [.topLeft, .topRight])
-                            .clipped()
-                        
-                        // Иконка избранного (модификатор 45x45 как в Kotlin, кнопка 30x30 внутри)
-                        FavoriteIconButton(
-                            isFavorite: product.isFavorite,
-                            onClick: onFavoriteClick
-                        )
-                        .frame(
-                            width: FigmaDimens.fw(45),
-                            height: FigmaDimens.fh(45),
-                            alignment: .topTrailing
-                        )
-                    }
+                // Область изображения
+                ZStack(alignment: .topTrailing) {
+                    Rectangle()
+                        .fill(Color.white)
+                        .frame(height: FigmaDimens.fh(280))
+                        .cornerRadius(15, corners: [.topLeft, .topRight])
                     
-                    Spacer()
-                        .frame(height: FigmaDimens.fh(5))
+                    let productImages = product.imagesRes.isEmpty ? ["placeholder"] : product.imagesRes
                     
-                    // Информация о товаре
-                    VStack(spacing: 0) {
-                        // Рейтинг и отзывы
-                        HStack(spacing: 0) {
-                            // Иконка отзывов (используем оригинальную otz_icon или fallback)
-                            Group {
-                                if let uiImage = UIImage(named: "otz_icon") {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .renderingMode(.template)
-                                        .foregroundColor(.gray)
-                                        .frame(width: FigmaDimens.fw(10), height: FigmaDimens.fh(10))
-                                } else {
-                                    Image(systemName: "bubble.left.fill")
-                                        .font(.system(size: 10))
-                                        .foregroundColor(.gray)
-                                        .frame(width: FigmaDimens.fw(10))
-                                }
+                    ProductImageCarousel(images: productImages)
+                        .frame(height: FigmaDimens.fh(280))
+                        .cornerRadius(15, corners: [.topLeft, .topRight])
+                        .clipped()
+                    
+                    FavoriteIconButton(
+                        isFavorite: product.isFavorite,
+                        onClick: onFavoriteClick
+                    )
+                    .frame(width: FigmaDimens.fw(45), height: FigmaDimens.fh(45), alignment: .topTrailing)
+                }
+                
+                Spacer().frame(height: FigmaDimens.fh(5))
+                
+                // Информация о товаре
+                VStack(spacing: 0) {
+                    // Рейтинг и отзывы
+                    HStack(spacing: 0) {
+                        Group {
+                            if let uiImage = UIImage(named: "otz_icon") {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .foregroundColor(.gray)
+                                    .frame(width: FigmaDimens.fw(10), height: FigmaDimens.fh(10))
+                            } else {
+                                Image(systemName: "bubble.left.fill")
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.gray)
                             }
-                            
-                            Spacer()
-                                .frame(width: FigmaDimens.fw(5))
-                            
-                            // Количество отзывов
-                            Text("\(product.reviewsCount) отзыва")
+                        }
+                        
+                        Spacer().frame(width: FigmaDimens.fw(5))
+                        
+                        Text("\(product.reviewsCount) отзыва")
+                            .font(.system(size: 8))
+                            .foregroundColor(.gray)
+                            .lineLimit(1)
+                            .frame(width: FigmaDimens.fw(75), alignment: .leading)
+                        
+                        Spacer().frame(width: FigmaDimens.fw(25))
+                        
+                        Text(String(format: "%.1f", product.rating))
+                            .font(.system(size: 10, weight: .black))
+                            .foregroundColor(.black)
+                            .frame(width: FigmaDimens.fw(50), alignment: .trailing)
+                        
+                        Spacer().frame(width: FigmaDimens.fw(5))
+                        
+                        Group {
+                            if let uiImage = UIImage(named: "star_profile_menu") {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .foregroundColor(.yellow)
+                                    .frame(width: FigmaDimens.fw(10), height: FigmaDimens.fh(10))
+                            } else {
+                                Image(systemName: "star.fill")
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.yellow)
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, FigmaDimens.fw(15))
+                    
+                    Spacer().frame(height: FigmaDimens.fh(10))
+                    
+                    Text(product.name)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.black)
+                        .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(width: FigmaDimens.fw(180), height: FigmaDimens.fh(40), alignment: .topLeading)
+                        .padding(.horizontal, FigmaDimens.fw(15))
+                    
+                    Spacer().frame(height: FigmaDimens.fh(5))
+                    
+                    HStack(alignment: .bottom, spacing: FigmaDimens.fw(5)) {
+                        if oldPrice > 0 {
+                            Text("\(oldPrice) ₽")
                                 .font(.system(size: 8))
                                 .foregroundColor(.gray)
-                                .lineLimit(1)
-                                .frame(width: FigmaDimens.fw(75), height: 8, alignment: .leading)
-                            
-                            Spacer()
-                                .frame(width: FigmaDimens.fw(25))
-                            
-                            // Рейтинг (черный цвет как в Kotlin)
-                            Text(String(format: "%.1f", product.rating))
-                                .font(.system(size: 10, weight: .black))
-                                .foregroundColor(.black)
-                                .frame(width: FigmaDimens.fw(50), height: 10, alignment: .trailing)
-                            
-                            Spacer()
-                                .frame(width: FigmaDimens.fw(5))
-                            
-                            // Звезда (используем оригинальную star_profile_menu или fallback)
-                            Group {
-                                if let uiImage = UIImage(named: "star_profile_menu") {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .renderingMode(.template)
-                                        .foregroundColor(.yellow)
-                                        .frame(width: FigmaDimens.fw(10), height: FigmaDimens.fh(10))
-                                } else {
-                                    Image(systemName: "star.fill")
-                                        .font(.system(size: 10))
-                                        .foregroundColor(.yellow)
-                                        .frame(width: FigmaDimens.fw(10))
-                                }
-                            }
+                                .strikethrough()
+                                .frame(height: FigmaDimens.fh(10), alignment: .bottom)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.horizontal, FigmaDimens.fw(15))
                         
                         Spacer()
-                            .frame(height: FigmaDimens.fh(10))
                         
-                        // Название (черный цвет как в Kotlin)
-                        Text(product.name)
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(.black)
-                            .lineLimit(2)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .frame(
-                                width: FigmaDimens.fw(180),
-                                height: FigmaDimens.fh(40),
-                                alignment: .topLeading
-                            )
-                            .padding(.horizontal, FigmaDimens.fw(15))
-                        
-                        Spacer()
-                            .frame(height: FigmaDimens.fh(5))
-                        
-                        // Цены (как в Kotlin - выровнены по bottom)
-                        HStack(alignment: .bottom, spacing: FigmaDimens.fw(5)) {
-                            if oldPrice > 0 {
-                                Text("\(oldPrice) ₽")
-                                    .font(.system(size: 8))
-                                    .foregroundColor(.gray)
-                                    .strikethrough()
-                                    .frame(height: FigmaDimens.fh(10), alignment: .bottom)
-                            }
-                            
-                            Spacer()
-                            
-                            Text("\(product.price) ₽")
-                                .font(.system(size: 14, weight: .bold))
-                                .foregroundColor(accentColor)
-                                .frame(height: FigmaDimens.fh(20), alignment: .leading)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.horizontal, FigmaDimens.fw(15))
-                        
-                        Spacer()
-                            .frame(height: FigmaDimens.fh(5))
-                        
-                        // Скидка
-                        ZStack(alignment: .bottomLeading) {
-                            if discount > 0 {
-                                Text("-\(discount)%")
-                                    .font(.system(size: 14, weight: .bold))
-                                    .foregroundColor(AppTheme.discountRed)
-                                    .frame(
-                                        width: FigmaDimens.fw(60),
-                                        height: FigmaDimens.fh(35)
-                                    )
-                                    .background(Color.white)
-                                    .cornerRadius(10)
-                                    .shadow(color: Color.black.opacity(0.3), radius: 4, x: 0, y: 2)
-                            }
-                        }
-                        .frame(height: FigmaDimens.fh(35))
-                        .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                        .padding(.horizontal, FigmaDimens.fw(15))
-                        
-                        Spacer()
-                            .frame(height: FigmaDimens.fh(10))
+                        Text("\(product.price) ₽")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(accentColor)
+                            .frame(height: FigmaDimens.fh(20), alignment: .leading)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, FigmaDimens.fw(15))
+                    
+                    Spacer().frame(height: FigmaDimens.fh(5))
+                    
+                    ZStack(alignment: .bottomLeading) {
+                        if discount > 0 {
+                            Text("-\(discount)%")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(AppTheme.discountRed)
+                                .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(35))
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                .shadow(color: Color.black.opacity(0.3), radius: 4, x: 0, y: 2)
+                        }
+                    }
+                    .frame(height: FigmaDimens.fh(35))
+                    .frame(maxWidth: .infinity, alignment: .bottomLeading)
+                    .padding(.horizontal, FigmaDimens.fw(15))
+                    
+                    Spacer().frame(height: FigmaDimens.fh(10))
                 }
-            }
-        }
-        .frame(
-            width: FigmaDimens.fw(210),
-            height: FigmaDimens.fh(420)
-        )
+            } // ← Закрытие основного VStack
+        } // ← Закрытие ZStack
+        .frame(width: FigmaDimens.fw(210), height: FigmaDimens.fh(420))
         .background(Color.white)
         .cornerRadius(15)
         .shadow(
@@ -247,26 +211,22 @@ struct ProductCard: View {
             x: 0,
             y: isPressed ? 2 : 4
         )
-        .scaleEffect((isVisible * (isPressed ? 0.95 : 1.0)))
+        .scaleEffect(isVisible * (isPressed ? 0.95 : 1.0))
         .opacity(alpha)
         .contentShape(Rectangle())
         .simultaneousGesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { value in
-                    dragOffset = value.translation
-                    
-                    // Если движение преимущественно вертикальное (скролл), не показываем pressed
+                    // ... (логика без изменений)
                     let verticalMovement = abs(value.translation.height)
                     let horizontalMovement = abs(value.translation.width)
                     
                     if verticalMovement > 8 && verticalMovement > horizontalMovement * 1.5 {
-                        // Это скролл - не показываем pressed и не блокируем скролл
                         isDragging = true
                         withAnimation(.easeInOut(duration: 0.15)) {
                             isPressed = false
                         }
                     } else if !isDragging {
-                        // Это нажатие (не скролл) - показываем визуальную обратную связь
                         withAnimation(.easeInOut(duration: 0.15)) {
                             isPressed = true
                         }
@@ -275,17 +235,12 @@ struct ProductCard: View {
                 .onEnded { value in
                     let verticalMovement = abs(value.translation.height)
                     let horizontalMovement = abs(value.translation.width)
-                    
-                    // Если движение было минимальным (меньше 10 пикселей), это нажатие
-                    // Если движение было преимущественно вертикальным и больше 10 пикселей, это скролл
                     let isScroll = verticalMovement > 10 && verticalMovement > horizontalMovement * 1.5
                     
                     if !isScroll {
-                        // Это было нажатие - срабатываем onClick
                         onClick()
                     }
                     
-                    // Сбрасываем состояния
                     withAnimation(.easeInOut(duration: 0.15)) {
                         isPressed = false
                     }
@@ -317,12 +272,8 @@ struct FavoriteIconButton: View {
             ZStack {
                 Circle()
                     .fill(Color(hex: "F2F2F2")?.opacity(0.7) ?? Color.white.opacity(0.8))
-                    .frame(
-                        width: FigmaDimens.fw(30),
-                        height: FigmaDimens.fh(30)
-                    )
+                    .frame(width: FigmaDimens.fw(30), height: FigmaDimens.fh(30))
                 
-                // Используем оригинальные иконки lover/unlover или fallback
                 Group {
                     let iconName = isFavorite ? "lover" : "unlover"
                     if let uiImage = UIImage(named: iconName) {
