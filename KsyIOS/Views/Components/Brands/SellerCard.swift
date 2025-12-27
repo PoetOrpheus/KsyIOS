@@ -11,11 +11,9 @@ import UIKit
 struct SellerCard: View {
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
-            // Левая отступ
-            Spacer()
-                .frame(width: FigmaDimens.fw(10))
+            Spacer().frame(width: FigmaDimens.fw(10))
             
-            // Аватар продавца
+            // Аватар
             Group {
                 if let uiImage = UIImage(named: "ava_seller") {
                     Image(uiImage: uiImage)
@@ -32,7 +30,7 @@ struct SellerCard: View {
             
             Spacer().frame(width: FigmaDimens.fw(10))
             
-            // Информация о продавце (основной блок)
+            // Основная информация
             Group {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Оператор замесов")
@@ -41,9 +39,10 @@ struct SellerCard: View {
                         .frame(height: FigmaDimens.fh(35), alignment: .topLeading)
                         .lineLimit(1)
                     
+                    // Статистика — здесь была ошибка на строке 91
                     HStack(alignment: .center, spacing: 0) {
-                        // Заказы
                         Group {
+                            // Заказы
                             if let uiImage = UIImage(named: "delivery") {
                                 Image(uiImage: uiImage)
                                     .resizable()
@@ -54,22 +53,22 @@ struct SellerCard: View {
                                     .font(.system(size: 12))
                                     .foregroundColor(.gray)
                             }
+                            
+                            Spacer().frame(width: FigmaDimens.fw(10))
+                            Text("Заказов")
+                                .font(.system(size: 10))
+                                .foregroundColor(Color(hex: "727272") ?? .gray)
+                            
+                            Spacer().frame(width: FigmaDimens.fw(10))
+                            Text("3.4k")
+                                .font(.system(size: 10))
+                                .foregroundColor(Color(hex: "727272") ?? .gray)
+                            
+                            Spacer().frame(width: FigmaDimens.fw(30))
                         }
                         
-                        Spacer().frame(width: FigmaDimens.fw(10))
-                        Text("Заказов")
-                            .font(.system(size: 10))
-                            .foregroundColor(Color(hex: "727272") ?? .gray)
-                        
-                        Spacer().frame(width: FigmaDimens.fw(10))
-                        Text("3.4k")
-                            .font(.system(size: 10))
-                            .foregroundColor(Color(hex: "727272") ?? .gray)
-                        
-                        Spacer().frame(width: FigmaDimens.fw(30))
-                        
-                        // Отзывы
                         Group {
+                            // Отзывы
                             if let uiImage = UIImage(named: "like_and_dislike") {
                                 Image(uiImage: uiImage)
                                     .resizable()
@@ -80,17 +79,17 @@ struct SellerCard: View {
                                     .font(.system(size: 12))
                                     .foregroundColor(.gray)
                             }
+                            
+                            Spacer().frame(width: FigmaDimens.fw(10))
+                            Text("Отзывов")
+                                .font(.system(size: 10))
+                                .foregroundColor(Color(hex: "727272") ?? .gray)
+                            
+                            Spacer().frame(width: FigmaDimens.fw(10))
+                            Text("543")
+                                .font(.system(size: 10))
+                                .foregroundColor(Color(hex: "727272") ?? .gray)
                         }
-                        
-                        Spacer().frame(width: FigmaDimens.fw(10))
-                        Text("Отзывов")
-                            .font(.system(size: 10))
-                            .foregroundColor(Color(hex: "727272") ?? .gray)
-                        
-                        Spacer().frame(width: FigmaDimens.fw(10))
-                        Text("543")
-                            .font(.system(size: 10))
-                            .foregroundColor(Color(hex: "727272") ?? .gray)
                     }
                     .frame(height: FigmaDimens.fh(25))
                 }
