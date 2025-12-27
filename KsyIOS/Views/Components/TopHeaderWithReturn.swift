@@ -48,7 +48,6 @@ struct TopHeaderWithReturn: View {
                 }
             }
             .frame(width: FigmaDimens.fw(30), height: FigmaDimens.fh(30))
-            .border(Color.red, width: 2) // Временная граница для отладки
             
             Spacer()
             
