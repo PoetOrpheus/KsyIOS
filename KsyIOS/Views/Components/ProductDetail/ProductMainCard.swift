@@ -100,7 +100,7 @@ struct ProductMainCard: View {
             
             Spacer().frame(height: FigmaDimens.fh(15))
             
-            // Цена и скидка — как в Kotlin
+            // Цена и скидка — прижаты к правому краю с отступом 5dp
             HStack(spacing: FigmaDimens.fw(10)) {
                 if sale > 0 {
                     // Блок скидки как в Kotlin: fw(160) x fh(50)
@@ -133,12 +133,23 @@ struct ProductMainCard: View {
                         startPoint: .top,
                         endPoint: .bottom
                     )
-                    .frame(height: 25)
+                    .frame(height: FigmaDimens.fh(25))
                     .frame(maxWidth: .infinity, alignment: .bottom)
                     
                     // Контент
-                    VStack(spacing: 0) {
-                        // Старая цена сверху справа
+                    VStack(spacing: 4) {
+                        // Новая цена сверху справа
+                        HStack {
+                            Spacer()
+                            Text("\(price) ₽")
+                                .font(.system(size: 24, weight: .bold)) // Уменьшили с 30 до 24, чтобы помещалась
+                                .foregroundColor(accentColor)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.8)
+                        }
+                        .frame(maxWidth: .infinity)
+                        
+                        // Старая цена ниже новой
                         if oldPrice > 0 {
                             HStack {
                                 Spacer()
@@ -149,17 +160,6 @@ struct ProductMainCard: View {
                             }
                             .frame(maxWidth: .infinity)
                         }
-                        
-                        Spacer()
-                        
-                        // Новая цена справа
-                        HStack {
-                            Spacer()
-                            Text("\(price) ₽")
-                                .font(.system(size: 30, weight: .bold))
-                                .foregroundColor(accentColor)
-                        }
-                        .frame(maxWidth: .infinity)
                     }
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
@@ -169,7 +169,9 @@ struct ProductMainCard: View {
                 .cornerRadius(10)
                 .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
             }
-            .padding(.horizontal, FigmaDimens.fw(20))
+            .frame(maxWidth: .infinity, alignment: .trailing) // Прижимаем к правому краю
+            .padding(.leading, FigmaDimens.fw(20)) // Отступ слева как было
+            .padding(.trailing, FigmaDimens.fw(5)) // Отступ справа 5dp как в Kotlin
         }
         .background(Color.white)
         .cornerRadius(20)
