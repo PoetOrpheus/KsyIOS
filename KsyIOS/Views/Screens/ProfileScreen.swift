@@ -49,14 +49,17 @@ struct ProfileScreen: View {
                             Text("Можно забирать")
                                 .font(.system(size: 22, weight: .semibold))
                                 .foregroundColor(.black)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.horizontal, FigmaDimens.fw(30))
                             
                             Spacer()
                                 .frame(height: FigmaDimens.fh(10))
                             
                             CardPickUp()
+                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.horizontal, FigmaDimens.fw(30))
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         
                         // --- СЕКЦИЯ "В ПУТИ" ---
                         VStack(alignment: .leading, spacing: 0) {

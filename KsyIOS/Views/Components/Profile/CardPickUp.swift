@@ -35,7 +35,8 @@ struct CardPickUp: View {
                         .scaledToFill()
                 } else {
                     // Placeholder
-                    Color(hex: "E5E5E5") ?? Color.gray.opacity(0.2)
+                    Rectangle()
+                        .fill(Color(hex: "E5E5E5") ?? Color.gray.opacity(0.2))
                 }
             }
             .frame(width: FigmaDimens.fw(100), height: FigmaDimens.fh(100))

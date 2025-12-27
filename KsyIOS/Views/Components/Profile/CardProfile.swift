@@ -83,7 +83,7 @@ struct CardProfile: View {
                         .font(.system(size: 16))
                         .padding(8)
                     
-                    // Скидка
+                    // Скидка (в правом нижнем углу, накладывается на картинку)
                     if discount > 0 {
                         VStack {
                             Spacer()
@@ -92,12 +92,11 @@ struct CardProfile: View {
                                 Text("-\(discount)%")
                                     .font(.system(size: 16, weight: .black))
                                     .foregroundColor(colorText)
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 4)
+                                    .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(35))
                                     .background(Color.white)
                                     .cornerRadius(10, corners: [.topLeft, .bottomLeft])
                             }
-                            .padding(.bottom, FigmaDimens.fh(20))
+                            .offset(y: -FigmaDimens.fh(20))
                         }
                     }
                 }
