@@ -11,18 +11,16 @@ import UIKit
 struct TopHeaderWithReturn: View {
     let onBackClick: () -> Void
     
+    @State private var statusBarHeight: CGFloat = 0
+    
     var body: some View {
         let headerHeight = FigmaDimens.fh(60)
-        let _ = print("🟡 TopHeaderWithReturn: body rendered, height will be: \(headerHeight)")
+        let _ = print("🟡 TopHeaderWithReturn: body rendered, height will be: \(headerHeight), statusBarHeight: \(statusBarHeight)")
         
-        return GeometryReader { geometry in
-            let statusBarHeight = geometry.safeAreaInsets.top
-            let _ = print("🟡 TopHeaderWithReturn: statusBarHeight from GeometryReader: \(statusBarHeight)")
-            
-            VStack(spacing: 0) {
-                // Отступ для status bar
-                Spacer()
-                    .frame(height: statusBarHeight)
+        return VStack(spacing: 0) {
+            // Отступ для status bar
+            Spacer()
+                .frame(height: statusBarHeight)
                 
                 // Контент header
                 HStack(alignment: .center, spacing: 0) {
@@ -80,28 +78,35 @@ struct TopHeaderWithReturn: View {
                 )
                 .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
                 .clipped() // Обрезаем содержимое по углам
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: headerHeight + statusBarHeight) // Общая высота: header + status bar
-            .background(
-                // Фон для области status bar (верхняя часть)
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(hex: "5D76CB") ?? .blue,
-                        Color(hex: "FCB4D5") ?? .pink
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: headerHeight + statusBarHeight) // Общая высота: header + status bar
+        .background(
+            // Фон для всей области (status bar + header)
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(hex: "5D76CB") ?? .blue,
+                    Color(hex: "FCB4D5") ?? .pink
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
-            .onAppear {
-                print("✅ TopHeaderWithReturn: appeared on screen, frame should be visible")
-            }
-            .onDisappear {
-                print("❌ TopHeaderWithReturn: disappeared from screen")
+        )
+        .onAppear {
+            // Получаем высоту status bar при появлении view
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                let height = windowScene.statusBarManager?.statusBarFrame.height ?? 0
+                statusBarHeight = height
+                print("✅ TopHeaderWithReturn: appeared on screen, statusBarHeight set to: \(height), total height: \(headerHeight + height)")
+            } else {
+                // Fallback значение для iPhone с notch (обычно ~47 points)
+                statusBarHeight = 47
+                print("✅ TopHeaderWithReturn: appeared on screen, using fallback statusBarHeight: 47, total height: \(headerHeight + 47)")
             }
         }
-        .frame(maxWidth: .infinity, alignment: .top)
+        .onDisappear {
+            print("❌ TopHeaderWithReturn: disappeared from screen")
+        }
         .ignoresSafeArea(edges: .top) // Расширяем градиент на status bar
     }
 }
