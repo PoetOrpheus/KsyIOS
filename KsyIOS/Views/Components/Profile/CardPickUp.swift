@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct CardPickUp: View {
     let productName: String
@@ -15,7 +16,7 @@ struct CardPickUp: View {
     
     init(
         productName: String = "Брюки прямые ТВОЕ",
-        imageName: String? = nil,
+        imageName: String? = "image_for_profile",
         stateDelivery: String = "Доставлено",
         stateColor: Color = Color(hex: "50C878") ?? .green
     ) {
