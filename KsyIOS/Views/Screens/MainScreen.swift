@@ -99,7 +99,7 @@ struct MainScreen: View {
             
             // Нижняя навигация (как в Kotlin - внизу экрана с белым фоном под ней)
             // Скрываем навигацию на экранах деталей, истории, каталога и других подэкранах
-            if !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showBrands && !showHistory {
+            if !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showBrands && !showHistory && !showSearch {
                 VStack(spacing: 0) {
                     Spacer()
                     
@@ -133,7 +133,7 @@ struct MainScreen: View {
             }
             
             // Экран истории просмотров
-            if showHistory && !showProductDetail {
+            if showHistory && !showProductDetail && !showSearch {
                 HistoryScreen(
                     onBackClick: {
                         showHistory = false
@@ -150,7 +150,7 @@ struct MainScreen: View {
             }
             
             // Экран "Стать продавцом"
-            if showCanBeSeller && !showProductDetail && !showHistory {
+            if showCanBeSeller && !showProductDetail && !showHistory && !showSearch {
                 CanBeSellerScreen(
                     onBackClick: {
                         showCanBeSeller = false
@@ -161,7 +161,7 @@ struct MainScreen: View {
             }
             
             // Экран каталога
-            if showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showCanBeSeller && !showBrands && !showHistory {
+            if showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showCanBeSeller && !showBrands && !showHistory && !showSearch {
                 CatalogScreen(
                     onBackClick: {
                         showCatalog = false
@@ -177,7 +177,7 @@ struct MainScreen: View {
             }
             
             // Экран подкатегорий каталога
-            if showCatalogSubScreen && !showCatalog && !showCategoryProducts && !showCanBeSeller && !showBrands && !showHistory {
+            if showCatalogSubScreen && !showCatalog && !showCategoryProducts && !showCanBeSeller && !showBrands && !showHistory && !showSearch {
                 CatalogSubScreen(
                     onBackClick: {
                         showCatalogSubScreen = false
@@ -195,7 +195,7 @@ struct MainScreen: View {
             }
             
             // Экран продуктов категории
-            if showCategoryProducts && !showCatalog && !showCatalogSubScreen && !showCanBeSeller && !showBrands && !showHistory {
+            if showCategoryProducts && !showCatalog && !showCatalogSubScreen && !showCanBeSeller && !showBrands && !showHistory && !showSearch {
                 CategoryProductsScreen(
                     categoryName: selectedCategoryName ?? "",
                     subcategoryName: selectedSubcategoryName ?? "",
@@ -217,7 +217,7 @@ struct MainScreen: View {
             }
             
             // Экран "Магазины и бренды"
-            if showBrands && !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showHistory {
+            if showBrands && !showProductDetail && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showHistory && !showSearch {
                 BrandsScreen(
                     onBackClick: {
                         showBrands = false
@@ -225,6 +225,26 @@ struct MainScreen: View {
                 )
                 .transition(.move(edge: .trailing))
                 .zIndex(4)
+            }
+            
+            // Экран поиска
+            if showSearch && !showProductDetail && !showHistory && !showCanBeSeller && !showCatalog && !showCatalogSubScreen && !showCategoryProducts && !showBrands {
+                SearchScreen(
+                    searchQuery: $searchQuery,
+                    onBackClick: {
+                        showSearch = false
+                        searchQuery = ""
+                        productViewModel.clearSearchResults()
+                    },
+                    onProductClick: { product in
+                        selectedProduct = product
+                        showSearch = false
+                        showProductDetail = true
+                    },
+                    productViewModel: productViewModel
+                )
+                .transition(.move(edge: .trailing))
+                .zIndex(5)
             }
         }
         .task {
