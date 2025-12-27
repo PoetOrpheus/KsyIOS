@@ -15,9 +15,9 @@ struct SettingsFavoriteRow: View {
     var body: some View {
         HStack(spacing: 0) {
             // Кнопка "Фильтр"
-            Button {
+            Button(action: {
                 // TODO: Открыть фильтр
-            } label: {
+            }) {
                 ZStack {
                     Color.white
                         .frame(width: FigmaDimens.fw(30), height: FigmaDimens.fh(30))
@@ -41,9 +41,9 @@ struct SettingsFavoriteRow: View {
             Spacer().frame(width: FigmaDimens.fw(20))
             
             // Кнопка "Категории"
-            Button {
+            Button(action: {
                 // TODO: Открыть категории
-            } label: {
+            }) {
                 ZStack {
                     Color.white
                         .frame(width: FigmaDimens.fw(30), height: FigmaDimens.fh(30))
