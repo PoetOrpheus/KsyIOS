@@ -77,8 +77,7 @@ struct SellerBlock: View {
                         if let uiImage = UIImage(named: "star_profile_menu") {
                             Image(uiImage: uiImage)
                                 .resizable()
-                                .renderingMode(.template)
-                                .foregroundColor(.yellow)
+                                // Без renderingMode - используем оригинальный цвет как в Kotlin
                                 .frame(
                                     width: FigmaDimens.fw(16),
                                     height: FigmaDimens.fh(16)
