@@ -94,9 +94,9 @@ struct CardProfile: View {
                     if discount > 0 {
                         Text("-\(discount)%")
                             .font(.system(size: 16, weight: .black))
-                            .foregroundColor(colorText)
+                            .foregroundColor(.white)
                             .frame(width: FigmaDimens.fw(60), height: FigmaDimens.fh(35))
-                            .background(Color.white)
+                            .background(colorBottom)
                             .cornerRadius(10, corners: [.topLeft, .bottomLeft])
                             .offset(y: -FigmaDimens.fh(20))
                     }
@@ -148,30 +148,20 @@ struct CardProfile: View {
                     Spacer()
                         .frame(height: FigmaDimens.fh(5))
                     
-                    // Цены
-                    HStack(alignment: .bottom, spacing: FigmaDimens.fw(5)) {
+                    // Цены (вертикально: старая сверху, новая снизу)
+                    VStack(alignment: .trailing, spacing: oldPrice != 0 ? 2 : 0) {
                         if oldPrice != 0 {
-                            VStack(alignment: .trailing, spacing: 0) {
-                                Spacer()
-                                Text("\(oldPrice) ₽")
-                                    .font(.system(size: 8))
-                                    .foregroundColor(.gray)
-                                    .strikethrough()
-                                    .lineSpacing(9 - 8)
-                            }
-                            .frame(height: FigmaDimens.fh(10), alignment: .bottom)
+                            Text("\(oldPrice) ₽")
+                                .font(.system(size: 8))
+                                .foregroundColor(.gray)
+                                .strikethrough()
+                                .lineSpacing(9 - 8)
                         }
                         
-                        Spacer()
-                        
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("\(price) ₽")
-                                .font(.system(size: 14, weight: .bold))
-                                .foregroundColor(colorText)
-                                .lineSpacing(16 - 14)
-                            Spacer()
-                        }
-                        .frame(height: FigmaDimens.fh(20), alignment: .leading)
+                        Text("\(price) ₽")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(colorText)
+                            .lineSpacing(16 - 14)
                     }
                     .frame(maxWidth: .infinity, alignment: .trailing)
                 }
@@ -179,7 +169,7 @@ struct CardProfile: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-        .frame(width: FigmaDimens.fw(210), height: FigmaDimens.fh(360))
+        .frame(width: FigmaDimens.fw(210), height: FigmaDimens.fh(350))
         .background(Color.white)
         .cornerRadius(16)
     }
