@@ -51,14 +51,15 @@ struct ProductCard: View {
     @State private var isVisible: CGFloat = 0
     @State private var alpha: Double = 0
     @State private var isPressed = false
+    @State private var dragOffset: CGSize = .zero
+    @State private var isDragging = false
     
     var body: some View {
         let oldPrice = product.oldPrice ?? 0
         let discount = product.calculateDiscountPercent() ?? 0
         let accentColor = product.accentColor
         
-        Button(action: onClick) {
-            ZStack {
+        ZStack {
                 // Градиентный фон внизу карточки
                 LinearGradient(
                     gradient: Gradient(colors: [
@@ -248,18 +249,48 @@ struct ProductCard: View {
             .scaleEffect((isVisible * (isPressed ? 0.95 : 1.0)))
             .opacity(alpha)
         }
-        .buttonStyle(PlainButtonStyle())
+        .contentShape(Rectangle())
         .simultaneousGesture(
             DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    withAnimation(.easeInOut(duration: 0.15)) {
-                        isPressed = true
+                .onChanged { value in
+                    dragOffset = value.translation
+                    
+                    // Если движение преимущественно вертикальное (скролл), не показываем pressed
+                    let verticalMovement = abs(value.translation.height)
+                    let horizontalMovement = abs(value.translation.width)
+                    
+                    if verticalMovement > 8 && verticalMovement > horizontalMovement * 1.5 {
+                        // Это скролл - не показываем pressed и не блокируем скролл
+                        isDragging = true
+                        withAnimation(.easeInOut(duration: 0.15)) {
+                            isPressed = false
+                        }
+                    } else if !isDragging {
+                        // Это нажатие (не скролл) - показываем визуальную обратную связь
+                        withAnimation(.easeInOut(duration: 0.15)) {
+                            isPressed = true
+                        }
                     }
                 }
-                .onEnded { _ in
+                .onEnded { value in
+                    let verticalMovement = abs(value.translation.height)
+                    let horizontalMovement = abs(value.translation.width)
+                    
+                    // Если движение было минимальным (меньше 10 пикселей), это нажатие
+                    // Если движение было преимущественно вертикальным и больше 10 пикселей, это скролл
+                    let isScroll = verticalMovement > 10 && verticalMovement > horizontalMovement * 1.5
+                    
+                    if !isScroll {
+                        // Это было нажатие - срабатываем onClick
+                        onClick()
+                    }
+                    
+                    // Сбрасываем состояния
                     withAnimation(.easeInOut(duration: 0.15)) {
                         isPressed = false
                     }
+                    isDragging = false
+                    dragOffset = .zero
                 }
         )
         .onAppear {
