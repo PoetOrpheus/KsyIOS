@@ -18,14 +18,9 @@ struct ProductDetailScreen: View {
     @State private var selectedSizeId: String?
     
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack {
             AppTheme.backgroundLight
                 .ignoresSafeArea()
-            
-            // Заголовок с кнопкой назад (как в Kotlin: размещается ПЕРВЫМ в Box, затем LazyColumn с padding top)
-            TopHeaderWithReturn(onBackClick: onBackClick)
-                .ignoresSafeArea(edges: .top)
-                .zIndex(1) // Убеждаемся что header поверх всего
             
             // Контент (ScrollView) - как LazyColumn в Kotlin
             ScrollView {
@@ -110,6 +105,15 @@ struct ProductDetailScreen: View {
                 .padding(.horizontal, FigmaDimens.fw(5)) // Padding как в Kotlin: start = fw(5), end = fw(5)
             }
             .padding(.top, FigmaDimens.fh(60)) // Padding сверху как в Kotlin: top = fh(60) - чтобы не перекрывать header
+            
+            // Заголовок с кнопкой назад - поверх всего контента
+            VStack {
+                TopHeaderWithReturn(onBackClick: onBackClick)
+                    .ignoresSafeArea(edges: .top)
+                Spacer()
+            }
+            .allowsHitTesting(true) // Разрешаем взаимодействие с header
+            .zIndex(999) // Очень высокий zIndex чтобы быть поверх всего
             
             // Кнопка добавления в корзину (внизу экрана, как overlay)
             VStack {
