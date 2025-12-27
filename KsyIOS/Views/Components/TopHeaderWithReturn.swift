@@ -12,7 +12,8 @@ struct TopHeaderWithReturn: View {
     let onBackClick: () -> Void
     
     var body: some View {
-        let _ = print("🟡 TopHeaderWithReturn: body rendered, height will be: \(FigmaDimens.fh(60))")
+        let headerHeight = FigmaDimens.fh(60)
+        let _ = print("🟡 TopHeaderWithReturn: body rendered, height will be: \(headerHeight)")
         
         return HStack(alignment: .center, spacing: 0) {
             // Кнопка назад (как в Kotlin: Box с width/height и clickable)
