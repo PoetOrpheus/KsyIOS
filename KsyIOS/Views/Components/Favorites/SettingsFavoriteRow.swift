@@ -86,7 +86,10 @@ struct SettingsFavoriteRow: View {
             Spacer().frame(width: FigmaDimens.fw(10))
             
             // Переключатель "По скидке"
-            CustomSwitch(isOn: $isSaleEnabled)
+            CustomSwitch(isOn: Binding<Bool>(
+                get: { self.isSaleEnabled },
+                set: { self.isSaleEnabled = $0 }
+            ))
         }
         .frame(height: FigmaDimens.fh(32))
         .padding(.horizontal, FigmaDimens.fw(15))
